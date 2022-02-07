@@ -1,0 +1,12 @@
+<?xml version ="1.0" encoding ="utf-8"?><!--  Learn More about how to use App Actions: https://developer.android.com/guide/actions/index.html -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_logs_copy"
+        android:icon="?attr/actionModeCopyDrawable"
+        android:title="copy as text"/>
+    <item android:id="@+id/menu_logs_share"
+        android:icon="?attr/actionModeShareDrawable"
+        android:title="share..." />
+    <item android:id="@+id/menu_logs_clear"
+        android:icon="?attr/actionModeCloseDrawable"
+        android:title="clear logs" />
+</menu>
