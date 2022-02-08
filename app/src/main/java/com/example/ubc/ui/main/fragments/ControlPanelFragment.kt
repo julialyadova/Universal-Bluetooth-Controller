@@ -3,6 +3,7 @@ package com.example.ubc.ui.main.fragments
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,18 +12,20 @@ import android.widget.PopupMenu
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.MenuRes
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
-import com.example.ubc.data.entities.Control
+import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.FragmentControlPanelBinding
-import com.example.ubc.databinding.ItemControlBinding
+import com.example.ubc.ui.editable.Editor
 import com.example.ubc.ui.main.dialogs.ControlDialog
 import com.example.ubc.ui.main.dialogs.RenamePanelDialog
 import com.example.ubc.ui.main.viewmodels.ConnectionViewModel
-import com.example.ubc.ui.main.viewmodels.ControlPanelViewModel
+import com.example.ubc.ui.main.viewmodels.ItemsViewModel
+import com.example.ubc.ui.main.viewmodels.PanelViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,7 +33,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class ControlPanelFragment : Fragment() {
 
     private lateinit var _binding : FragmentControlPanelBinding
-    private val _viewModel: ControlPanelViewModel by activityViewModels()
+    private val _panelViewModel: PanelViewModel by activityViewModels()
+    private val _itemsViewModel: ItemsViewModel by activityViewModels()
     private val _connectionViewModel: ConnectionViewModel by activityViewModels()
 
 
@@ -43,8 +47,11 @@ class ControlPanelFragment : Fragment() {
         return _binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
         _binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_controlPanelFragment_to_menuFragment)
@@ -68,12 +75,18 @@ class ControlPanelFragment : Fragment() {
             true
         }
 
-        _viewModel.panelData.observe(viewLifecycleOwner) { controlPanel ->
-            _binding.title.text = controlPanel.name
+        _panelViewModel.panel.observe(viewLifecycleOwner) { panel ->
+            _binding.title.text = panel.name
+            _itemsViewModel.loadForPanel(panel.id)
         }
 
-        _viewModel.controlsData.observe(viewLifecycleOwner) { controls ->
-            addControls(LayoutInflater.from(context), controls)
+        _itemsViewModel.items.observe(viewLifecycleOwner) { items ->
+            addControls(LayoutInflater.from(context), items)
+        }
+
+        var editor = Editor(parentFragmentManager, _binding.canvas, _itemsViewModel)
+        _itemsViewModel.items.observe(viewLifecycleOwner) { items ->
+            editor.update(items)
         }
 
         _connectionViewModel.log.observe(viewLifecycleOwner) { log ->
@@ -99,6 +112,7 @@ class ControlPanelFragment : Fragment() {
             _binding.logsScroll.fullScroll(ScrollView.FOCUS_DOWN)
         }
 
+        //_itemsViewModel.loadForPanel(_panelViewModel.panel.value?.id ?: 0)
         _connectionViewModel.loadLogs()
     }
 
@@ -108,7 +122,8 @@ class ControlPanelFragment : Fragment() {
         _binding.log.addView(textView)
     }
 
-    private fun addControls(inflater: LayoutInflater, controls: List<Control>) {
+    private fun addControls(inflater: LayoutInflater, items: List<Item>) {
+        /*
         _binding.controls.removeAllViews()
 
         for (control in controls) {
@@ -128,6 +143,7 @@ class ControlPanelFragment : Fragment() {
 
             _binding.controls.addView(controlBinding.root)
         }
+        */
     }
 
     private fun showMenu(parent: View, @MenuRes resourceId: Int) {
