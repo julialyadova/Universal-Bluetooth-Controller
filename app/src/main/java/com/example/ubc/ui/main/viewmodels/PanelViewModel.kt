@@ -12,26 +12,37 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class MenuViewModel @Inject constructor(
-    private var panels: PanelsRepository
+class PanelViewModel @Inject constructor(
+        private val _panels: PanelsRepository,
 ) : ViewModel() {
-    val controlPanels = MutableLiveData<List<Panel>>()
+    val panel = MutableLiveData<Panel>()
 
-    fun loadPanels() {
+    fun load(id: Int) {
         GlobalScope.launch(Dispatchers.IO) {
-            val panels = panels.getAll()
+            val p = _panels.getById(id)
             withContext(Dispatchers.Main) {
-                controlPanels.value = panels
+                panel.value = p
             }
         }
     }
 
-    fun deletePanel(panel: Panel){
+    fun create(name: String) {
         GlobalScope.launch(Dispatchers.IO) {
-            panels.delete(panel)
-            val panels = panels.getAll()
+            val id = _panels.add(name)
+            val p = _panels.getById(id)
             withContext(Dispatchers.Main) {
-                controlPanels.value = panels
+                panel.value = p
+            }
+        }
+    }
+
+    fun rename(name: String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val p = panel.value!!
+            p.name = name;
+            _panels.update(p)
+            withContext(Dispatchers.Main) {
+                panel.value = p
             }
         }
     }

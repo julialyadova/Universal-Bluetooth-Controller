@@ -5,9 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Control (
+data class Item (
     val name: String,
     val data: String,
+    val type: String,
     //val timer: Int? = null,
     //val format:
 

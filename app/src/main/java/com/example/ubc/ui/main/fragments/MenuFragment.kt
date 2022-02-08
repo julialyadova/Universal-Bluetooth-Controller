@@ -15,8 +15,8 @@ import com.example.ubc.R
 import com.example.ubc.data.entities.Panel
 import com.example.ubc.databinding.FragmentMenuBinding
 import com.example.ubc.ui.main.dialogs.CreatePanelDialog
-import com.example.ubc.ui.main.viewmodels.ControlPanelViewModel
 import com.example.ubc.ui.main.viewmodels.MenuViewModel
+import com.example.ubc.ui.main.viewmodels.PanelViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +24,7 @@ class MenuFragment : Fragment() {
 
     private lateinit var _binding : FragmentMenuBinding
     private val _viewModel: MenuViewModel by viewModels()
-    private val _panelViewModel: ControlPanelViewModel by activityViewModels()
+    private val _panelViewModel: PanelViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +58,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun navigateToPanel(panel: Panel) {
-        _panelViewModel.loadPanel(panel.id)
+        _panelViewModel.load(panel.id)
         findNavController().navigate(R.id.action_menuFragment_to_controlPanelFragment)
     }
 
