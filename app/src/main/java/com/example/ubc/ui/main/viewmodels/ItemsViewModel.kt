@@ -31,7 +31,7 @@ class ItemsViewModel @Inject constructor(
     }
 
     fun save(item: Item) {
-        Log.d("ItemsViewModel", "save item ${item.id} ${item.name}")
+        Log.d("ItemsViewModel", "save item ${item.id} ${item.label}")
         GlobalScope.launch(Dispatchers.IO) {
             _db.save(item)
             withContext(Dispatchers.Main) {
@@ -55,7 +55,7 @@ class ItemsViewModel @Inject constructor(
     }
 
     fun delete(item: Item) {
-        Log.d("ItemsViewModel", "delete item ${item.id} ${item.name}")
+        Log.d("ItemsViewModel", "delete item ${item.id} ${item.label}")
         GlobalScope.launch(Dispatchers.IO) {
             _db.delete(item)
             withContext(Dispatchers.Main) {

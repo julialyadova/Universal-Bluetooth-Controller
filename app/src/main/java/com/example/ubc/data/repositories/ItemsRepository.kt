@@ -20,16 +20,16 @@ class ItemsRepository @Inject constructor(
         var id = item.id
         if (id == 0) {
             id = _items.add(item).toInt()
-            Log.d("ItemsRepository", "added new item: ${item.id} ${item.name}")
+            Log.d("ItemsRepository", "added new item: ${item.id} ${item.label}")
         } else {
             _items.update(item)
-            Log.d("ItemsRepository", "item updated: ${item.id} ${item.name}")
+            Log.d("ItemsRepository", "item updated: ${item.id} ${item.label}")
         }
         return id
     }
 
     suspend fun delete(item: Item) {
         _items.delete(item)
-        Log.d("ItemsRepository", "item deleted: ${item.id} ${item.name}")
+        Log.d("ItemsRepository", "item deleted: ${item.id} ${item.label}")
     }
 }

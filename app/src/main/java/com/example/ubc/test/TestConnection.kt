@@ -16,9 +16,18 @@ class TestConnection(
     private var toSend: ByteArray? = null
     private var active: Boolean = false
     val logs = mutableListOf<String>()
+    private var subscribers= mutableListOf<ConnectionListener>()
 
     init {
         Log.d(_logTag, "connection initialized")
+    }
+
+    fun subscribe(listener: ConnectionListener) {
+        subscribers.add(listener)
+    }
+
+    fun unsubscribe(listener: ConnectionListener) {
+        subscribers.remove(listener)
     }
 
     override fun run() {
@@ -66,5 +75,7 @@ class TestConnection(
         Log.d(_logTag, message)
         logs.add(message)
         received?.postValue(message)
+
+        subscribers.forEach { s -> s.onDataReceived(message) }
     }
 }

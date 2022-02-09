@@ -1,7 +1,5 @@
 package com.example.ubc.ui.main.fragments
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -9,11 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.ScrollView
-import android.widget.TextView
 import androidx.annotation.MenuRes
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -21,6 +16,7 @@ import com.example.ubc.R
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.FragmentControlPanelBinding
 import com.example.ubc.ui.editable.Editor
+import com.example.ubc.ui.items.DataSender
 import com.example.ubc.ui.main.dialogs.ControlDialog
 import com.example.ubc.ui.main.dialogs.RenamePanelDialog
 import com.example.ubc.ui.main.viewmodels.ConnectionViewModel
@@ -30,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ControlPanelFragment : Fragment() {
+class ControlPanelFragment : Fragment(), DataSender {
 
     private lateinit var _binding : FragmentControlPanelBinding
     private val _panelViewModel: PanelViewModel by activityViewModels()
@@ -51,8 +47,6 @@ class ControlPanelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         _binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_controlPanelFragment_to_menuFragment)
         }
@@ -70,11 +64,6 @@ class ControlPanelFragment : Fragment() {
             ControlDialog(null).show(parentFragmentManager, "dialog")
         }
 
-        _binding.log.setOnLongClickListener {
-            showMenu(it, R.menu.menu_logs)
-            true
-        }
-
         _panelViewModel.panel.observe(viewLifecycleOwner) { panel ->
             _binding.title.text = panel.name
             _itemsViewModel.loadForPanel(panel.id)
@@ -84,15 +73,14 @@ class ControlPanelFragment : Fragment() {
             addControls(LayoutInflater.from(context), items)
         }
 
-        var editor = Editor(parentFragmentManager, _binding.canvas, _itemsViewModel)
+        var editor = Editor(parentFragmentManager, _binding.canvas, this)
         _itemsViewModel.items.observe(viewLifecycleOwner) { items ->
             editor.update(items)
         }
-
-        _connectionViewModel.log.observe(viewLifecycleOwner) { log ->
-            addLog(log)
-            _binding.logsScroll.fullScroll(ScrollView.FOCUS_DOWN)
+        _connectionViewModel.log.observe(viewLifecycleOwner) {log ->
+            editor.notifyItems(log)
         }
+
 
         _connectionViewModel.connected.observe(viewLifecycleOwner) { connected ->
             if (connected) {
@@ -106,20 +94,12 @@ class ControlPanelFragment : Fragment() {
             _binding.panelDevice.text = device?.name ?: getString(R.string.not_connected)
         }
 
-        _connectionViewModel.history.observe(viewLifecycleOwner) { history ->
-            _binding.log.removeAllViews()
-            history.forEach(this::addLog)
-            _binding.logsScroll.fullScroll(ScrollView.FOCUS_DOWN)
-        }
-
         //_itemsViewModel.loadForPanel(_panelViewModel.panel.value?.id ?: 0)
         _connectionViewModel.loadLogs()
     }
 
-    private fun addLog(log: String) {
-        val textView = TextView(context)
-        textView.text = log
-        _binding.log.addView(textView)
+    override fun send(data: String) {
+        _connectionViewModel.send(data)
     }
 
     private fun addControls(inflater: LayoutInflater, items: List<Item>) {
@@ -152,7 +132,7 @@ class ControlPanelFragment : Fragment() {
             setOnMenuItemClickListener() { item ->
                 when (item.itemId) {
                     R.id.menu_logs_copy -> {
-                        copyLogs()
+                        //copyLogs()
                         true
                     }
                     R.id.menu_logs_share -> {
@@ -178,12 +158,5 @@ class ControlPanelFragment : Fragment() {
         intent.putExtra(Intent.EXTRA_TEXT, _connectionViewModel.getLogsAsText())
         intent.type="text/plain"
         startActivity(Intent.createChooser(intent, "Share To:"))
-    }
-
-    private fun copyLogs() {
-        val textToCopy = _connectionViewModel.getLogsAsText()
-        val clipboardManager = getSystemService(requireContext(), ClipboardManager::class.java)
-        val clipData = ClipData.newPlainText("text", textToCopy)
-        clipboardManager?.setPrimaryClip(clipData)
     }
 }

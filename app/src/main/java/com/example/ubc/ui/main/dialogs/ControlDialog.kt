@@ -8,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import com.example.ubc.R
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.DialogControlBinding
-import com.example.ubc.ui.items.ItemTypes
 import com.example.ubc.ui.main.viewmodels.ItemsViewModel
 import com.example.ubc.ui.main.viewmodels.PanelViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +44,7 @@ class ControlDialog (
     }
 
     private fun addEditOptions(builder: AlertDialog.Builder) {
-        _binding.controlNameEdit.setText(item?.name)
+        _binding.controlNameEdit.setText(item?.label)
         _binding.controlDataEdit.setText(item?.data)
 
         builder
@@ -56,13 +55,17 @@ class ControlDialog (
     }
 
     private fun applyDialogData() {
-        var controlId = 0
-        if (item != null) {
-            controlId = item!!.id
-        }
-        val name = _binding.controlNameEdit.text.toString()
+        val id = item?.id ?: 0
+        val label = _binding.controlNameEdit.text.toString()
         val data = _binding.controlDataEdit.text.toString()
-
-        _itemsViewModel.save(Item(name, data, ItemTypes.SWITCH, controlId,_panelViewModel.panel.value!!.id))
+        val panelId = _panelViewModel.panel.value!!.id
+        val type = when (data) {
+            "b" -> Item.Types.BUTTON
+            "s" -> Item.Types.SWITCH
+            "d" -> Item.Types.SIMPLE_DISPLAY
+            "h" -> Item.Types.HISTORY
+            else -> Item.Types.BUTTON
+        }
+        _itemsViewModel.save(Item(id, panelId, label, type, data, Item.DataFormats.ASCII))
     }
 }

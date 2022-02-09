@@ -7,30 +7,39 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.fragment.app.FragmentManager
 import com.example.ubc.data.entities.Item
+import com.example.ubc.ui.items.DisplayView
+import com.example.ubc.ui.items.DataSender
 import com.example.ubc.ui.items.ItemView
 import com.example.ubc.ui.items.ItemsFactory
-import com.example.ubc.ui.main.viewmodels.ItemsViewModel
 import kotlin.math.roundToInt
 
 
 class Editor(
         private val fragmentManager: FragmentManager,
         private val canvasLayout: ViewGroup,
-        private val _viewModel: ItemsViewModel
+        private val dataSender: DataSender,
 ) {
     private val _gridSize = 50
     private val _items = listOf<ItemView>()
     private val _editable = true
+    private val factory = ItemsFactory(canvasLayout.context, dataSender)
 
     init {
         setCanvasDragEvents(canvasLayout)
+    }
+
+    fun notifyItems(data: String) {
+        for (view in canvasLayout.children) {
+            if (view is DisplayView)
+                view.recieve(data)
+        }
     }
 
     fun update(items: List<Item>) {
         canvasLayout.removeAllViews()
 
         for (item in items) {
-            val itemView = ItemsFactory(canvasLayout.context).create(item) ?: continue
+            val itemView = factory.create(item) ?: continue
 
             itemView.getDragHandler().setOnLongClickListener {
                 if (_editable) {

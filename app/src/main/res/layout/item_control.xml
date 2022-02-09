@@ -2,27 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="400px"
+    android:layout_height="150px">
 
     <TextView
         android:id="@+id/control_data"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
-        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content"
         android:maxLength="255"
         android:text="data AD"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/control_text"
-        android:layout_width="400px"
-        android:layout_height="130px"
-        android:backgroundTint="#2F373D"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_rounded_bg"
         android:maxLength="40"
         android:text="Text"
+        app:layout_constraintBottom_toTopOf="@+id/control_data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
