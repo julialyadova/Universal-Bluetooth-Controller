@@ -22,9 +22,11 @@ class BluetoothSocketThread(
             Log.d("Bluetooth Data Thread", "connected to device - name: ${this.socket.remoteDevice.name}, address: ${this.socket.remoteDevice.address}")
         } catch (e: IOException) {
             Log.e("Bluetooth Data Thread", "run exception: " + e.message)
+            listener.onConnectionInterrupted(e.message)
             return
         }
 
+        listener.onConnectionSucceeded()
         listenSocket()
     }
 

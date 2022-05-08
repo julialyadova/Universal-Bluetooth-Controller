@@ -7,7 +7,9 @@ import com.example.ubc.connection.ConnectionService
 import com.example.ubc.connection.ConnectionStatus
 import com.example.ubc.connection.Device
 import java.util.*
+import javax.inject.Singleton
 
+@Singleton
 class BluetoothService : ConnectionService(), BluetoothSocketListener {
     private var _adapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     private val _uuid: String = "00001101-0000-1000-8000-00805f9b34fb"
@@ -20,20 +22,36 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
 
     override fun getConnectedDevice(): Device? {
         val bluetoothDevice = _socket?.remoteDevice
-        if (bluetoothDevice == null)
-            return null
+        return if (_socket?.isConnected != true || bluetoothDevice == null)
+            null
         else
-            return Device(bluetoothDevice.name, bluetoothDevice.address)
+            Device(bluetoothDevice.name, bluetoothDevice.address)
     }
 
     override fun getConnectionStatus(): ConnectionStatus {
-        if (_adapter.isEnabled)
-            return ConnectionStatus.Connected
+        return if (_adapter.isEnabled)
+            ConnectionStatus.Connected
         else
-            return ConnectionStatus.Disconnected
+            ConnectionStatus.Disconnected
+    }
+
+    override fun requiredOptionIsEnabled(): Boolean {
+        return _adapter.isEnabled
+    }
+
+    override fun enableRequiredOption() {
+        _adapter.enable()
+        notifyStatusChanged(ConnectionStatus.RequiredOptionEnabled)
+    }
+
+    override fun disableRequiredOption() {
+        _adapter.disable()
+        notifyStatusChanged(ConnectionStatus.RequiredOptionDisabled)
     }
 
     override fun connect(device: Device) {
+        notifyStatusChanged(ConnectionStatus.Connecting, device)
+
         if (!_adapter.isEnabled) {
             notifyStatusChanged(ConnectionStatus.RequiredOptionDisabled)
             return
@@ -41,7 +59,7 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
 
         val bluetoothDevice = _adapter.getRemoteDevice(device.address)
         if (bluetoothDevice == null) {
-            notifyStatusChanged(ConnectionStatus.Disconnected)
+            notifyStatusChanged(ConnectionStatus.Disconnected, device)
             return
         }
 
@@ -50,7 +68,6 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
 
         if (_activeSocketThread != null) {
             _activeSocketThread!!.disconnect()
-            notifyStatusChanged(ConnectionStatus.Disconnected)
         }
 
         _activeSocketThread = BluetoothSocketThread(_socket!!, this)
@@ -58,18 +75,18 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
     }
 
     override fun disconnect() {
-        notifyStatusChanged(ConnectionStatus.Disconnecting)
+        notifyStatusChanged(ConnectionStatus.Disconnecting, tryGetRemoteDevice())
         _activeSocketThread?.disconnect()
         _socket?.close()
-        notifyStatusChanged(ConnectionStatus.Disconnected)
+        notifyStatusChanged(ConnectionStatus.Disconnected, tryGetRemoteDevice())
     }
 
     override fun send(bytes: ByteArray) {
-        _activeSocketThread?.send(bytes);
+        _activeSocketThread?.send(bytes)
     }
 
     override fun send(message: String) {
-        _activeSocketThread?.send(message.toByteArray());
+        _activeSocketThread?.send(message.toByteArray())
     }
 
     override fun dataReceived(data: ByteArray) {
@@ -77,6 +94,18 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
     }
 
     override fun onConnectionInterrupted(error: String?) {
-        notifyStatusChanged(ConnectionStatus.Disconnected)
+        notifyStatusChanged(ConnectionStatus.Disconnected, tryGetRemoteDevice())
+    }
+
+    override fun onConnectionSucceeded() {
+        notifyStatusChanged(ConnectionStatus.Connected, tryGetRemoteDevice())
+    }
+
+    private fun tryGetRemoteDevice() : Device? {
+        var device : Device? = null
+        _socket?.remoteDevice?.let {
+            device = Device(it.name, it.address)
+        }
+        return device
     }
 }

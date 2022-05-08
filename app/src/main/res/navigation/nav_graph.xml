@@ -16,13 +16,11 @@
             app:enterAnim="@anim/enter_from_left"
             app:exitAnim="@anim/exit_to_right" />
         <action
-            android:id="@+id/action_controlPanelFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_left" />
-        <action
             android:id="@+id/action_controlPanelFragment_to_editorFragment"
             app:destination="@id/editorFragment" />
+        <action
+            android:id="@+id/action_controlPanelFragment_to_connectionSettingsFragment"
+            app:destination="@id/connectionSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
@@ -35,8 +33,10 @@
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left" />
         <action
-            android:id="@+id/action_menuFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            android:id="@+id/action_menuFragment_to_connectionSettingsFragment"
+            app:destination="@id/connectionSettingsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/createPanelDialog"
@@ -47,17 +47,6 @@
             app:destination="@id/controlPanelFragment" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.ubc.ui.main.fragments.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
-        <action
-            android:id="@+id/action_settingsFragment_to_controlPanelFragment"
-            app:destination="@id/controlPanelFragment"
-            app:enterAnim="@anim/enter_from_left"
-            app:exitAnim="@anim/exit_to_right" />
-    </fragment>
-    <fragment
         android:id="@+id/editorFragment"
         android:name="com.example.ubc.ui.main.fragments.EditorFragment"
         android:label="fragment_editor"
@@ -65,5 +54,13 @@
         <action
             android:id="@+id/action_editorFragment_to_controlPanelFragment"
             app:destination="@id/controlPanelFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/connectionSettingsFragment"
+        android:name="com.example.ubc.ui.main.fragments.ConnectionSettingsFragment"
+        android:label="ConnectionSettingsFragment" >
+        <action
+            android:id="@+id/action_connectionSettingsFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
     </fragment>
 </navigation>

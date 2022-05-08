@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
+import com.example.ubc.connection.ConnectionStatus
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.FragmentControlPanelBinding
 import com.example.ubc.ui.items.ItemViewFactory
@@ -50,10 +51,14 @@ class ControlPanelFragment : Fragment() {
         _viewModel.device.observe(viewLifecycleOwner) {device ->
             _binding.textPanelDevice.text = device
         }
-        _viewModel.connected.observe(viewLifecycleOwner) { connected ->
-            if (connected)
+        _viewModel.deviceStatus.observe(viewLifecycleOwner) { status ->
+            if (status == ConnectionStatus.Connecting)
+                _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_away)
+            else if (status == ConnectionStatus.Connected)
                 _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_online)
-            else
+            else if (status == ConnectionStatus.Disconnecting)
+                _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_busy)
+            else if (status == ConnectionStatus.Disconnected)
                 _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_invisible)
         }
         _sharedViewModel.panelId.observe(viewLifecycleOwner) { panelId ->
@@ -62,7 +67,7 @@ class ControlPanelFragment : Fragment() {
     }
 
     private fun navigateToMenu() {
-        findNavController().navigate(R.id.action_controlPanelFragment_to_menuFragment)
+        findNavController().popBackStack()
     }
 
     private fun displayItems(items: List<Item>, lifecycleOwner: LifecycleOwner) {
@@ -90,7 +95,7 @@ class ControlPanelFragment : Fragment() {
                 true
             }
             R.id.panel_options_connection_settings -> {
-                //to connection settings
+                findNavController().navigate(R.id.action_controlPanelFragment_to_connectionSettingsFragment)
                 true
             }
             R.id.panel_options_panel_settings -> {

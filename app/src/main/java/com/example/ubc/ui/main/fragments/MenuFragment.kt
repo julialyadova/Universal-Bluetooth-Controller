@@ -100,7 +100,7 @@ class MenuFragment : Fragment() {
     private fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_options_settings -> {
-                findNavController().navigate(R.id.action_menuFragment_to_settingsFragment)
+                findNavController().navigate(R.id.action_menuFragment_to_connectionSettingsFragment)
                 true
             }
             else -> false

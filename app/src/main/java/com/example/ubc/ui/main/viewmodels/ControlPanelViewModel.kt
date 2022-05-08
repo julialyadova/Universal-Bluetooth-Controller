@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.ubc.connection.ConnectionListener
 import com.example.ubc.connection.ConnectionService
 import com.example.ubc.connection.ConnectionStatus
+import com.example.ubc.connection.Device
 import com.example.ubc.data.ControlPanelService
 import com.example.ubc.data.entities.Item
 import com.example.ubc.data.entities.Panel
@@ -23,7 +24,7 @@ class ControlPanelViewModel @Inject constructor(
     val panel = MutableLiveData<Panel>()
     val items = MutableLiveData<List<Item>>()
     val device = MutableLiveData<String>()
-    val connected = MutableLiveData<Boolean>()
+    val deviceStatus = MutableLiveData<ConnectionStatus>()
 
     init {
         _connectionService.subscribe(this)
@@ -42,11 +43,12 @@ class ControlPanelViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 panel.value = panelData
                 items.value = itemsList
-                if (connectedDevice == null)
+                if (connectedDevice == null) {
                     device.value = "не соединено"
-                else
+                } else {
                     device.value = connectedDevice.name ?: connectedDevice.address
-                connected.value = connectionStatus == ConnectionStatus.Connected
+                    deviceStatus.value = _connectionService.getConnectionStatus()
+                }
             }
         }
     }
@@ -55,14 +57,15 @@ class ControlPanelViewModel @Inject constructor(
         Log.d("Control Panel ViewModel", "send: $data")
     }
 
-    override fun onConnectionStatusChanged(target: ConnectionService, status: ConnectionStatus) {
-        if (status == ConnectionStatus.Connected) {
-            connected.value= true
-            val connectedDevice = _connectionService.getConnectedDevice()!!
-            device.value = connectedDevice.name ?: connectedDevice.address
-        } else {
-            connected.value = false
-            device.value = "не соединено"
+    override fun onConnectionStatusChanged(status: ConnectionStatus, targetDevice: Device?) {
+        Log.d("ControlPanelViewModel", "onConnectionStatusChanged: $status ${targetDevice?.address}")
+        GlobalScope.launch {
+            withContext(Dispatchers.Main) {
+                if (targetDevice != null) {
+                    device.value = targetDevice.name ?: "Устройстов без имени"
+                    deviceStatus.value = status
+                }
+            }
         }
     }
 

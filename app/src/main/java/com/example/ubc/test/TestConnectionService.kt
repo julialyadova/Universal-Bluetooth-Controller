@@ -24,6 +24,18 @@ class TestConnectionService : ConnectionService() {
         return ConnectionStatus.Connected
     }
 
+    override fun requiredOptionIsEnabled(): Boolean {
+        return true
+    }
+
+    override fun enableRequiredOption() {
+        notifyStatusChanged(ConnectionStatus.RequiredOptionEnabled)
+    }
+
+    override fun disableRequiredOption() {
+        notifyStatusChanged(ConnectionStatus.RequiredOptionDisabled)
+    }
+
     override fun connect(device: Device){
         notifyStatusChanged(ConnectionStatus.Connecting)
 
