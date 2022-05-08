@@ -1,4 +1,4 @@
-package com.example.ubc.ui.editable
+package com.example.ubc.ui.editor
 
 import android.graphics.Canvas
 import android.graphics.Point

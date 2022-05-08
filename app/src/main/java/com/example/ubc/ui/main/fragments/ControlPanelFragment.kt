@@ -1,39 +1,30 @@
 package com.example.ubc.ui.main.fragments
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.PopupMenu
-import androidx.annotation.MenuRes
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.FragmentControlPanelBinding
-import com.example.ubc.ui.editable.Editor
-import com.example.ubc.ui.items.DataSender
-import com.example.ubc.ui.main.dialogs.ControlDialog
-import com.example.ubc.ui.main.dialogs.RenamePanelDialog
-import com.example.ubc.ui.main.viewmodels.ConnectionViewModel
-import com.example.ubc.ui.main.viewmodels.ItemsViewModel
-import com.example.ubc.ui.main.viewmodels.PanelViewModel
+import com.example.ubc.ui.items.ItemViewFactory
+import com.example.ubc.ui.main.viewmodels.ControlPanelViewModel
+import com.example.ubc.ui.main.viewmodels.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ControlPanelFragment : Fragment(), DataSender {
+class ControlPanelFragment : Fragment() {
 
     private lateinit var _binding : FragmentControlPanelBinding
-    private val _panelViewModel: PanelViewModel by activityViewModels()
-    private val _itemsViewModel: ItemsViewModel by activityViewModels()
-    private val _connectionViewModel: ConnectionViewModel by activityViewModels()
-
-
+    private val _viewModel: ControlPanelViewModel by viewModels()
+    private val  _sharedViewModel: PanelSharedViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -47,116 +38,66 @@ class ControlPanelFragment : Fragment(), DataSender {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_controlPanelFragment_to_menuFragment)
-        }
+        _binding.btnPanelMenu.setOnClickListener { navigateToMenu() }
+        _binding.btnPanelOptions.setOnClickListener { showOptions() }
 
-        _binding.optionsButton.setOnClickListener {
-            findNavController().navigate(R.id.action_controlPanelFragment_to_settingsFragment)
+        _viewModel.panel.observe(viewLifecycleOwner) { panel ->
+            _binding.textPanelTitle.text = panel.name
         }
-
-        _binding.title.setOnLongClickListener {
-            RenamePanelDialog().show(parentFragmentManager, "dialog")
-            true
+        _viewModel.items.observe(viewLifecycleOwner) {items ->
+            displayItems(items, viewLifecycleOwner)
         }
-
-        _binding.addControlButton.setOnClickListener {
-            ControlDialog(null).show(parentFragmentManager, "dialog")
+        _viewModel.device.observe(viewLifecycleOwner) {device ->
+            _binding.textPanelDevice.text = device
         }
-
-        _panelViewModel.panel.observe(viewLifecycleOwner) { panel ->
-            _binding.title.text = panel.name
-            _itemsViewModel.loadForPanel(panel.id)
+        _viewModel.connected.observe(viewLifecycleOwner) { connected ->
+            if (connected)
+                _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_online)
+            else
+                _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_invisible)
         }
-
-        _itemsViewModel.items.observe(viewLifecycleOwner) { items ->
-            addControls(LayoutInflater.from(context), items)
+        _sharedViewModel.panelId.observe(viewLifecycleOwner) { panelId ->
+            _viewModel.load(panelId)
         }
-
-        var editor = Editor(parentFragmentManager, _binding.canvas, this)
-        _itemsViewModel.items.observe(viewLifecycleOwner) { items ->
-            editor.update(items)
-        }
-        _connectionViewModel.log.observe(viewLifecycleOwner) {log ->
-            editor.notifyItems(log)
-        }
-
-
-        _connectionViewModel.connected.observe(viewLifecycleOwner) { connected ->
-            if (connected) {
-                _binding.imageView.setImageResource(R.drawable.ic_bluetooth_on)
-            } else {
-                _binding.imageView.setImageResource(R.drawable.ic_baseline_bluetooth_24)
-            }
-        }
-
-        _connectionViewModel.activeDevice.observe(viewLifecycleOwner) { device ->
-            _binding.panelDevice.text = device?.name ?: getString(R.string.not_connected)
-        }
-
-        //_itemsViewModel.loadForPanel(_panelViewModel.panel.value?.id ?: 0)
-        _connectionViewModel.loadLogs()
     }
 
-    override fun send(data: String) {
-        _connectionViewModel.send(data)
+    private fun navigateToMenu() {
+        findNavController().navigate(R.id.action_controlPanelFragment_to_menuFragment)
     }
 
-    private fun addControls(inflater: LayoutInflater, items: List<Item>) {
-        /*
-        _binding.controls.removeAllViews()
+    private fun displayItems(items: List<Item>, lifecycleOwner: LifecycleOwner) {
+        val factory = ItemViewFactory(requireContext(), _viewModel, lifecycleOwner)
+        _binding.panelCanvas.removeAllViews()
+        for (item in items) {
+            val itemView = factory.create(item) ?: continue
+            _binding.panelCanvas.addView(itemView)
+        }
+    }
 
-        for (control in controls) {
-            val controlBinding = ItemControlBinding.inflate(inflater)
+    private fun showOptions() {
+        val popup = PopupMenu(context, _binding.btnPanelOptions)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.controlpanel_options_menu, popup.menu)
+        popup.setOnMenuItemClickListener{item -> onMenuOptionClick(item)}
+        popup.show()
+    }
 
-            controlBinding.controlText.text = control.name
-            controlBinding.controlData.text = control.data
 
-            controlBinding.controlText.setOnClickListener {
-                _connectionViewModel.send(control.data)
-            }
-
-            controlBinding.controlText.setOnLongClickListener {
-                ControlDialog(control).show(parentFragmentManager, "dialog")
+    private fun onMenuOptionClick(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.panel_options_edit -> {
+                findNavController().navigate(R.id.action_controlPanelFragment_to_editorFragment)
                 true
             }
-
-            _binding.controls.addView(controlBinding.root)
-        }
-        */
-    }
-
-    private fun showMenu(parent: View, @MenuRes resourceId: Int) {
-        PopupMenu(context, parent).apply {
-            // MainActivity implements OnMenuItemClickListener
-            setOnMenuItemClickListener() { item ->
-                when (item.itemId) {
-                    R.id.menu_logs_copy -> {
-                        //copyLogs()
-                        true
-                    }
-                    R.id.menu_logs_share -> {
-                        shareLogs()
-                        true
-                    }
-                    R.id.menu_logs_clear -> {
-                        _connectionViewModel.clearLogs()
-                        true
-                    }
-                    else -> false
-                }
+            R.id.panel_options_connection_settings -> {
+                //to connection settings
+                true
             }
-            inflate(resourceId)
-            show()
+            R.id.panel_options_panel_settings -> {
+                // to panel settings
+                true
+            }
+            else -> false
         }
-    }
-
-    private fun shareLogs() {
-        val intent= Intent()
-        intent.action= Intent.ACTION_SEND
-        intent.putExtra(Intent.EXTRA_TITLE, "Connection logs")
-        intent.putExtra(Intent.EXTRA_TEXT, _connectionViewModel.getLogsAsText())
-        intent.type="text/plain"
-        startActivity(Intent.createChooser(intent, "Share To:"))
     }
 }

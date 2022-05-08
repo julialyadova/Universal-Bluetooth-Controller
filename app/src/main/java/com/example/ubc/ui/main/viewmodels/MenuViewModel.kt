@@ -15,13 +15,14 @@ import javax.inject.Inject
 class MenuViewModel @Inject constructor(
     private var panels: PanelsRepository
 ) : ViewModel() {
-    val controlPanels = MutableLiveData<List<Panel>>()
+    val panelsList = MutableLiveData<List<Panel>>()
+    val newlyCreatedPanelId = MutableLiveData<Int>()
 
-    fun loadPanels() {
+    fun loadMenu() {
         GlobalScope.launch(Dispatchers.IO) {
             val panels = panels.getAll()
             withContext(Dispatchers.Main) {
-                controlPanels.value = panels
+                panelsList.value = panels
             }
         }
     }
@@ -31,7 +32,16 @@ class MenuViewModel @Inject constructor(
             panels.delete(panel)
             val panels = panels.getAll()
             withContext(Dispatchers.Main) {
-                controlPanels.value = panels
+                panelsList.postValue(panels)
+            }
+        }
+    }
+
+    fun createPanel(name: String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val id = panels.add(name)
+            withContext(Dispatchers.Main) {
+                newlyCreatedPanelId.value = id
             }
         }
     }

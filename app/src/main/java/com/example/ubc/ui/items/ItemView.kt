@@ -25,8 +25,9 @@ abstract class ItemView @JvmOverloads constructor(
     abstract fun getEditDialog() : DialogFragment
     fun getItemId() : Int = item.id
 
-    fun delete() {
-        //todo: delete item from db
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        setPosition(item.x.toInt(), item.y.toInt())
     }
 
     fun drag() {
@@ -38,30 +39,26 @@ abstract class ItemView @JvmOverloads constructor(
                 item
         )
 
-        //start drag and drop operation
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             @Suppress("DEPRECATION")
             this.startDrag(dataToDrag, getShadowBuilder(), this, 0)//support pre-Nougat versions
         } else {
-            //supports Nougat and beyond
             this.startDragAndDrop(dataToDrag, getShadowBuilder(), this, 0)
         }
 
-
-        //hide view while dragging
         this.alpha = 0.1f
     }
 
     fun drop(x: Int, y: Int) {
-        //set new margins
-        //todo: update position in stored item
-        val param = this.layoutParams as ViewGroup.MarginLayoutParams
-        val offsetX = getShadowBuilder().view.width / 2
-        val offsetY = getShadowBuilder().view.height / 2
-        param.setMargins(x - offsetX,y - offsetY,0,0)
-        this.layoutParams = param
+        setPosition(x,y)
         Log.d("ItemView", "item dropped at ($x; $y) ${layoutParams.width}")
         this.alpha = 1f
+    }
+
+    private fun setPosition(x: Int, y: Int) {
+        val param = this.layoutParams as ViewGroup.MarginLayoutParams
+        param.setMargins(x,y,0,0)
+        this.layoutParams = param
     }
 
     fun cancelDrag() {

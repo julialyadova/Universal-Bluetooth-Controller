@@ -2,47 +2,40 @@ package com.example.ubc.ui.main.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.ubc.data.entities.Device
-import com.example.ubc.test.TestBluetoothService
+import com.example.ubc.connection.ConnectionListener
+import com.example.ubc.connection.ConnectionService
+import com.example.ubc.connection.ConnectionStatus
+import com.example.ubc.connection.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ConnectionViewModel @Inject constructor(
-        private var bluetoothService: TestBluetoothService
-) : ViewModel() {
-    val bluetoothEnabled = MutableLiveData<Boolean>()
+        private var connectionService: ConnectionService
+) : ViewModel(), ConnectionListener {
+    val requiredOptionEnabled = MutableLiveData<Boolean>()
     val availableDevices = MutableLiveData<List<Device>>()
     val activeDevice = MutableLiveData<Device?>()
     val connected = MutableLiveData<Boolean>()
     val device = MutableLiveData<Device>()
-    val log = MutableLiveData<String>()
-    val history = MutableLiveData<List<String>>()
+    val received = MutableLiveData<String>()
 
     init {
-        bluetoothEnabled.postValue(bluetoothService.bluetoothEnabled())
+        connectionService.subscribe(this)
+    }
+
+    override fun onCleared() {
+        connectionService.unsubscribe(this)
+        super.onCleared()
     }
 
     fun findDevices() {
-        availableDevices.postValue(bluetoothService.getPairedDevices())
+        availableDevices.postValue(connectionService.getAvailableDevices())
     }
 
-    fun loadLogs() {
-        history.postValue(bluetoothService.getConnection()?.logs ?: emptyList())
-    }
-
-    fun clearLogs() {
-        bluetoothService.getConnection()?.logs?.clear()
-        history.postValue(emptyList())
-    }
-
-    fun getLogsAsText() : String {
-        return bluetoothService.getConnection()?.logs?.joinToString("\r\n") ?: ""
-    }
-
-    fun deviceClick(device: Device) {
-        if (device.address == activeDevice.value?.address) {
-            bluetoothService.disconnect()
+    fun onDeviceClicked(device: Device) {
+        if (device == activeDevice.value) {
+            connectionService.disconnect()
             activeDevice.postValue(null)
             connected.postValue(false)
         } else {
@@ -51,20 +44,29 @@ class ConnectionViewModel @Inject constructor(
     }
 
     fun send(data: String) {
-        log.postValue(">> $data")
-        bluetoothService.send(data.toByteArray())
+        connectionService.send(data)
     }
 
     private fun connect(device: Device) {
-        val connection = bluetoothService.connect(device)
-        if (connection != null) {
-            connection.observe(log, connected)
-            activeDevice.postValue(device)
-            log.postValue("Connected to ${device.name}")
-        } else {
+        connectionService.connect(device)
+    }
+
+    override fun onConnectionStatusChanged(target: ConnectionService, status: ConnectionStatus) {
+        if (status == ConnectionStatus.Connected) {
+            activeDevice.postValue(target.getConnectedDevice())
+            connected.postValue(true)
+        } else if (status == ConnectionStatus.Disconnected) {
+           activeDevice.postValue(null)
+           connected.postValue(false)
+        } else if (status == ConnectionStatus.RequiredOptionDisabled) {
+            requiredOptionEnabled.postValue(false);
             connected.postValue(false)
-            log.postValue("failed to connect")
+        } else if (status == ConnectionStatus.RequiredOptionEnabled) {
+            requiredOptionEnabled.postValue(true);
         }
     }
 
+    override fun onDataReceived(data: ByteArray) {
+        received.postValue(data.toString())
+    }
 }

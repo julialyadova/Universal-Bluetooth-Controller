@@ -7,13 +7,13 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.ubc.R
 import com.example.ubc.databinding.DialogPanelBinding
-import com.example.ubc.ui.main.viewmodels.PanelViewModel
+import com.example.ubc.ui.main.viewmodels.ControlPanelViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RenamePanelDialog : DialogFragment() {
 
-    private val _viewModel: PanelViewModel by activityViewModels()
+    private val _viewModel: ControlPanelViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -23,7 +23,7 @@ class RenamePanelDialog : DialogFragment() {
             .setView(binding.root)
             .setMessage(R.string.dialog_message_rename_panel)
             .setPositiveButton(R.string.submit) { dialog, id ->
-                _viewModel.rename(binding.createPanelName.text.toString())
+                //_viewModel.rename(binding.createPanelName.text.toString())
             }
             .setNegativeButton(R.string.cancel, null)
             .create()

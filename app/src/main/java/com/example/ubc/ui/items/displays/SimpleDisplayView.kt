@@ -5,12 +5,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.ItemSimpleDisplayBinding
-import com.example.ubc.ui.editable.ViewShadowBuilder
+import com.example.ubc.ui.editor.ViewShadowBuilder
 import com.example.ubc.ui.items.DisplayView
-import com.example.ubc.ui.main.dialogs.ControlDialog
+import com.example.ubc.ui.main.dialogs.ItemDialog
 
 class SimpleDisplayView @JvmOverloads constructor(
-        private val item: Item,
+        item: Item,
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
@@ -24,10 +24,10 @@ class SimpleDisplayView @JvmOverloads constructor(
 
     override fun getDragHandler() = binding.display
     override fun getShadowBuilder() = ViewShadowBuilder(binding.root)
-    override fun getCreateDialog() = ControlDialog()
-    override fun getEditDialog() = ControlDialog()
+    override fun getCreateDialog() = ItemDialog()
+    override fun getEditDialog() = ItemDialog()
 
-    override fun recieve(data: String) {
-        binding.display.text = data
+    override fun receive(data: ByteArray) {
+        binding.display.text = data.toString()
     }
 }

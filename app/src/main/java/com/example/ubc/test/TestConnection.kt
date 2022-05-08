@@ -3,7 +3,7 @@ package com.example.ubc.test
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.ubc.data.entities.Device
+import com.example.ubc.connection.Device
 
 class TestConnection(
         val device: Device

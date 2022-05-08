@@ -11,5 +11,5 @@ abstract class DisplayView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : ItemView(item,context, attrs, defStyleAttr) {
 
-    abstract fun recieve(data: String)
+    abstract fun receive(data: ByteArray)
 }

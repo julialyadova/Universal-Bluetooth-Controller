@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
-import com.example.ubc.data.entities.Device
+import com.example.ubc.connection.Device
 import com.example.ubc.databinding.FragmentSettingsBinding
 import com.example.ubc.databinding.ItemDeviceBinding
 import com.example.ubc.ui.main.viewmodels.ConnectionViewModel
@@ -67,7 +67,7 @@ class SettingsFragment : Fragment() {
             }
 
             itemBinding.root.setOnClickListener() {
-                _connectionViewModel.deviceClick(device)
+                _connectionViewModel.onDeviceClicked(device)
                 _connectionViewModel.findDevices()
             }
 

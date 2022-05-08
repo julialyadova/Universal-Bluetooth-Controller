@@ -16,16 +16,12 @@ class ItemsRepository @Inject constructor(
         return _items.getAllByPanelId(id);
     }
 
-    suspend fun save(item: Item): Int {
-        var id = item.id
-        if (id == 0) {
-            id = _items.add(item).toInt()
-            Log.d("ItemsRepository", "added new item: ${item.id} ${item.label}")
-        } else {
-            _items.update(item)
-            Log.d("ItemsRepository", "item updated: ${item.id} ${item.label}")
-        }
-        return id
+    suspend fun insert(item: Item): Int {
+        return _items.add(item).toInt()
+    }
+
+    suspend fun update(item: Item) {
+        _items.update(item)
     }
 
     suspend fun delete(item: Item) {

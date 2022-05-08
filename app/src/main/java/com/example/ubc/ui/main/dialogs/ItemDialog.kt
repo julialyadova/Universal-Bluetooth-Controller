@@ -8,18 +8,16 @@ import androidx.fragment.app.activityViewModels
 import com.example.ubc.R
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.DialogControlBinding
-import com.example.ubc.ui.main.viewmodels.ItemsViewModel
-import com.example.ubc.ui.main.viewmodels.PanelViewModel
+import com.example.ubc.ui.main.viewmodels.EditorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ControlDialog (
+class ItemDialog (
     private var item: Item? = null
 ) : DialogFragment() {
 
     private lateinit var _binding: DialogControlBinding
-    private val _itemsViewModel: ItemsViewModel by activityViewModels()
-    private val _panelViewModel: PanelViewModel by activityViewModels()
+    private val _editorViewModel: EditorViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -50,7 +48,7 @@ class ControlDialog (
         builder
             .setMessage(R.string.dialog_message_edit_control)
             .setNegativeButton(R.string.delete) { _, _ ->
-                _itemsViewModel.delete(item!!)
+                _editorViewModel.delete(item!!)
             }
     }
 
@@ -58,7 +56,7 @@ class ControlDialog (
         val id = item?.id ?: 0
         val label = _binding.controlNameEdit.text.toString()
         val data = _binding.controlDataEdit.text.toString()
-        val panelId = _panelViewModel.panel.value!!.id
+        val panelId = _editorViewModel.panel.value!!.id
         val type = when (data) {
             "b" -> Item.Types.BUTTON
             "s" -> Item.Types.SWITCH
@@ -66,6 +64,6 @@ class ControlDialog (
             "h" -> Item.Types.HISTORY
             else -> Item.Types.BUTTON
         }
-        _itemsViewModel.save(Item(id, panelId, label, type, data, Item.DataFormats.ASCII))
+        _editorViewModel.save(Item(id, panelId, label, type, data, Item.DataFormats.ASCII))
     }
 }
