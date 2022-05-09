@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
-import com.example.ubc.connection.ConnectionStatus
+import com.example.ubc.connection.ConnectionState
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.FragmentControlPanelBinding
 import com.example.ubc.ui.items.ItemViewFactory
@@ -52,13 +52,13 @@ class ControlPanelFragment : Fragment() {
             _binding.textPanelDevice.text = device
         }
         _viewModel.deviceStatus.observe(viewLifecycleOwner) { status ->
-            if (status == ConnectionStatus.Connecting)
+            if (status == ConnectionState.Connecting)
                 _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_away)
-            else if (status == ConnectionStatus.Connected)
+            else if (status == ConnectionState.Connected)
                 _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_online)
-            else if (status == ConnectionStatus.Disconnecting)
+            else if (status == ConnectionState.Disconnecting)
                 _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_busy)
-            else if (status == ConnectionStatus.Disconnected)
+            else if (status == ConnectionState.Disconnected)
                 _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_invisible)
         }
         _sharedViewModel.panelId.observe(viewLifecycleOwner) { panelId ->

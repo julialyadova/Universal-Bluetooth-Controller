@@ -1,10 +1,14 @@
 package com.example.ubc.bluetooth
 
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.content.Context
+import android.content.Intent
 import android.util.Log
+import com.example.ubc.connection.AdapterState
 import com.example.ubc.connection.ConnectionService
-import com.example.ubc.connection.ConnectionStatus
+import com.example.ubc.connection.ConnectionState
 import com.example.ubc.connection.Device
 import java.util.*
 import javax.inject.Singleton
@@ -15,9 +19,22 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
     private val _uuid: String = "00001101-0000-1000-8000-00805f9b34fb"
     private var _socket: BluetoothSocket? = null
     private var _activeSocketThread: BluetoothSocketThread? = null
+    private val _availableDevices: MutableMap<String,Device> = mutableMapOf()
 
-    override fun getAvailableDevices(): List<Device> {
-        return _adapter.bondedDevices.map { d -> Device(d.name, d.address) }
+    override fun scanForAvailableDevices() {
+        if (_adapter.isEnabled && !_adapter.isDiscovering) {
+            _availableDevices.clear()
+            for (device in _adapter.bondedDevices) {
+                _availableDevices[device.address] = Device(device.name, device.address, "paired")
+            }
+            _activeSocketThread?.disconnect()
+            _adapter.startDiscovery()
+        }
+    }
+
+    override fun cancelScanning() {
+        if (_adapter.isDiscovering)
+            _adapter.cancelDiscovery()
     }
 
     override fun getConnectedDevice(): Device? {
@@ -28,38 +45,42 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
             Device(bluetoothDevice.name, bluetoothDevice.address)
     }
 
-    override fun getConnectionStatus(): ConnectionStatus {
+    override fun getConnectionStatus(): ConnectionState {
         return if (_adapter.isEnabled)
-            ConnectionStatus.Connected
+            ConnectionState.Connected
         else
-            ConnectionStatus.Disconnected
+            ConnectionState.Disconnected
     }
 
-    override fun requiredOptionIsEnabled(): Boolean {
+    override fun adapterEnabled(): Boolean {
         return _adapter.isEnabled
     }
 
     override fun enableRequiredOption() {
         _adapter.enable()
-        notifyStatusChanged(ConnectionStatus.RequiredOptionEnabled)
     }
 
     override fun disableRequiredOption() {
+        if (_adapter.isDiscovering)
+            _adapter.cancelDiscovery()
         _adapter.disable()
-        notifyStatusChanged(ConnectionStatus.RequiredOptionDisabled)
     }
 
     override fun connect(device: Device) {
-        notifyStatusChanged(ConnectionStatus.Connecting, device)
+        notifyStatusChanged(ConnectionState.Connecting, device)
 
         if (!_adapter.isEnabled) {
-            notifyStatusChanged(ConnectionStatus.RequiredOptionDisabled)
+            notifyStatusChanged(ConnectionState.Disconnected, device)
             return
+        }
+
+        if (_adapter.isDiscovering) {
+            _adapter.cancelDiscovery()
         }
 
         val bluetoothDevice = _adapter.getRemoteDevice(device.address)
         if (bluetoothDevice == null) {
-            notifyStatusChanged(ConnectionStatus.Disconnected, device)
+            notifyStatusChanged(ConnectionState.Disconnected, device)
             return
         }
 
@@ -75,10 +96,10 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
     }
 
     override fun disconnect() {
-        notifyStatusChanged(ConnectionStatus.Disconnecting, tryGetRemoteDevice())
+        notifyStatusChanged(ConnectionState.Disconnecting, tryGetRemoteDevice())
         _activeSocketThread?.disconnect()
         _socket?.close()
-        notifyStatusChanged(ConnectionStatus.Disconnected, tryGetRemoteDevice())
+        notifyStatusChanged(ConnectionState.Disconnected, tryGetRemoteDevice())
     }
 
     override fun send(bytes: ByteArray) {
@@ -89,16 +110,51 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
         _activeSocketThread?.send(message.toByteArray())
     }
 
+    override fun onReceive(context: Context?, intent: Intent?) {
+        if (intent == null)
+            return
+        Log.d("Bluetooth Service", "onReceive: ${intent.action}")
+        when(intent.action) {
+            BluetoothDevice.ACTION_FOUND -> {
+                val device =
+                    intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                if (device != null) {
+                    if (_availableDevices[device.address]?.name == null) {
+                        _availableDevices[device.address] = Device(device.name, device.address)
+                        notifyDevicesFound(_availableDevices.map { entry -> entry.value })
+                    }
+                }
+            }
+            BluetoothAdapter.ACTION_STATE_CHANGED -> {
+                val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0)
+                if (state == BluetoothAdapter.STATE_ON)
+                    notifyAdapterStateChanged(AdapterState.Enabled)
+                else if (state == BluetoothAdapter.STATE_OFF)
+                    notifyAdapterStateChanged(AdapterState.Disabled)
+            }
+            BluetoothAdapter.ACTION_DISCOVERY_STARTED -> {
+                notifyAdapterStateChanged(AdapterState.StartedScanning)
+            }
+            BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
+                notifyAdapterStateChanged(AdapterState.FinishedScanning)
+            }
+        }
+    }
+
     override fun dataReceived(data: ByteArray) {
         notifyDataReceived(data)
     }
 
     override fun onConnectionInterrupted(error: String?) {
-        notifyStatusChanged(ConnectionStatus.Disconnected, tryGetRemoteDevice())
+        notifyStatusChanged(ConnectionState.Disconnected, tryGetRemoteDevice())
     }
 
     override fun onConnectionSucceeded() {
-        notifyStatusChanged(ConnectionStatus.Connected, tryGetRemoteDevice())
+        notifyStatusChanged(ConnectionState.Connected, tryGetRemoteDevice())
+    }
+
+    private fun onDeviceFound(device: Device) {
+
     }
 
     private fun tryGetRemoteDevice() : Device? {

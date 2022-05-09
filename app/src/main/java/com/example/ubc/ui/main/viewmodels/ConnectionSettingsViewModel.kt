@@ -3,10 +3,7 @@ package com.example.ubc.ui.main.viewmodels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.ubc.connection.ConnectionListener
-import com.example.ubc.connection.ConnectionService
-import com.example.ubc.connection.ConnectionStatus
-import com.example.ubc.connection.Device
+import com.example.ubc.connection.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -18,13 +15,17 @@ import javax.inject.Inject
 class ConnectionSettingsViewModel @Inject constructor(
         private val _connectionService: ConnectionService
 ) : ViewModel(), ConnectionListener {
-    val requiredOptionEnabled = MutableLiveData<Boolean>()
+    val adapterIsEnabled = MutableLiveData<Boolean>()
+    val scanning = MutableLiveData<Boolean>()
     val devices = MutableLiveData<List<Device>>()
     val activeDevice = MutableLiveData<Device?>()
-    val deviceStatus = MutableLiveData<ConnectionStatus>()
+    val deviceStatus = MutableLiveData<ConnectionState>()
+
+    private var unfilteredDevices : List<Device> = listOf()
 
     init {
         _connectionService.subscribe(this)
+        adapterIsEnabled.value = _connectionService.adapterEnabled()
     }
 
     override fun onCleared() {
@@ -32,18 +33,22 @@ class ConnectionSettingsViewModel @Inject constructor(
         _connectionService.unsubscribe(this)
     }
 
-    fun update() {
-
+    fun scan() {
+        GlobalScope.launch {
+            _connectionService.scanForAvailableDevices()
+        }
     }
 
-    fun updateDevices() {
-        devices.value = _connectionService.getAvailableDevices()
-            .filter { d -> d.address != activeDevice.value?.address }
+    fun cancelScanning() {
+        _connectionService.cancelScanning()
+    }
+
+    fun disconnect() {
+        _connectionService.disconnect()
     }
 
     fun onDeviceClicked(device: Device) {
         connect(Device(device.name, device.address))
-        updateDevices()
     }
 
     fun send(data: String) {
@@ -52,7 +57,6 @@ class ConnectionSettingsViewModel @Inject constructor(
 
     fun enableRequiredOption() {
         _connectionService.enableRequiredOption()
-        updateDevices()
     }
 
     fun disableRequiredOption() {
@@ -63,29 +67,48 @@ class ConnectionSettingsViewModel @Inject constructor(
         _connectionService.connect(device)
     }
 
-    override fun onConnectionStatusChanged(status: ConnectionStatus, device: Device?) {
-        Log.d("ConnectionViewModel", "onConnectionStatusChanged: $status ${device?.address}")
+    private fun setActiveDevice(device: Device) {
+        activeDevice.value = device
+        devices.value = unfilteredDevices.filter { d -> d != device }
+    }
+
+    private fun removeActiveDevice() {
+        activeDevice.value = null
+        devices.value = unfilteredDevices
+    }
+
+    override fun onConnectionStatusChanged(state: ConnectionState, device: Device?) {
+        Log.d("ConnectionViewModel", "onConnectionStatusChanged: $state ${device?.address}")
         GlobalScope.launch {
             withContext(Dispatchers.Main) {
-                when (status) {
-                    ConnectionStatus.RequiredOptionDisabled -> {
-                        requiredOptionEnabled.value = false
+                when (state) {
+                    ConnectionState.Disconnected -> {
+                        removeActiveDevice()
                     }
-                    ConnectionStatus.RequiredOptionEnabled -> {
-                        requiredOptionEnabled.value = true
-                    }
-                    ConnectionStatus.Disconnected -> {
-                        activeDevice.value = null
-                    }
-                    else -> {
-                        activeDevice.value = device
-                        deviceStatus.value = status
+                    ConnectionState.Connecting -> {
+                        setActiveDevice(device ?: Device("Устройство без имени", ""))
                     }
                 }
-                updateDevices()
+                deviceStatus.value = state
             }
         }
     }
 
+    override fun onAdapterStateChanged(state: AdapterState) {
+        when (state){
+            AdapterState.Enabled -> adapterIsEnabled.value = true
+            AdapterState.Disabled -> adapterIsEnabled.value = false
+            AdapterState.StartedScanning -> scanning.value = true
+            AdapterState.FinishedScanning -> scanning.value = false
+
+        }
+
+    }
+
     override fun onDataReceived(data: ByteArray) {}
+
+    override fun onAvailableDevicesFound(foundDevices: Collection<Device>) {
+        unfilteredDevices = foundDevices.toList()
+        devices.value = unfilteredDevices
+    }
 }
