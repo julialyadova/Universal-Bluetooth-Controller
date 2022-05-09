@@ -20,7 +20,7 @@ class ControlPanelViewModel @Inject constructor(
 ) : ItemViewModel(), ConnectionListener {
     val panel = MutableLiveData<Panel>()
     val items = MutableLiveData<List<Item>>()
-    val device = MutableLiveData<String>()
+    val device = MutableLiveData<String?>()
     val deviceStatus = MutableLiveData<ConnectionState>()
 
     init {
@@ -40,12 +40,8 @@ class ControlPanelViewModel @Inject constructor(
             withContext(Dispatchers.Main) {
                 panel.value = panelData
                 items.value = itemsList
-                if (connectedDevice == null) {
-                    device.value = "не соединено"
-                } else {
-                    device.value = connectedDevice.name ?: connectedDevice.address
-                    deviceStatus.value = _connectionService.getConnectionStatus()
-                }
+                deviceStatus.value = connectionStatus
+                device.value = connectedDevice?.name
             }
         }
     }

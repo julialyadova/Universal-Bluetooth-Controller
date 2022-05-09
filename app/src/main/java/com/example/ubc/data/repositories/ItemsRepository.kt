@@ -16,6 +16,10 @@ class ItemsRepository @Inject constructor(
         return _items.getAllByPanelId(id);
     }
 
+    suspend fun getById(id: Int) : Item? {
+        return _items.getById(id)
+    }
+
     suspend fun insert(item: Item): Int {
         return _items.add(item).toInt()
     }

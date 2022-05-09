@@ -39,8 +39,7 @@ class MenuFragment : Fragment() {
         _binding.btnMenuCreatePanel.setOnClickListener {
             showCreatePanelDialog()
         }
-
-        _binding.btnMenuoptionsMenu.setOnClickListener { showMenu(it) }
+        _binding.btnMenuOptionsMenu.setOnClickListener { showMenu(it) }
 
         _viewModel.newlyCreatedPanelId.observe(viewLifecycleOwner) { id ->
             _sharedViewModel.selectPanel(id)
@@ -69,8 +68,8 @@ class MenuFragment : Fragment() {
 
     private fun showDeletePanelDialog(panel: Panel) {
         AlertDialog.Builder(activity)
-            .setMessage("Delete panel \"${panel.name}\"?")
-            .setPositiveButton("delete") { _, _ ->
+            .setTitle("${getString(R.string.dialog_delete_panel_title)} \"${panel.name}\"?")
+            .setPositiveButton(R.string.delete) { _, _ ->
                 _viewModel.deletePanel(panel)
             }
             .setNeutralButton(R.string.cancel, null)
@@ -81,8 +80,8 @@ class MenuFragment : Fragment() {
         val binding = DialogPanelBinding.inflate(requireActivity().layoutInflater)
         AlertDialog.Builder(activity)
             .setView(binding.root)
-            .setMessage(R.string.dialog_message_create_panel)
-            .setPositiveButton(R.string.submit) { _, _ ->
+            .setTitle(R.string.dialog_create_panel_title)
+            .setPositiveButton(R.string.create) { _, _ ->
                 _viewModel.createPanel(binding.createPanelName.text.toString())
             }
             .setNegativeButton(R.string.cancel, null)

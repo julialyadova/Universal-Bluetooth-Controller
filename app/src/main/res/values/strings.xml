@@ -1,28 +1,75 @@
 <resources>
-    <string name="app_name">Bluetooth Terminal</string>
-    <string name="panels_list_btn_text">Panels</string>
-    <string name="menu_title">Control Panels</string>
-    <string name="settings_title">Settings</string>
+    <string name="app_name">Universal Bluetooth Terminal</string>
 
+    <!-- Common -->
     <string name="submit">Ок</string>
     <string name="cancel">Отменить</string>
     <string name="delete">Удалить</string>
+    <string name="create">Создать</string>
+
+    <!-- Menu -->
+    <string name="menu_title">Панели управления</string>
+    <string name="menu_option_settings">Настройки</string>
+
+    <!-- Create Panel Dialog -->
+    <string name="dialog_create_panel_title">Создать панель управления</string>
+    <string name="dialog_create_panel_name_placeholder">Имя</string>
+
+    <!-- Delete Panel Dialog -->
+    <string name="dialog_delete_panel_title">Вы уверены, что хотите удалить</string>
+
+    <!-- Rename panel dialog-->
+    <string name="dialog_rename_panel_title">Переименовать?</string>
+    <string name="dialog_rename_panel_action_rename">переименовать</string>
+
+    <!-- Control Panel -->
+    <string name="control_panel_option_edit">Редактировать…</string>
+    <string name="control_panel_option_connection_settings">Соединение</string>
+    <string name="control_panel_option_panel_settings">Настройки</string>
+
+    <!-- Editor -->
+    <string name="editor_option_quit_editor">Завершить редактирование</string>
+    <string name="editor_option_add_item">Добавить элемент…</string>
+    <string name="editor_option_panel_settings">Настройки панели</string>
+
+    <!-- Editor Help Dialog -->
+    <string name="dialog_editor_help_title">Редактор</string>
+    <string name="dialog_editor_help_text">
+        Чтобы добавить элемент управления, нажмите на +.\n\n
+        Короткое нажатие на элемент - редактирование.\n
+        Долгое нажатие на элемент - перемещение.\n\n
+        Все изменения сохраняются автоматически
+    </string>
+
+    <!-- Create item dialog-->
+    <string name="dialog_add_item_title">Добавить элемент управления</string>
+
+    <!-- Edit item dialog-->
+    <string name="dialog_message_edit_control">Редактировать элемент управления</string>
 
     <!-- Connection statuses -->
     <string name="connection_status_connecting">Устанавливается соединение…</string>
     <string name="connection_status_connected">Соединение установлено!</string>
     <string name="connection_status_disconnected">Соединение разорвано</string>
-    <!-- Connection settings -->
+    <!-- Connection settings-->
     <string name="connection_settings_title">Настройки соединения</string>
     <string name="connection_active_device">Соединенное устройство</string>
     <string name="connection_available_devices">Доступные устройства</string>
     <string name="connection_info_how_to_connect_to_device">Чтобы подключиться к устройству, выберете его из списка доступных устройств</string>
+    <string name="connection_scanning">поиск…</string>
+    <string name="connection_action_start_scanning">поиск</string>
+    <string name="connection_action_stop_scanning">стоп</string>
+    <string name="connection_device_without_name">Неизвестное устройство</string>
+
+    <!-- Item names -->
+    <string name="item_button">Кнопка</string>
+    <string name="item_switch">Переключатель</string>
+    <string name="item_history">История сообщений</string>
+    <string name="item_simple_display">Полученное сообщение</string>
 
 
-    <string name="dialog_message_create_panel">New Control Panel</string>
-    <string name="dialog_message_create_control">Create Control</string>
-    <string name="dialog_message_edit_control">Edit Control</string>
-    <string name="dialog_message_rename_panel"></string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="bluetooth">Bluetooth</string>
@@ -42,9 +89,6 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="rename">переименовать</string>
-    <string name="connection_scanning">поиск...</string>
-    <string name="connection_action_start_scanning">поиск</string>
-    <string name="connection_action_stop_scanning">стоп</string>
+    <string name="editor_option_help">Справка</string>
 
 </resources>

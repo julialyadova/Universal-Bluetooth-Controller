@@ -33,7 +33,10 @@ class ControlPanelService @Inject constructor(
     }
 
     suspend fun deleteItem(id: Int) {
-
+        val item = _items.getById(id)
+        if (item != null) {
+            _items.delete(item)
+        }
     }
 
     suspend fun updateItem(item: Item) {

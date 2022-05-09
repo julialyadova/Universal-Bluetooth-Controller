@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:text="@string/menu_title"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,25 +35,23 @@
         app:layout_constraintTop_toBottomOf="@+id/menu_title"
         tools:listitem="@layout/item_panel" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_menu_create_panel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/blue"
-        android:clickable="true"
-        android:src="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <Button
-        android:id="@+id/btn_menuoptions_menu"
+        android:id="@+id/btn_menu_options_menu"
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/ic_icons"
+        android:background="@drawable/ic_options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_menu_create_panel"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

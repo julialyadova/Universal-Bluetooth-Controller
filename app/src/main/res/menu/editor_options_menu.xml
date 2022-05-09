@@ -1,9 +1,11 @@
 <?xml version ="1.0" encoding ="utf-8"?><!--  Learn More about how to use App Actions: https://developer.android.com/guide/actions/index.html -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/editor_options_quit"
-        android:title="Завершить редактирование"/>
+        android:title="@string/editor_option_quit_editor"/>
     <item android:id="@+id/editor_options_add_item"
-        android:title="Добавить элемент..." />
+        android:title="@string/editor_option_add_item" />
     <item android:id="@+id/editor_options_panel_settings"
-        android:title="настройки панели" />
+        android:title="@string/editor_option_panel_settings" />
+    <item android:id="@+id/editor_options_help"
+        android:title="@string/editor_option_help" />
 </menu>

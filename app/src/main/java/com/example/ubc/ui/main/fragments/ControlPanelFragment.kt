@@ -49,20 +49,33 @@ class ControlPanelFragment : Fragment() {
             displayItems(items, viewLifecycleOwner)
         }
         _viewModel.device.observe(viewLifecycleOwner) {device ->
-            _binding.textPanelDevice.text = device
+            if (device != null)
+                _binding.textPanelDevice.text = device
         }
         _viewModel.deviceStatus.observe(viewLifecycleOwner) { status ->
-            if (status == ConnectionState.Connecting)
-                _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_away)
-            else if (status == ConnectionState.Connected)
-                _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_online)
-            else if (status == ConnectionState.Disconnecting)
-                _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_busy)
-            else if (status == ConnectionState.Disconnected)
-                _binding.imgPanelConnectionStatus.setImageResource(android.R.drawable.presence_invisible)
+            displayDeviceStatus(status)
         }
         _sharedViewModel.panelId.observe(viewLifecycleOwner) { panelId ->
             _viewModel.load(panelId)
+        }
+    }
+
+    private fun displayDeviceStatus(status: ConnectionState) {
+        when (status) {
+            ConnectionState.Connecting -> {
+                _binding.imgPanelConnectionStatus.setImageResource(R.drawable.ic_status_connecting)
+                _binding.textPanelDevice.text = "соединение устанавливается..."
+            }
+            ConnectionState.Connected -> {
+                _binding.imgPanelConnectionStatus.setImageResource(R.drawable.ic_status_connected)
+            }
+            ConnectionState.Disconnecting -> {
+                _binding.imgPanelConnectionStatus.setImageResource(R.drawable.ic_status_disconnecting)
+            }
+            ConnectionState.Disconnected -> {
+                _binding.imgPanelConnectionStatus.setImageResource(R.drawable.ic_status_disconnected)
+                _binding.textPanelDevice.text = "соединение не установлено"
+            }
         }
     }
 

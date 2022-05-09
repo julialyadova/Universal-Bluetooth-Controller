@@ -23,8 +23,9 @@ class PanelItemAdapter(
             view.setOnClickListener {
                 panel?.let(onClick)
             }
-            itemView.findViewById<View>(R.id.item_panel_delete).setOnClickListener {
+            view.setOnLongClickListener {
                 panel?.let(onLongClick)
+                true
             }
 
         }

@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.main_activity)
 
-        val filters = listOf<IntentFilter>(
+        listOf<IntentFilter>(
             IntentFilter(BluetoothDevice.ACTION_FOUND),
             IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED),
             IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED),

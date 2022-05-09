@@ -54,8 +54,8 @@ class TestConnectionService : ConnectionService() {
         notifyStatusChanged(ConnectionState.Connected)
     }
 
-    override fun send(data: ByteArray) {
-        _connection?.send(data)
+    override fun send(bytes: ByteArray) {
+        _connection?.send(bytes)
     }
 
     override fun send(message: String) {

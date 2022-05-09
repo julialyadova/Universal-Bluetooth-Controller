@@ -48,7 +48,6 @@ class BluetoothSocketThread(
         while (_active) {
             try {
                 bytesCount = inputStream.read(buffer)
-                val readMessage = String(buffer, 0, bytesCount)
                 Log.d("Bluetooth Data Thread", "$bytesCount bytes received")
                 if (bytesCount > 0) {
                     listener.dataReceived(buffer.copyOf(bytesCount))

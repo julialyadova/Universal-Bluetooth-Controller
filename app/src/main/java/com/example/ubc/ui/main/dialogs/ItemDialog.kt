@@ -38,7 +38,7 @@ class ItemDialog (
     }
 
     private fun addCreateOptions(builder: AlertDialog.Builder) {
-        builder.setMessage(R.string.dialog_message_create_control)
+        builder.setMessage(R.string.dialog_add_item_title)
     }
 
     private fun addEditOptions(builder: AlertDialog.Builder) {

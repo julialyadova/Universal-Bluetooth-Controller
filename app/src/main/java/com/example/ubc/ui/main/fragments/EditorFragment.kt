@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class EditorFragment : Fragment() {
 
     private lateinit var _binding : FragmentEditorBinding
-    val _viewModel: EditorViewModel by viewModels()
+    private val _viewModel: EditorViewModel by viewModels()
     private val _sharedViewModel: PanelSharedViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -44,7 +44,7 @@ class EditorFragment : Fragment() {
         _binding.btnEditorAddItem.setOnClickListener { showAddItemDialog() }
         _binding.btnEditorRenamePanel.setOnClickListener { showRenamePanelDialog() }
 
-        var editor = EditableCanvas(_binding.canvas, this)
+        val editor = EditableCanvas(_binding.canvas, _viewModel)
         _viewModel.items.observe(viewLifecycleOwner) { items ->
             editor.update(items)
         }
@@ -61,7 +61,7 @@ class EditorFragment : Fragment() {
 
         val dialog = AlertDialog.Builder(activity)
             .setView(binding.root)
-            .setMessage(R.string.dialog_message_create_control)
+            .setTitle(R.string.dialog_add_item_title)
             .setNeutralButton(R.string.cancel, null)
             .create()
 
@@ -71,6 +71,10 @@ class EditorFragment : Fragment() {
         }
         binding.btnCreateItemSwitch.setOnClickListener {
             _viewModel.createItem(Item.Types.SWITCH)
+            dialog.cancel()
+        }
+        binding.btnCreateItemHistory.setOnClickListener {
+            _viewModel.createItem(Item.Types.HISTORY)
             dialog.cancel()
         }
 
@@ -89,11 +93,15 @@ class EditorFragment : Fragment() {
     private fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.editor_options_quit -> {
-                findNavController().navigate(R.id.action_editorFragment_to_controlPanelFragment)
+                findNavController().popBackStack()
                 true
             }
             R.id.editor_options_add_item -> {
                 showAddItemDialog()
+                true
+            }
+            R.id.editor_options_help -> {
+                showHelp()
                 true
             }
             else -> false
@@ -106,11 +114,20 @@ class EditorFragment : Fragment() {
 
         AlertDialog.Builder(activity)
             .setView(binding.root)
-            .setMessage(R.string.dialog_message_rename_panel)
-            .setPositiveButton(R.string.rename) { dialog, id ->
+            .setTitle(R.string.dialog_rename_panel_title)
+            .setPositiveButton(R.string.dialog_rename_panel_action_rename) { _, _ ->
                 _viewModel.renamePanel(binding.createPanelName.text.toString())
             }
             .setNegativeButton(R.string.cancel, null)
+            .create()
+            .show()
+    }
+
+    private fun showHelp() {
+        AlertDialog.Builder(activity)
+            .setMessage(R.string.dialog_editor_help_text)
+            .setTitle(R.string.dialog_editor_help_title)
+            .setPositiveButton(R.string.submit, null)
             .create()
             .show()
     }

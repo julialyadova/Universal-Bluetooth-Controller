@@ -153,10 +153,6 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
         notifyStatusChanged(ConnectionState.Connected, tryGetRemoteDevice())
     }
 
-    private fun onDeviceFound(device: Device) {
-
-    }
-
     private fun tryGetRemoteDevice() : Device? {
         var device : Device? = null
         _socket?.remoteDevice?.let {

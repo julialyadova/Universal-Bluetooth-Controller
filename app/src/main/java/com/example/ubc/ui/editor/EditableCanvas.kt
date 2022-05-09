@@ -6,16 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.ubc.data.entities.Item
 import com.example.ubc.ui.items.EditorItem
-import com.example.ubc.ui.main.fragments.EditorFragment
+import com.example.ubc.ui.main.viewmodels.EditorViewModel
 import kotlin.math.roundToInt
 
 
 class EditableCanvas(
         private val canvasLayout: ViewGroup,
-        private val editorFragment: EditorFragment
+        private val viewModel: EditorViewModel
 ) {
     private val _gridSize = 50
-    private val factory = EditorItemFactory(canvasLayout.context, canvasLayout, editorFragment._viewModel)
+    private val factory = EditorItemFactory(canvasLayout.context, canvasLayout, viewModel)
     private var _items : MutableList<EditorItem> = mutableListOf()
 
     init {
@@ -25,8 +25,7 @@ class EditableCanvas(
     fun update(items: List<Item>) {
         canvasLayout.removeAllViews()
         for (item in items) {
-            val item = factory.create(item)
-            _items.add(item)
+            _items.add(factory.create(item))
         }
     }
 
@@ -36,7 +35,7 @@ class EditableCanvas(
     }
 
     private fun setCanvasDragEvents(canvas: View) {
-        canvas.setOnDragListener { view, e ->
+        canvas.setOnDragListener { _, e ->
             when (e.action) {
                 DragEvent.ACTION_DROP -> {
                     val item = getDroppedItem(e)!!
@@ -44,7 +43,7 @@ class EditableCanvas(
                     val y = (e.y / _gridSize).roundToInt() * _gridSize - item.view.height / 2
                     item.drop(x, y)
                     Log.d("Drag And Drop", "item with id ${item.itemId} was dropped at (${e.x};${e.y})")
-                    editorFragment._viewModel.setPosition(item.itemId, x, y)
+                    viewModel.setPosition(item.itemId, x, y)
                     true
                 }
                 DragEvent.ACTION_DRAG_STARTED -> true
