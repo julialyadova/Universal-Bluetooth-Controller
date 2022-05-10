@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/editorFragment"
-        android:name="com.example.ubc.ui.main.fragments.EditorFragment"
+        android:name="com.example.ubc.ui.editor.EditorFragment"
         android:label="fragment_editor"
         tools:layout="@layout/fragment_editor" >
         <action

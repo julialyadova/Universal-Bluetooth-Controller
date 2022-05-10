@@ -90,5 +90,11 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="editor_option_help">Справка</string>
+    <string name="dialog_item_label_data">Данные</string>
+    <string name="dialog_item_label_data_format">Формат</string>
+    <string name="dialog_item_label_name">Название</string>
+    <string name="dialog_item_label_ascii">ASCII</string>
+    <string name="dialog_item_label_hex">Binary (HEX)</string>
+    <string name="dialog_item_edit_title">Редактировать элемент</string>
 
 </resources>

@@ -14,20 +14,21 @@ import androidx.core.view.allViews
 import com.example.ubc.data.entities.Item
 import com.example.ubc.ui.editor.ViewShadowBuilder
 
-class EditorItem @JvmOverloads constructor(
-        private val item: Item,
-        @LayoutRes private val resourse: Int,
-        context: Context
+class EditableItem @JvmOverloads constructor(
+    val item: Item,
+    @LayoutRes private val recourse: Int,
+    context: Context
 ) : ConstraintLayout(context, null, 0) {
 
     val view = this
     val itemId = item.id
     private val shadowBuilder = ViewShadowBuilder(this)
+    private var onClickListener : ((item: Item) -> Unit)? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        LayoutInflater.from(context).inflate(resourse, this, true)
-        setWrapContentSize()
+        LayoutInflater.from(context).inflate(recourse, this, true)
+        setSize()
         bindItem()
         setPosition(item.x.toInt(), item.y.toInt())
         for (v in allViews) {
@@ -35,22 +36,29 @@ class EditorItem @JvmOverloads constructor(
                 drag()
                 true
             }
+            v.setOnClickListener {
+                onClickListener?.invoke(item)
+            }
         }
     }
 
-    fun bindItem() {
+    fun setOnClickListener(l: ((item: Item) -> Unit)?) {
+        onClickListener = l
+    }
+
+    private fun bindItem() {
         this.findViewWithTag<TextView>("label")?.text = item.label
     }
 
-    fun setWrapContentSize() {
+    private fun setSize() {
         val params = this.layoutParams
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT
         params.width = ViewGroup.LayoutParams.WRAP_CONTENT
         this.layoutParams = params
     }
 
-    fun drag() {
-        Log.d("ItemView", "drag started")
+    private fun drag() {
+        Log.d("", "drag started")
         val item = ClipData.Item(item.id.toString())
         val dataToDrag = ClipData(
                 item.text,
@@ -75,14 +83,13 @@ class EditorItem @JvmOverloads constructor(
     }
 
     private fun setPosition(x: Int, y: Int) {
-        val params = this.layoutParams as ViewGroup.MarginLayoutParams
+        val params = this.layoutParams as MarginLayoutParams
         params.leftMargin = x
         params.topMargin = y
         this.layoutParams = params
     }
 
     fun cancelDrag() {
-        Log.d("ItemView", "drag operation finished unsuccessfully. Item was returned to the start position")
         this.alpha = 1f
     }
 }

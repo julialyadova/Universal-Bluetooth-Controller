@@ -12,9 +12,9 @@ data class Item (
     @ColumnInfo(name="panel_id")
     var panelId: Int = 0,
 
-    val label: String,
+    var label: String,
     val type: String,
-    val data: String,
+    var data: String,
     val format: String,
 
     @ColumnInfo(name="args")
@@ -28,7 +28,7 @@ data class Item (
 ) {
     class DataFormats {
         companion object {
-            val BYTES = "bytes"
+            val HEX = "bytes"
             val ASCII = "ASCII"
         }
     }

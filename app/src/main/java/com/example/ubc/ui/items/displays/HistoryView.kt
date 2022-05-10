@@ -9,9 +9,7 @@ import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.ItemHistoryBinding
-import com.example.ubc.ui.editor.ViewShadowBuilder
 import com.example.ubc.ui.items.DisplayView
-import com.example.ubc.ui.main.dialogs.ItemDialog
 import java.util.*
 
 class HistoryView @JvmOverloads constructor(
@@ -32,11 +30,6 @@ class HistoryView @JvmOverloads constructor(
             binding.historyDisplay.text = ""
         }
     }
-
-    override fun getDragHandler() = binding.historyDisplay
-    override fun getShadowBuilder() = ViewShadowBuilder(binding.root)
-    override fun getCreateDialog() = ItemDialog()
-    override fun getEditDialog() = ItemDialog()
 
     override fun receive(data: ByteArray) {
         history.add(data.toString())

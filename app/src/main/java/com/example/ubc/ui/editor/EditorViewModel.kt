@@ -1,4 +1,4 @@
-package com.example.ubc.ui.main.viewmodels
+package com.example.ubc.ui.editor
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -43,7 +43,7 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    fun save(item: Item) {
+    fun update(item: Item) {
         Log.d("ItemsViewModel", "save item ${item.id} ${item.label}")
         GlobalScope.launch(Dispatchers.IO) {
             _controlPanelService.updateItem(item)

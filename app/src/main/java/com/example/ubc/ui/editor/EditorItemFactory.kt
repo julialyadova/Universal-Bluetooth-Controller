@@ -5,15 +5,13 @@ import android.util.Log
 import android.view.ViewGroup
 import com.example.ubc.R
 import com.example.ubc.data.entities.Item
-import com.example.ubc.ui.items.EditorItem
-import com.example.ubc.ui.main.viewmodels.EditorViewModel
+import com.example.ubc.ui.items.EditableItem
 
 class EditorItemFactory (
         private val context: Context,
         private val root: ViewGroup,
-        private val viewModel: EditorViewModel
-        ) {
-    fun create(item: Item): EditorItem {
+) {
+    fun create(item: Item): EditableItem {
         Log.d("EditorItemFactory", "creating editor item from item ${item.id}(${item.type})")
 
         val resource = when(item.type) {
@@ -23,7 +21,7 @@ class EditorItemFactory (
             Item.Types.HISTORY -> R.layout.item_history
             else -> 0
         }
-        val editorItem = EditorItem(item, resource, context)
+        val editorItem = EditableItem(item, resource, context)
         root.addView(editorItem)
         return editorItem
     }
