@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.PopupMenu
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -63,25 +64,31 @@ class EditorFragment : Fragment() {
     }
 
     private fun showAddItemDialog() {
-        val binding = DialogCreateItemBinding.inflate(requireActivity().layoutInflater)
+        val dialogBinding = DialogCreateItemBinding.inflate(requireActivity().layoutInflater)
 
         val dialog = AlertDialog.Builder(activity)
-            .setView(binding.root)
+            .setView(dialogBinding.root)
             .setTitle(R.string.dialog_add_item_title)
             .setNeutralButton(R.string.cancel, null)
             .create()
 
-        binding.btnCreateItemButton.setOnClickListener {
-            _viewModel.createItem(Item.Types.BUTTON)
-            dialog.cancel()
-        }
-        binding.btnCreateItemSwitch.setOnClickListener {
-            _viewModel.createItem(Item.Types.SWITCH)
-            dialog.cancel()
-        }
-        binding.btnCreateItemHistory.setOnClickListener {
-            _viewModel.createItem(Item.Types.HISTORY)
-            dialog.cancel()
+        for (itemIdentifier in _viewModel.itemIdentifiers) {
+            val button = Button(context)
+            button.text = itemIdentifier.name
+            button.setOnClickListener {
+                _viewModel.createItem(itemIdentifier.itemType)
+                dialog.cancel()
+            }
+            button.setOnLongClickListener {
+                AlertDialog.Builder(context)
+                    .setTitle(itemIdentifier.name)
+                    .setMessage(itemIdentifier.description)
+                    .setPositiveButton(R.string.submit, null)
+                    .create()
+                    .show()
+                true
+            }
+            dialogBinding.createItemButtons.addView(button)
         }
 
         dialog.show()

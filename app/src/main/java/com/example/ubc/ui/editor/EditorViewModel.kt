@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.ubc.data.ControlPanelService
 import com.example.ubc.data.entities.Item
 import com.example.ubc.data.entities.Panel
+import com.example.ubc.items.ItemsService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,10 +16,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(
-    private val _controlPanelService: ControlPanelService
+    private val _controlPanelService: ControlPanelService,
+    private val _itemIdentifierService: ItemsService
 ) : ViewModel() {
     val panel = MutableLiveData<Panel>()
     val items = MutableLiveData<List<Item>>()
+    val itemIdentifiers = _itemIdentifierService.getItemIdentifiers()
 
     fun init(id: Int) {
         GlobalScope.launch(Dispatchers.IO) {

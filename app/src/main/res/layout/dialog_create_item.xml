@@ -11,28 +11,10 @@
         android:paddingEnd="20dp">
 
         <LinearLayout
+            android:id="@+id/create_item_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btn_create_item_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_button" />
-
-            <Button
-                android:id="@+id/btn_create_item_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_switch" />
-
-            <Button
-                android:id="@+id/btn_create_item_history"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/item_history" />
-        </LinearLayout>
+            android:orientation="vertical"/>
     </ScrollView>
 
 </LinearLayout>
