@@ -8,65 +8,73 @@ import com.example.ubc.connection.ConnectionState
 import com.example.ubc.connection.Device
 
 class TestConnectionService : ConnectionService() {
-    private var _connection: TestConnection? = null
+    private var connectedDevice: Device? = null
+    private var adapterEnabled: Boolean = true
 
     override fun scanForAvailableDevices() {
+        notifyAdapterStateChanged(AdapterState.StartedScanning)
+        Thread.sleep(500)
         notifyDevicesFound(listOf(
                 Device("Test Device 1", "1"),
                 Device("Test Device 2", "2"),
                 Device("Test Device 3", "3"),
                 Device("Test Device 4", "4")
         ))
+        notifyAdapterStateChanged(AdapterState.FinishedScanning)
     }
 
     override fun cancelScanning() {
-        TODO("Not yet implemented")
+        notifyAdapterStateChanged(AdapterState.FinishedScanning)
     }
 
     override fun getConnectedDevice(): Device? {
-        return _connection?.device;
+        return connectedDevice
     }
 
     override fun getConnectionStatus(): ConnectionState {
-        return ConnectionState.Connected
+        return if (connectedDevice == null)
+            ConnectionState.Disconnected
+        else
+            ConnectionState.Connected
     }
 
     override fun adapterEnabled(): Boolean {
-        return true
+        return adapterEnabled
     }
 
     override fun enableRequiredOption() {
+        adapterEnabled = true
         notifyAdapterStateChanged(AdapterState.Enabled)
     }
 
     override fun disableRequiredOption() {
+        adapterEnabled = false
+        notifyAdapterStateChanged(AdapterState.FinishedScanning)
+        disconnect()
         notifyAdapterStateChanged(AdapterState.Disabled)
     }
 
     override fun connect(device: Device){
-        notifyStatusChanged(ConnectionState.Connecting)
+        notifyStatusChanged(ConnectionState.Connecting, device)
 
-        _connection?.disconnect()
+        Thread.sleep(500)
+        connectedDevice = device
 
-        _connection = TestConnection(device)
-        _connection!!.start()
-
-        notifyStatusChanged(ConnectionState.Connected)
+        notifyStatusChanged(ConnectionState.Connected, device)
     }
 
     override fun send(bytes: ByteArray) {
-        _connection?.send(bytes)
+        notifyDataReceived(bytes)
     }
 
     override fun send(message: String) {
-        _connection?.send(message.toByteArray())
+        notifyDataReceived(message.toByteArray())
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        TODO("Not yet implemented")
-    }
+    override fun onReceive(context: Context?, intent: Intent?) { }
 
     override fun disconnect() {
-        _connection?.disconnect()
+        notifyStatusChanged(ConnectionState.Disconnected, connectedDevice)
+        connectedDevice = null
     }
 }

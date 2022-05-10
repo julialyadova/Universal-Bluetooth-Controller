@@ -1,4 +1,4 @@
-package com.example.ubc.ui.main.fragments
+package com.example.ubc.ui.settings.connection
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +16,6 @@ import com.example.ubc.connection.ConnectionState
 import com.example.ubc.connection.Device
 import com.example.ubc.databinding.FragmentConnectionSettingsBinding
 import com.example.ubc.databinding.ItemDeviceBinding
-import com.example.ubc.ui.main.viewmodels.ConnectionSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

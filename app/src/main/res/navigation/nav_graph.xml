@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/controlPanelFragment"
-        android:name="com.example.ubc.ui.main.fragments.ControlPanelFragment"
+        android:name="com.example.ubc.ui.panel.ControlPanelFragment"
         android:label="controlpanel_fragment"
         tools:layout="@layout/fragment_control_panel" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.example.ubc.ui.main.fragments.MenuFragment"
+        android:name="com.example.ubc.ui.menu.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" >
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/connectionSettingsFragment"
-        android:name="com.example.ubc.ui.main.fragments.ConnectionSettingsFragment"
+        android:name="com.example.ubc.ui.settings.connection.ConnectionSettingsFragment"
         android:label="ConnectionSettingsFragment" >
         <action
             android:id="@+id/action_connectionSettingsFragment_to_menuFragment"

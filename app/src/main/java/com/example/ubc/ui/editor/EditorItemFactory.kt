@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.ViewGroup
 import com.example.ubc.R
 import com.example.ubc.data.entities.Item
-import com.example.ubc.ui.items.EditableItem
 
 class EditorItemFactory (
         private val context: Context,

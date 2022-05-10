@@ -1,20 +1,18 @@
-package com.example.ubc.ui.items.senders
+package com.example.ubc.ui.panel.items.ubcarduino
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.ItemControlBinding
-import com.example.ubc.ui.items.SenderView
-import com.example.ubc.ui.main.viewmodels.ItemViewModel
+import com.example.ubc.ui.panel.items.ItemView
 
 class ButtonView @JvmOverloads constructor(
-        private val item: Item,
-        context: Context,
-        private val viewModel: ItemViewModel,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = item.id
-) : SenderView(item, context, viewModel, attrs, defStyleAttr) {
+    private val item: Item,
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = item.id
+) : ItemView(item, context, attrs, defStyleAttr) {
 
     private val binding = ItemControlBinding.inflate(LayoutInflater.from(context),this,true)
 
@@ -24,4 +22,6 @@ class ButtonView @JvmOverloads constructor(
             send("button clicked".toByteArray())
         }
     }
+
+    override fun onDataReceived(data: ByteArray) { }
 }

@@ -1,22 +1,18 @@
-package com.example.ubc.ui.main.fragments
+package com.example.ubc.ui.panel
 
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
 import com.example.ubc.connection.ConnectionState
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.FragmentControlPanelBinding
-import com.example.ubc.ui.items.ItemViewFactory
-import com.example.ubc.ui.main.viewmodels.ControlPanelViewModel
-import com.example.ubc.ui.main.viewmodels.PanelSharedViewModel
+import com.example.ubc.ui.panel.items.ItemViewFactory
+import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -32,21 +28,18 @@ class ControlPanelFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         _binding = FragmentControlPanelBinding.inflate(layoutInflater)
-        return _binding.root
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        _binding.btnPanelMenu.setOnClickListener { navigateToMenu() }
-        _binding.btnPanelOptions.setOnClickListener { showOptions() }
+        _binding.btnPanelMenu.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        _binding.btnPanelOptions.setOnClickListener {
+            showOptions()
+        }
 
         _viewModel.panel.observe(viewLifecycleOwner) { panel ->
             _binding.textPanelTitle.text = panel.name
         }
         _viewModel.items.observe(viewLifecycleOwner) {items ->
-            displayItems(items, viewLifecycleOwner)
+            displayItems(items)
         }
         _viewModel.device.observe(viewLifecycleOwner) {device ->
             if (device != null)
@@ -58,6 +51,8 @@ class ControlPanelFragment : Fragment() {
         _sharedViewModel.panelId.observe(viewLifecycleOwner) { panelId ->
             _viewModel.load(panelId)
         }
+
+        return _binding.root
     }
 
     private fun displayDeviceStatus(status: ConnectionState) {
@@ -79,16 +74,22 @@ class ControlPanelFragment : Fragment() {
         }
     }
 
-    private fun navigateToMenu() {
-        findNavController().popBackStack()
-    }
-
-    private fun displayItems(items: List<Item>, lifecycleOwner: LifecycleOwner) {
-        val factory = ItemViewFactory(requireContext(), _viewModel, lifecycleOwner)
+    private fun displayItems(items: List<Item>) {
+        val factory = ItemViewFactory(requireContext())
         _binding.panelCanvas.removeAllViews()
-        for (item in items) {
-            val itemView = factory.create(item) ?: continue
-            _binding.panelCanvas.addView(itemView)
+        val itemViews = items.mapNotNull { i -> factory.create(i) }
+
+        for (item in itemViews) {
+            item.setOnDataSendActionListener { data ->
+                _viewModel.send(data)
+            }
+            _binding.panelCanvas.addView(item)
+        }
+
+        _viewModel.received.observe(viewLifecycleOwner) { data ->
+            for (item in itemViews) {
+                item.onDataReceived(data)
+            }
         }
     }
 
@@ -99,7 +100,6 @@ class ControlPanelFragment : Fragment() {
         popup.setOnMenuItemClickListener{item -> onMenuOptionClick(item)}
         popup.show()
     }
-
 
     private fun onMenuOptionClick(item: MenuItem): Boolean {
         return when (item.itemId) {

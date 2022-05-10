@@ -1,4 +1,4 @@
-package com.example.ubc.ui.main.viewmodels
+package com.example.ubc.ui.settings.connection
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

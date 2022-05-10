@@ -1,4 +1,4 @@
-package com.example.ubc.ui.items.displays
+package com.example.ubc.ui.panel.items.ubcarduino
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.ItemHistoryBinding
-import com.example.ubc.ui.items.DisplayView
+import com.example.ubc.ui.panel.items.ItemView
 import java.util.*
 
 class HistoryView @JvmOverloads constructor(
@@ -17,11 +17,11 @@ class HistoryView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
-) : DisplayView(item, context, attrs, defStyleAttr) {
+) : ItemView(item, context, attrs, defStyleAttr) {
 
     private val binding = ItemHistoryBinding.inflate(LayoutInflater.from(context),this,true)
-    private val history = LinkedList<String>() //todo: item args!
-    private val maxRecords = 8 //todo: item args!
+    private val history = LinkedList<String>()
+    private val maxRecords = 8
 
     init{
         binding.historyCopyButton.setOnClickListener { copy() }
@@ -31,8 +31,8 @@ class HistoryView @JvmOverloads constructor(
         }
     }
 
-    override fun receive(data: ByteArray) {
-        history.add(data.toString())
+    override fun onDataReceived(data: ByteArray) {
+        history.add(String(data))
         if (history.size > maxRecords) {
             history.remove()
         }

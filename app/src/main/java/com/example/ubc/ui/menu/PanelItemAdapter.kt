@@ -1,4 +1,4 @@
-package com.example.tacos.adapters
+package com.example.ubc.ui.menu
 
 import android.view.LayoutInflater
 import android.view.View

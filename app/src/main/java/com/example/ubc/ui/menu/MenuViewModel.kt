@@ -1,4 +1,4 @@
-package com.example.ubc.ui.main.viewmodels
+package com.example.ubc.ui.menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

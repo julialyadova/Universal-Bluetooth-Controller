@@ -1,4 +1,4 @@
-package com.example.ubc.ui.items
+package com.example.ubc.ui.panel.items
 
 import android.content.Context
 import android.util.AttributeSet
@@ -13,6 +13,12 @@ abstract class ItemView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+    private var dataSendActionListener: ((data: ByteArray) -> Unit)? = null
+
+    fun setOnDataSendActionListener(l: (data: ByteArray) -> Unit) {
+        dataSendActionListener = l
+    }
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         setPosition(item.x.toInt(), item.y.toInt())
@@ -23,4 +29,10 @@ abstract class ItemView @JvmOverloads constructor(
         param.setMargins(x,y,0,0)
         this.layoutParams = param
     }
+
+    protected fun send(data: ByteArray) {
+        dataSendActionListener?.invoke(data)
+    }
+
+    abstract fun onDataReceived(data: ByteArray)
 }

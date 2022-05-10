@@ -1,7 +1,8 @@
-package com.example.ubc.ui.main.viewmodels
+package com.example.ubc.ui.panel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.ubc.connection.*
 import com.example.ubc.data.ControlPanelService
 import com.example.ubc.data.entities.Item
@@ -17,11 +18,12 @@ import javax.inject.Inject
 class ControlPanelViewModel @Inject constructor(
         private val _controlPanelService: ControlPanelService,
         private val _connectionService: ConnectionService
-) : ItemViewModel(), ConnectionListener {
+) : ViewModel(), ConnectionListener {
     val panel = MutableLiveData<Panel>()
     val items = MutableLiveData<List<Item>>()
     val device = MutableLiveData<String?>()
     val deviceStatus = MutableLiveData<ConnectionState>()
+    val received = MutableLiveData<ByteArray>()
 
     init {
         _connectionService.subscribe(this)
@@ -46,8 +48,9 @@ class ControlPanelViewModel @Inject constructor(
         }
     }
 
-    override fun send(data: ByteArray) {
+    fun send(data: ByteArray) {
         Log.d("Control Panel ViewModel", "send: $data")
+        _connectionService.send(data)
     }
 
     override fun onConnectionStatusChanged(state: ConnectionState, targetDevice: Device?) {

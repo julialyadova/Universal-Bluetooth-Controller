@@ -1,4 +1,4 @@
-package com.example.ubc.ui.main.fragments
+package com.example.ubc.ui.menu
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -9,13 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tacos.adapters.PanelItemAdapter
 import com.example.ubc.R
 import com.example.ubc.data.entities.Panel
 import com.example.ubc.databinding.DialogPanelBinding
 import com.example.ubc.databinding.FragmentMenuBinding
-import com.example.ubc.ui.main.viewmodels.MenuViewModel
-import com.example.ubc.ui.main.viewmodels.PanelSharedViewModel
+import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

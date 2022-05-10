@@ -16,7 +16,7 @@ import com.example.ubc.databinding.DialogCreateItemBinding
 import com.example.ubc.databinding.DialogEditItemBinding
 import com.example.ubc.databinding.DialogPanelBinding
 import com.example.ubc.databinding.FragmentEditorBinding
-import com.example.ubc.ui.main.viewmodels.PanelSharedViewModel
+import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -98,7 +98,7 @@ class EditorFragment : Fragment() {
         AlertDialog.Builder(activity)
             .setView(binding.root)
             .setTitle(R.string.dialog_item_edit_title)
-            .setPositiveButton(R.string.submit) { dialog, _ ->
+            .setPositiveButton(R.string.submit) { _, _ ->
                 item.label = binding.itemFormLabel.text.toString()
                 item.data = binding.itemFormData.text.toString()
                 _viewModel.update(item)

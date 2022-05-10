@@ -1,4 +1,4 @@
-package com.example.ubc.ui.items
+package com.example.ubc.ui.editor
 
 import android.content.ClipData
 import android.content.ClipDescription
@@ -12,9 +12,8 @@ import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.allViews
 import com.example.ubc.data.entities.Item
-import com.example.ubc.ui.editor.ViewShadowBuilder
 
-class EditableItem @JvmOverloads constructor(
+class EditableItem constructor(
     val item: Item,
     @LayoutRes private val recourse: Int,
     context: Context
