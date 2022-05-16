@@ -26,7 +26,8 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/btn_editor_options"
         app:layout_constraintStart_toEndOf="@+id/btn_editor_rename_panel"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Панель управления" />
 
     <Button
         android:id="@+id/btn_editor_options"

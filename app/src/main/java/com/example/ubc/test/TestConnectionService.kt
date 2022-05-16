@@ -11,6 +11,10 @@ class TestConnectionService : ConnectionService() {
     private var connectedDevice: Device? = null
     private var adapterEnabled: Boolean = true
 
+    override fun getAdapterName(): String {
+        return "Test"
+    }
+
     override fun scanForAvailableDevices() {
         notifyAdapterStateChanged(AdapterState.StartedScanning)
         Thread.sleep(500)

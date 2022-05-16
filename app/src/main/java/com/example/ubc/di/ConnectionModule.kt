@@ -1,7 +1,7 @@
 package com.example.ubc.di
 
+import com.example.ubc.bluetooth.BluetoothService
 import com.example.ubc.connection.ConnectionService
-import com.example.ubc.test.TestConnectionService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ import javax.inject.Singleton
 class ConnectionModule {
     @Provides
     @Singleton
-    fun provideConnectionService(): ConnectionService = TestConnectionService()
+    fun provideConnectionService(): ConnectionService = BluetoothService()
 }

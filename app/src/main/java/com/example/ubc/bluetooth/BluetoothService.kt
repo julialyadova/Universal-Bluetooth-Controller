@@ -21,6 +21,10 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
     private var _activeSocketThread: BluetoothSocketThread? = null
     private val _availableDevices: MutableMap<String,Device> = mutableMapOf()
 
+    override fun getAdapterName(): String {
+        return "Bluetooth"
+    }
+
     override fun scanForAvailableDevices() {
         if (_adapter.isEnabled && !_adapter.isDiscovering) {
             _availableDevices.clear()

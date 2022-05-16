@@ -15,6 +15,7 @@ import javax.inject.Inject
 class ConnectionSettingsViewModel @Inject constructor(
         private val _connectionService: ConnectionService
 ) : ViewModel(), ConnectionListener {
+    val adapterName = MutableLiveData<String>()
     val adapterIsEnabled = MutableLiveData<Boolean>()
     val scanning = MutableLiveData<Boolean>()
     val devices = MutableLiveData<List<Device>>()
@@ -25,6 +26,7 @@ class ConnectionSettingsViewModel @Inject constructor(
 
     init {
         _connectionService.subscribe(this)
+        adapterName.value = _connectionService.getAdapterName()
         adapterIsEnabled.value = _connectionService.adapterEnabled()
     }
 

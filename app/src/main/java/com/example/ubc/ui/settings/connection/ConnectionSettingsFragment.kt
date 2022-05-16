@@ -65,6 +65,9 @@ class ConnectionSettingsFragment : Fragment() {
             _viewModel.cancelScanning()
         }
 
+        _viewModel.adapterName.observe(viewLifecycleOwner) { adapterName ->
+            _binding.textConnectionProfileName.text = adapterName
+        }
         _viewModel.activeDevice.observe(viewLifecycleOwner) { device ->
             displayActiveDevice(device)
         }

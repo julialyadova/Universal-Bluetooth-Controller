@@ -46,6 +46,7 @@ abstract class ConnectionService : BroadcastReceiver() {
         }
     }
 
+    abstract fun getAdapterName() : String
     abstract fun scanForAvailableDevices()
     abstract fun cancelScanning()
     abstract fun getConnectedDevice() : Device?

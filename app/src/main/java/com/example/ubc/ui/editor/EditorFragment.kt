@@ -37,6 +37,7 @@ class EditorFragment : Fragment() {
         _binding.btnEditorOptions.setOnClickListener { showOptionsMenu(it) }
         _binding.btnEditorAddItem.setOnClickListener { showAddItemDialog() }
         _binding.btnEditorRenamePanel.setOnClickListener { showRenamePanelDialog() }
+        setTrashBin(_binding.btnEditorAddItem)
 
         _editor = EditorCanvas(_binding.canvas)
         _editor.setOnItemMovedListener { itemId, x, y ->
@@ -163,5 +164,24 @@ class EditorFragment : Fragment() {
             .setPositiveButton(R.string.submit, null)
             .create()
             .show()
+    }
+
+    private fun setTrashBin(view: View) {
+        val resource = view.background
+        view.setOnDragListener { v, e ->
+            when (e.action) {
+                DragEvent.ACTION_DRAG_STARTED -> {
+                    view.setBackgroundResource(R.drawable.ic_recycle_bin)
+                }
+                DragEvent.ACTION_DROP -> {
+                    val itemId = Integer.parseInt(e.clipData.getItemAt(0).text.toString())
+                    _viewModel.delete(itemId)
+                }
+                DragEvent.ACTION_DRAG_ENDED -> {
+                    view.background = resource
+                }
+            }
+            true
+        }
     }
 }

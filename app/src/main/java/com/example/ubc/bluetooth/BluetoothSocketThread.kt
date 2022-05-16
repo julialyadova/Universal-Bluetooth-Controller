@@ -32,8 +32,14 @@ class BluetoothSocketThread(
 
     fun send(bytes: ByteArray) {
         if (this.socket.isConnected) {
-            this.socket.outputStream.write(bytes)
-            Log.d("Bluetooth Data Thread", "write " + String(bytes))
+            try {
+                this.socket.outputStream.write(bytes)
+                Log.d("Bluetooth Data Thread", "write " + String(bytes))
+            } catch (e: IOException) {
+                listener.onConnectionInterrupted(e.message)
+                disconnect()
+            }
+
         }
     }
 
@@ -55,11 +61,8 @@ class BluetoothSocketThread(
             } catch (e: IOException) {
                 Log.d("Bluetooth Data Thread", "exception while listening input data stream: " + e.message)
                 e.printStackTrace()
-                if (!this.socket.isConnected) {
-                    this.socket.close()
-                    listener.onConnectionInterrupted(e.message)
-                    break
-                }
+                listener.onConnectionInterrupted(e.message)
+                disconnect()
             }
             sleep(_scanRateMS)
         }

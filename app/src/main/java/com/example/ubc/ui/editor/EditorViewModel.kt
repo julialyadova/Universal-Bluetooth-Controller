@@ -36,7 +36,7 @@ class EditorViewModel @Inject constructor(
     }
 
     fun createItem(type: String) {
-        Log.d("ItemsViewModel", "create item ${type}")
+        Log.d("ItemsViewModel", "create item $type")
         GlobalScope.launch(Dispatchers.IO) {
             _controlPanelService.addItemToPanel(type, panel.value!!.id)
             val i = _controlPanelService.getItemsOfPanelWithId(panel.value!!.id)
@@ -71,12 +71,13 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    fun delete(item: Item) {
-        Log.d("ItemsViewModel", "delete item ${item.id} ${item.label}")
+    fun delete(itemId: Int) {
+        Log.d("ItemsViewModel", "delete item $itemId")
         GlobalScope.launch(Dispatchers.IO) {
-            _controlPanelService.deleteItem(item.id)
+            _controlPanelService.deleteItem(itemId)
+            val i = _controlPanelService.getItemsOfPanelWithId(panel.value!!.id)
             withContext(Dispatchers.Main) {
-                items.value = items.value?.filter { i -> i != item }
+                items.value = i
             }
         }
     }

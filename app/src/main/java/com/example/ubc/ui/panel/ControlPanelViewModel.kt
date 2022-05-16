@@ -75,7 +75,11 @@ class ControlPanelViewModel @Inject constructor(
     }
 
     override fun onDataReceived(data: ByteArray) {
-        received.value = data
+        GlobalScope.launch {
+            withContext(Dispatchers.Main) {
+                received.value = data
+            }
+        }
     }
 
     override fun onAvailableDevicesFound(devices: Collection<Device>) { }
