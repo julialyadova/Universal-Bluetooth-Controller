@@ -21,7 +21,7 @@ class EditorViewModel @Inject constructor(
 ) : ViewModel() {
     val panel = MutableLiveData<Panel>()
     val items = MutableLiveData<List<Item>>()
-    val itemIdentifiers = _itemIdentifierService.getItemIdentifiers()
+    val itemIdentifiers = _itemIdentifierService.getItemDefinitions()
 
     fun init(id: Int) {
         GlobalScope.launch(Dispatchers.IO) {

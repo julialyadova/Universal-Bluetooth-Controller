@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_edit_table"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="20dp">
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
 
     <TableRow
         android:layout_width="match_parent"
@@ -21,56 +23,6 @@
             android:ems="12"
             android:inputType="textPersonName"
             android:maxLength="100" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dialog_item_label_data"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/item_form_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:maxLength="128" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/dialog_item_label_data_format"
-            android:textSize="18sp" />
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <RadioButton
-                android:id="@+id/item_form_format_ascii"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:text="@string/dialog_item_label_ascii" />
-
-            <RadioButton
-                android:id="@+id/item_form_format_hex"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:text="@string/dialog_item_label_hex" />
-
-        </RadioGroup>
 
     </TableRow>
 

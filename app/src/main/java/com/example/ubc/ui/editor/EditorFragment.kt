@@ -4,8 +4,8 @@ import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
-import android.widget.PopupMenu
+import android.view.inputmethod.EditorInfo
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,6 +17,7 @@ import com.example.ubc.databinding.DialogCreateItemBinding
 import com.example.ubc.databinding.DialogEditItemBinding
 import com.example.ubc.databinding.DialogPanelBinding
 import com.example.ubc.databinding.FragmentEditorBinding
+import com.example.ubc.items.ParamType
 import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -98,17 +99,65 @@ class EditorFragment : Fragment() {
     private fun showEditItemDialog(item: Item) {
         val binding = DialogEditItemBinding.inflate(requireActivity().layoutInflater)
         binding.itemFormLabel.setText(item.label)
-        binding.itemFormData.setText(item.data)
-        binding.itemFormFormatAscii.isChecked = item.format == Item.DataFormats.ASCII
-        binding.itemFormFormatHex.isChecked = item.format == Item.DataFormats.HEX
 
+        val definition = _viewModel.itemIdentifiers.first{ x -> x.itemType == item.type}
+        val dialogCache = mutableMapOf<String, () -> String>()
+        for (param in definition.params) {
+            val label = TextView(context)
+            label.text = param.key
+
+            val value = item.params[param.key] ?: param.defaultValue
+            val form: View = when (param.type) {
+                (ParamType.TEXT) -> EditText(context).apply {
+                    setText(value)
+                    dialogCache[param.key] = { getText().toString() }
+                }
+                (ParamType.DECIMAL) -> EditText(context).apply {
+                    setText(value)
+                    inputType = EditorInfo.TYPE_CLASS_NUMBER
+                    dialogCache[param.key] = { getText().toString() }
+                }
+                (ParamType.FLOAT) -> EditText(context).apply {
+                    setText(value)
+                    inputType = EditorInfo.TYPE_CLASS_NUMBER or EditorInfo.TYPE_NUMBER_FLAG_DECIMAL
+                    dialogCache[param.key] = { getText().toString() }
+                }
+                (ParamType.CATEGORY) -> RadioGroup(context).apply {
+                    for (category in param.toCategories()) {
+                        val radio = RadioButton(context)
+                        radio.text = category
+                        radio.isChecked = category == value
+                        radio.setOnCheckedChangeListener { _, isChecked ->
+                            dialogCache[param.key] = { category }
+                        }
+                        addView(radio)
+                    }
+                }
+                (ParamType.FLAG) -> CheckBox(context).apply {
+                    isChecked = value.toBoolean()
+                    setOnCheckedChangeListener { _, isChecked ->
+                        dialogCache[param.key] = { isChecked.toString() }
+                    }
+                }
+                else -> View(context)
+            }
+
+            val row = TableRow(context).apply {
+                addView(label)
+                addView(form)
+            }
+            binding.itemEditTable.addView(row)
+        }
 
         AlertDialog.Builder(activity)
             .setView(binding.root)
             .setTitle(R.string.dialog_item_edit_title)
+                .setMessage(item.data)
             .setPositiveButton(R.string.submit) { _, _ ->
                 item.label = binding.itemFormLabel.text.toString()
-                item.data = binding.itemFormData.text.toString()
+                for (param in dialogCache) {
+                    item.setParam(param.key, param.value())
+                }
                 _viewModel.update(item)
             }
             .setNegativeButton(R.string.cancel, null)

@@ -26,7 +26,7 @@ class ControlPanelService @Inject constructor(
     }
 
     suspend fun addItemToPanel(type: String, panelId: Int) : Item {
-        val item = Item(0, panelId, "label", type, "", Item.DataFormats.ASCII)
+        val item = Item(0, panelId, "label", type)
         _items.insert(item)
         Log.d("ControlPanelService", "added new item: ${item.id} ${item.label}")
         return item
