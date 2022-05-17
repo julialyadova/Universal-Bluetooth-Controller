@@ -1,0 +1,7 @@
+<?xml version ="1.0" encoding ="utf-8"?><!--  Learn More about how to use App Actions: https://developer.android.com/guide/actions/index.html -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/item_history_options_copy"
+        android:title="@string/item_history_option_copy"/>
+    <item android:id="@+id/item_history_options_clear"
+        android:title="@string/item_history_option_clear"/>
+</menu>

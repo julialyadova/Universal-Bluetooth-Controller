@@ -96,5 +96,7 @@
     <string name="dialog_item_label_ascii">ASCII</string>
     <string name="dialog_item_label_hex">Binary (HEX)</string>
     <string name="dialog_item_edit_title">Редактировать элемент</string>
+    <string name="item_history_option_copy">Скопировать в буфер обмена</string>
+    <string name="item_history_option_clear">Очистить историю</string>
 
 </resources>
