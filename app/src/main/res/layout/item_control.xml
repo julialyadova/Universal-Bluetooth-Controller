@@ -9,7 +9,6 @@
         android:id="@+id/control_text"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/ic_rounded_bg"
         android:maxLength="40"
         android:tag="label"
         android:text="Text"

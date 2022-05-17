@@ -2,7 +2,7 @@ package com.example.ubc.ui.editor
 
 import android.view.DragEvent
 import android.view.ViewGroup
-import com.example.ubc.data.entities.Item
+import com.example.ubc.items.Item
 import kotlin.math.roundToInt
 
 class EditorCanvas(

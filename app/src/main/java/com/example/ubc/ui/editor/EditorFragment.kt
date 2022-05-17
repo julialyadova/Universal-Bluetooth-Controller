@@ -11,12 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.beust.klaxon.Klaxon
 import com.example.ubc.R
-import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.DialogCreateItemBinding
 import com.example.ubc.databinding.DialogEditItemBinding
 import com.example.ubc.databinding.DialogPanelBinding
 import com.example.ubc.databinding.FragmentEditorBinding
+import com.example.ubc.items.Item
 import com.example.ubc.items.ParamType
 import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,7 +75,7 @@ class EditorFragment : Fragment() {
             .setNeutralButton(R.string.cancel, null)
             .create()
 
-        for (itemIdentifier in _viewModel.itemIdentifiers) {
+        for (itemIdentifier in _viewModel.itemDefinitions) {
             val button = Button(context)
             button.text = itemIdentifier.name
             button.setOnClickListener {
@@ -100,43 +101,41 @@ class EditorFragment : Fragment() {
         val binding = DialogEditItemBinding.inflate(requireActivity().layoutInflater)
         binding.itemFormLabel.setText(item.label)
 
-        val definition = _viewModel.itemIdentifiers.first{ x -> x.itemType == item.type}
-        val dialogCache = mutableMapOf<String, () -> String>()
-        for (param in definition.params) {
+        val onDialogSubmit = mutableListOf<()->Unit>()
+        for (param in item.getParams()) {
             val label = TextView(context)
-            label.text = param.key
+            label.text = param.name
 
-            val value = item.params[param.key] ?: param.defaultValue
             val form: View = when (param.type) {
                 (ParamType.TEXT) -> EditText(context).apply {
-                    setText(value)
-                    dialogCache[param.key] = { getText().toString() }
+                    setText(param.value)
+                    onDialogSubmit.add {param.set(getText().toString())}
+                }
+                (ParamType.INTEGER) -> EditText(context).apply {
+                    setText(param.value)
+                    inputType = EditorInfo.TYPE_CLASS_NUMBER
+                    onDialogSubmit.add {param.set(getText().toString())}
                 }
                 (ParamType.DECIMAL) -> EditText(context).apply {
-                    setText(value)
-                    inputType = EditorInfo.TYPE_CLASS_NUMBER
-                    dialogCache[param.key] = { getText().toString() }
-                }
-                (ParamType.FLOAT) -> EditText(context).apply {
-                    setText(value)
+                    setText(param.value)
                     inputType = EditorInfo.TYPE_CLASS_NUMBER or EditorInfo.TYPE_NUMBER_FLAG_DECIMAL
-                    dialogCache[param.key] = { getText().toString() }
+                    onDialogSubmit.add {param.set(getText().toString())}
                 }
                 (ParamType.CATEGORY) -> RadioGroup(context).apply {
-                    for (category in param.toCategories()) {
+                    for (category in param.valuesList) {
                         val radio = RadioButton(context)
                         radio.text = category
-                        radio.isChecked = category == value
+                        radio.isChecked = category == param.value
                         radio.setOnCheckedChangeListener { _, isChecked ->
-                            dialogCache[param.key] = { category }
+                            onDialogSubmit.add {param.set(category)}
                         }
                         addView(radio)
                     }
                 }
                 (ParamType.FLAG) -> CheckBox(context).apply {
-                    isChecked = value.toBoolean()
+                    isChecked = param.value.toBoolean()
                     setOnCheckedChangeListener { _, isChecked ->
-                        dialogCache[param.key] = { isChecked.toString() }
+                        onDialogSubmit.add {param.set(isChecked.toString())}
                     }
                 }
                 else -> View(context)
@@ -152,11 +151,11 @@ class EditorFragment : Fragment() {
         AlertDialog.Builder(activity)
             .setView(binding.root)
             .setTitle(R.string.dialog_item_edit_title)
-                .setMessage(item.data)
+            .setMessage(Klaxon().toJsonString(item.getParamValues())) // todo: remove
             .setPositiveButton(R.string.submit) { _, _ ->
                 item.label = binding.itemFormLabel.text.toString()
-                for (param in dialogCache) {
-                    item.setParam(param.key, param.value())
+                for (action in onDialogSubmit) {
+                    action.invoke()
                 }
                 _viewModel.update(item)
             }

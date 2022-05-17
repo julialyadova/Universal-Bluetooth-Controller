@@ -2,7 +2,7 @@ package com.example.ubc.ui.menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.ubc.data.entities.Panel
+import com.example.ubc.data.entities.PanelEntity
 import com.example.ubc.data.repositories.PanelsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class MenuViewModel @Inject constructor(
     private var panels: PanelsRepository
 ) : ViewModel() {
-    val panelsList = MutableLiveData<List<Panel>>()
+    val panelsList = MutableLiveData<List<PanelEntity>>()
     val newlyCreatedPanelId = MutableLiveData<Int>()
 
     fun loadMenu() {
@@ -27,7 +27,7 @@ class MenuViewModel @Inject constructor(
         }
     }
 
-    fun deletePanel(panel: Panel){
+    fun deletePanel(panel: PanelEntity){
         GlobalScope.launch(Dispatchers.IO) {
             panels.delete(panel)
             val panels = panels.getAll()

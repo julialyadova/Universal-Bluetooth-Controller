@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
 import com.example.ubc.connection.ConnectionState
-import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.FragmentControlPanelBinding
+import com.example.ubc.items.Item
 import com.example.ubc.ui.panel.items.ItemViewFactory
 import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint

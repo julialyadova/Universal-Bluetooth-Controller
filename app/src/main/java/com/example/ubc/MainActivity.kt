@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         ).forEach { filter ->
             registerReceiver(connectionService, filter)
         }
+
+        try {
+            this.supportActionBar!!.hide()
+        } catch (e: NullPointerException) { }
     }
 
     override fun onDestroy() {

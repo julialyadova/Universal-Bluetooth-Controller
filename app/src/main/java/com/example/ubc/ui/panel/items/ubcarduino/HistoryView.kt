@@ -7,40 +7,34 @@ import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
-import com.example.ubc.data.entities.Item
 import com.example.ubc.databinding.ItemHistoryBinding
+import com.example.ubc.items.smf.ItemHistory
 import com.example.ubc.ui.panel.items.ItemView
-import java.util.*
 
 class HistoryView @JvmOverloads constructor(
-        item: Item,
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    private val item: ItemHistory,
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : ItemView(item, context, attrs, defStyleAttr) {
 
     private val binding = ItemHistoryBinding.inflate(LayoutInflater.from(context),this,true)
-    private val history = LinkedList<String>()
-    private val maxRecords = 8
 
     init{
         binding.historyCopyButton.setOnClickListener { copy() }
         binding.historyClearButton.setOnClickListener {
-            history.clear()
+            item.history.clear()
             binding.historyDisplay.text = ""
         }
     }
 
     override fun onDataReceived(data: ByteArray) {
-        history.add(String(data))
-        if (history.size > maxRecords) {
-            history.remove()
-        }
-        binding.historyDisplay.text = history.joinToString("\r\n")
+        item.onDataReceived(data)
+        binding.historyDisplay.text = item.history.joinToString("\r\n")
     }
 
     private fun copy() {
-        val text = history.joinToString("\r\n")
+        val text = item.history.joinToString("\r\n")
         val clipboardManager =
             ContextCompat.getSystemService(context, ClipboardManager::class.java)
         val clipData = ClipData.newPlainText("history", text)

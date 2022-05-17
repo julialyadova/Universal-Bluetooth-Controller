@@ -1,23 +1,23 @@
 package com.example.ubc.data.dao
 
 import androidx.room.*
-import com.example.ubc.data.entities.Item
+import com.example.ubc.data.entities.ItemEntity
 
 @Dao
 interface ItemDao {
 
-    @Query("SELECT * FROM Item WHERE id = :id")
-    fun getById(id: Int) : Item?
+    @Query("SELECT * FROM ItemEntity WHERE id = :id")
+    fun getById(id: Int) : ItemEntity?
 
-    @Query("SELECT * FROM Item WHERE panel_id = :id")
-    fun getAllByPanelId(id: Int) : List<Item>
+    @Query("SELECT * FROM ItemEntity WHERE panel_id = :id")
+    fun getAllByPanelId(id: Int) : List<ItemEntity>
 
     @Insert()
-    fun add(item: Item) : Long
+    fun add(item: ItemEntity) : Long
 
     @Update()
-    fun update(item: Item)
+    fun update(item: ItemEntity)
 
     @Delete()
-    fun delete(item: Item)
+    fun delete(item: ItemEntity)
 }

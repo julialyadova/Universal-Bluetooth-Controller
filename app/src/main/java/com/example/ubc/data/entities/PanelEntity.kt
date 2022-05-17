@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Panel (
+data class PanelEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     var name: String

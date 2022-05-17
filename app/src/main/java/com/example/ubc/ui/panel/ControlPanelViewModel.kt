@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ubc.connection.*
 import com.example.ubc.data.ControlPanelService
-import com.example.ubc.data.entities.Item
-import com.example.ubc.data.entities.Panel
+import com.example.ubc.items.Item
+import com.example.ubc.items.Panel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

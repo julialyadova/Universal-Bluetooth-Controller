@@ -78,4 +78,7 @@ dependencies {
 
     //glide for animations
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    //json
+    implementation 'com.beust:klaxon:5.5'
 }

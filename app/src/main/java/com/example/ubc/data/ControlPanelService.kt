@@ -1,51 +1,75 @@
 package com.example.ubc.data
 
 import android.util.Log
-import com.example.ubc.data.entities.Item
-import com.example.ubc.data.entities.Panel
+import com.beust.klaxon.Klaxon
+import com.example.ubc.data.entities.ItemEntity
+import com.example.ubc.data.entities.PanelEntity
 import com.example.ubc.data.repositories.ItemsRepository
 import com.example.ubc.data.repositories.PanelsRepository
+import com.example.ubc.items.Item
+import com.example.ubc.items.Panel
 import javax.inject.Inject
 
 class ControlPanelService @Inject constructor(
         private val _items : ItemsRepository,
         private val _panels: PanelsRepository
 ) {
+    private val _factory = ControlPanelFactory()
+
     suspend fun getPanelById(id: Int) : Panel {
-        return _panels.getById(id)
+        return fromEntity(_panels.getById(id))
     }
 
     suspend fun getItemsOfPanelWithId(id: Int) : List<Item> {
-        return  _items.findByPanelId(id)
+        return  _items.findByPanelId(id).map { i -> fromEntity(i) }
     }
 
     suspend fun renamePanel(id: Int, name: String) {
         val panel = _panels.getById(id)
         panel.name = name
         _panels.update(panel)
+
+        log("panel $id was renamed")
     }
 
     suspend fun addItemToPanel(type: String, panelId: Int) : Item {
-        val item = Item(0, panelId, "label", type)
+        val item = ItemEntity(0, panelId, "label", type)
         _items.insert(item)
-        Log.d("ControlPanelService", "added new item: ${item.id} ${item.label}")
-        return item
+
+        log("item of type $type was added to panel with id $panelId. Added item id = ${item.id}")
+        return fromEntity(item)
     }
 
     suspend fun deleteItem(id: Int) {
         val item = _items.getById(id)
         if (item != null) {
             _items.delete(item)
+            log("item with id $id was deleted")
         }
     }
 
     suspend fun updateItem(item: Item) {
-        if (item.id == 0) {
-            _items.insert(item)
-            Log.d("ControlPanelService", "added new item: ${item.id} ${item.label}")
+        val entity = _items.getById(item.id)
+        if (entity == null) {
+            log("item was not updated: item doesn't exist")
         } else {
-            _items.update(item)
-            Log.d("ControlPanelService", "item updated: ${item.id} ${item.label}")
+            entity.x = item.x
+            entity.y = item.y
+            entity.label = item.label
+            entity.data = Klaxon().toJsonString(item.getParamValues())
+            _items.update(entity)
         }
+    }
+
+    private fun fromEntity(entity: PanelEntity) : Panel {
+        return Panel(entity.id, entity.name)
+    }
+
+    private fun fromEntity(entity: ItemEntity) : Item {
+        return _factory.createItem(entity)
+    }
+
+    private fun log(message: String) {
+        Log.d("ControlPanelService", message)
     }
 }

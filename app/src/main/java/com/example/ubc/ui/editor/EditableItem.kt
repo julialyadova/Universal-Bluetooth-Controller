@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.allViews
-import com.example.ubc.data.entities.Item
+import com.example.ubc.items.Item
 
 class EditableItem constructor(
     val item: Item,

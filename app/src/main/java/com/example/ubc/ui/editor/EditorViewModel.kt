@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ubc.data.ControlPanelService
-import com.example.ubc.data.entities.Item
-import com.example.ubc.data.entities.Panel
-import com.example.ubc.items.ItemsService
+import com.example.ubc.items.Item
+import com.example.ubc.items.ItemDefinition
+import com.example.ubc.items.Panel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -16,27 +16,28 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditorViewModel @Inject constructor(
-    private val _controlPanelService: ControlPanelService,
-    private val _itemIdentifierService: ItemsService
+    private val _controlPanelService: ControlPanelService
 ) : ViewModel() {
     val panel = MutableLiveData<Panel>()
     val items = MutableLiveData<List<Item>>()
-    val itemIdentifiers = _itemIdentifierService.getItemDefinitions()
+    val itemDefinitions = ItemDefinition.definitions
 
     fun init(id: Int) {
+        log("init($id)")
         GlobalScope.launch(Dispatchers.IO) {
             val p = _controlPanelService.getPanelById(id)
             val i = _controlPanelService.getItemsOfPanelWithId(id)
             withContext(Dispatchers.Main) {
                 panel.value = p
                 items.value = i
-                Log.d("ItemsViewModel", "items loaded: ${i.size}")
+                log("loaded panel: ${p.id} ${p.name} with ${i.size} items")
             }
         }
     }
 
     fun createItem(type: String) {
-        Log.d("ItemsViewModel", "create item $type")
+        log("createItem($type)")
+
         GlobalScope.launch(Dispatchers.IO) {
             _controlPanelService.addItemToPanel(type, panel.value!!.id)
             val i = _controlPanelService.getItemsOfPanelWithId(panel.value!!.id)
@@ -47,7 +48,8 @@ class EditorViewModel @Inject constructor(
     }
 
     fun update(item: Item) {
-        Log.d("ItemsViewModel", "save item ${item.id} ${item.label}")
+        log("update(item ${item.id})")
+
         GlobalScope.launch(Dispatchers.IO) {
             _controlPanelService.updateItem(item)
             withContext(Dispatchers.Main) {
@@ -57,7 +59,8 @@ class EditorViewModel @Inject constructor(
     }
 
     fun setPosition(id: Int, x: Int, y: Int) {
-        Log.d("ItemsViewModel", "move item $id to ($x; $y)")
+        log("setPosition(item=$id, x=$x, y=$y)")
+
         GlobalScope.launch(Dispatchers.IO) {
             val item = items.value?.find { i -> i.id == id }
             if (item != null) {
@@ -72,7 +75,8 @@ class EditorViewModel @Inject constructor(
     }
 
     fun delete(itemId: Int) {
-        Log.d("ItemsViewModel", "delete item $itemId")
+        log("delete(item=$itemId)")
+
         GlobalScope.launch(Dispatchers.IO) {
             _controlPanelService.deleteItem(itemId)
             val i = _controlPanelService.getItemsOfPanelWithId(panel.value!!.id)
@@ -83,6 +87,8 @@ class EditorViewModel @Inject constructor(
     }
 
     fun renamePanel(name: String) {
+        log("renamePanel($name)")
+
         val panelId = panel.value?.id
         if (panelId != null) {
             GlobalScope.launch(Dispatchers.IO) {
@@ -93,5 +99,9 @@ class EditorViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun log(message: String) {
+        Log.d("ItemsViewModel", message)
     }
 }

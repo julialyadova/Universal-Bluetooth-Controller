@@ -4,13 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.ubc.data.entities.Item
+import com.example.ubc.items.Item
 
 abstract class ItemView @JvmOverloads constructor(
-        private val item: Item,
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    private val item: Item,
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private var dataSendActionListener: ((data: ByteArray) -> Unit)? = null

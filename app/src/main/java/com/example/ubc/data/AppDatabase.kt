@@ -4,10 +4,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.ubc.data.dao.ItemDao
 import com.example.ubc.data.dao.PanelDao
-import com.example.ubc.data.entities.Item
-import com.example.ubc.data.entities.Panel
+import com.example.ubc.data.entities.ItemEntity
+import com.example.ubc.data.entities.PanelEntity
 
-@Database(entities = [Panel::class, Item::class], version = 4)
+@Database(entities = [PanelEntity::class, ItemEntity::class], version = 5)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun panelDao(): PanelDao
     abstract fun itemDao(): ItemDao
