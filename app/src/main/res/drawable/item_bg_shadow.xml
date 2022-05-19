@@ -13,18 +13,8 @@
     <shape>
       <solid android:color="#33000000" />
       <corners android:radius="8dp" />
-      <padding
-          android:bottom="2dp"
-          android:left="0dp"
-          android:right="1dp"
-          android:top="-2dp" />
+      <padding android:top="-2dp" />
     </shape>
-</item>
-<item android:id="@+id/item_bg_layout">
-  <shape>
-    <solid android:color="#FFBAE8FF" />
-    <corners android:radius="8dp" />
-  </shape>
 </item>
 </layer-list>
 

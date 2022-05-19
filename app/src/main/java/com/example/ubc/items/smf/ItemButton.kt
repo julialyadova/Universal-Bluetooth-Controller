@@ -33,7 +33,7 @@ class ItemButton : Item() {
         }
     }
 
-    override fun getLayoutRes(): Int = R.layout.item_control
+    override fun getLayoutRes(): Int = R.layout.item_button
 
     companion object {
         const val COLOR_DEFAULT : String = "Стандартный"

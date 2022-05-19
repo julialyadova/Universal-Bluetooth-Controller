@@ -3,7 +3,7 @@ package com.example.ubc.items
 abstract class Item () {
     var id: Int = 0
     var panelId: Int = 0
-    var label: String = ""
+    open var label: String = ""
     var x: Float = 0f
     var y: Float = 0f
 

@@ -4,10 +4,7 @@ import com.beust.klaxon.Klaxon
 import com.example.ubc.data.entities.ItemEntity
 import com.example.ubc.items.Item
 import com.example.ubc.items.KeyValuePair
-import com.example.ubc.items.smf.ItemButton
-import com.example.ubc.items.smf.ItemDisplay
-import com.example.ubc.items.smf.ItemHistory
-import com.example.ubc.items.smf.ItemSwitch
+import com.example.ubc.items.smf.*
 
 class ControlPanelFactory {
     fun createItem(entity: ItemEntity) : Item {
@@ -16,7 +13,8 @@ class ControlPanelFactory {
             ItemEntity.Types.SWITCH -> ItemSwitch()
             ItemEntity.Types.HISTORY -> ItemHistory()
             ItemEntity.Types.SIMPLE_DISPLAY -> ItemDisplay()
-            else -> ItemButton()
+            ItemEntity.Types.SLIDER -> ItemSlider()
+            else -> throw ClassNotFoundException("no class is assigned to item type ${entity.type}")
         }
         item.id = entity.id
         item.panelId = entity.panelId

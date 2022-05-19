@@ -3,14 +3,8 @@ package com.example.ubc.ui.panel.items
 import android.content.Context
 import android.util.Log
 import com.example.ubc.items.Item
-import com.example.ubc.items.smf.ItemButton
-import com.example.ubc.items.smf.ItemDisplay
-import com.example.ubc.items.smf.ItemHistory
-import com.example.ubc.items.smf.ItemSwitch
-import com.example.ubc.ui.panel.items.ubcarduino.ButtonView
-import com.example.ubc.ui.panel.items.ubcarduino.HistoryView
-import com.example.ubc.ui.panel.items.ubcarduino.SimpleDisplayView
-import com.example.ubc.ui.panel.items.ubcarduino.SwitchView
+import com.example.ubc.items.smf.*
+import com.example.ubc.ui.panel.items.ubcarduino.*
 
 class ItemViewFactory(val context: Context) {
 
@@ -22,6 +16,7 @@ class ItemViewFactory(val context: Context) {
             is ItemHistory -> HistoryView(item, context)
             is ItemSwitch -> SwitchView(item, context)
             is ItemDisplay -> SimpleDisplayView(item,context)
+            is ItemSlider -> SliderView(item, context)
             else -> null
         }
 

@@ -12,7 +12,8 @@ class ItemDefinition (
             ItemDefinition(ItemEntity.Types.BUTTON, "Кнопка", "Кнопка с текстом"),
             ItemDefinition(ItemEntity.Types.SWITCH, "Переключатель", "Обычный переключатель"),
             ItemDefinition(ItemEntity.Types.SIMPLE_DISPLAY, "Дисплей", "Отображает последнее полученное сообщение от соединненного устройства"),
-            ItemDefinition(ItemEntity.Types.HISTORY, "История сообщений", "Отображает историю входящих сообщений")
-        )
+            ItemDefinition(ItemEntity.Types.HISTORY, "История сообщений", "Отображает историю входящих сообщений"),
+            ItemDefinition(ItemEntity.Types.SLIDER, "Слайдер", "Позволяет выбирать значние из диапазона. Отправляет значение на устройство, когда ползунок отпускается")
+            )
     }
 }

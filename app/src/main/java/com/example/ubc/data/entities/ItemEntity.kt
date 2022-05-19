@@ -25,6 +25,7 @@ data class ItemEntity (
             val SWITCH = "switch"
             val SIMPLE_DISPLAY = "simple_display"
             val HISTORY = "history"
+            val SLIDER = "slider"
         }
     }
 }
