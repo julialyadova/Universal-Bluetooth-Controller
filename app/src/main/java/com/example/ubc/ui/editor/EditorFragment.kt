@@ -75,17 +75,17 @@ class EditorFragment : Fragment() {
             .setNeutralButton(R.string.cancel, null)
             .create()
 
-        for (itemIdentifier in _viewModel.itemDefinitions) {
+        for (itemDefinition in _viewModel.itemDefinitions) {
             val button = Button(context)
-            button.text = itemIdentifier.name
+            button.text = itemDefinition.value.name
             button.setOnClickListener {
-                _viewModel.createItem(itemIdentifier.itemType)
+                _viewModel.createItem(itemDefinition.key)
                 dialog.cancel()
             }
             button.setOnLongClickListener {
                 AlertDialog.Builder(context)
-                    .setTitle(itemIdentifier.name)
-                    .setMessage(itemIdentifier.description)
+                    .setTitle(itemDefinition.value.name)
+                    .setMessage(itemDefinition.value.description)
                     .setPositiveButton(R.string.submit, null)
                     .create()
                     .show()

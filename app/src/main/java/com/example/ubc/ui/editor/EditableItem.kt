@@ -33,7 +33,7 @@ class EditableItem constructor(
         for (v in allViews) {
             v.setOnLongClickListener {
                 drag()
-                true
+                false
             }
             v.setOnClickListener {
                 onClickListener?.invoke(item)

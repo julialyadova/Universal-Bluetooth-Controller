@@ -17,15 +17,4 @@ data class ItemEntity (
     var y: Float = 0f,
     @ColumnInfo(name = "display_label")
     var displayLabel: Boolean = false
-) {
-
-    class Types {
-        companion object {
-            val BUTTON = "button"
-            val SWITCH = "switch"
-            val SIMPLE_DISPLAY = "simple_display"
-            val HISTORY = "history"
-            val SLIDER = "slider"
-        }
-    }
-}
+)
