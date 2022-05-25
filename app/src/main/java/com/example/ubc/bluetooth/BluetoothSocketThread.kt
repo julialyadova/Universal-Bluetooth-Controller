@@ -9,6 +9,7 @@ class BluetoothSocketThread(
         private val listener: BluetoothSocketListener
 ) : Thread() {
     private val _scanRateMS: Long = 200
+    private val _shortScanRateMS: Long = 10
     private var _active: Boolean = false
 
     init {
@@ -46,17 +47,27 @@ class BluetoothSocketThread(
     private fun listenSocket() {
         Log.i("Bluetooth Data Thread", "listening bluetooth socket on thread $name")
         val inputStream = this.socket.inputStream
-        val buffer = ByteArray(1024)
-        var bytesCount: Int
+        val message = ByteArray(1024)
+        val buffer = ByteArray(256)
+        var messageLength = 0
+        var bytesRead: Int
 
         //Loop to listen for received bluetooth messages
         _active = true;
         while (_active) {
             try {
-                bytesCount = inputStream.read(buffer)
-                Log.d("Bluetooth Data Thread", "$bytesCount bytes received")
-                if (bytesCount > 0) {
-                    listener.dataReceived(buffer.copyOf(bytesCount))
+                while(inputStream.available() > 0) {
+                    bytesRead = inputStream.read(buffer)
+                    Log.d("Bluetooth Data Thread", "bytes received: $bytesRead")
+                    buffer.copyInto(message, messageLength, 0, bytesRead)
+                    messageLength += bytesRead
+                    sleep(_shortScanRateMS)
+                }
+
+                if (messageLength > 0) {
+                    Log.d("Bluetooth Data Thread", "message received: $messageLength")
+                    listener.dataReceived(message.copyOf(messageLength))
+                    messageLength = 0
                 }
             } catch (e: IOException) {
                 Log.d("Bluetooth Data Thread", "exception while listening input data stream: " + e.message)
@@ -64,7 +75,7 @@ class BluetoothSocketThread(
                 listener.onConnectionInterrupted(e.message)
                 disconnect()
             }
-            sleep(_scanRateMS)
+            sleep(_scanRateMS*8)
         }
     }
 

@@ -33,7 +33,7 @@ abstract class ConnectionService : BroadcastReceiver() {
     }
 
     protected fun notifyDataReceived(data: ByteArray) {
-        Log.d("Connection Service", "data received: $data")
+        Log.d("Connection Service", "data received: ${data.map{b->b.toString()}.joinToString(", ") }")
         for (listener in listeners) {
             listener.onDataReceived(data);
         }
