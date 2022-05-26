@@ -6,12 +6,13 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.allViews
 import com.example.ubc.items.Item
+
 
 class EditableItem constructor(
     val item: Item,
@@ -30,14 +31,14 @@ class EditableItem constructor(
         setSize()
         bindItem()
         setPosition(item.x.toInt(), item.y.toInt())
-        for (v in allViews) {
-            v.setOnLongClickListener {
-                drag()
-                false
-            }
-            v.setOnClickListener {
-                onClickListener?.invoke(item)
-            }
+        val handler = findViewWithTag<View>("handler")
+        handler.visibility = View.VISIBLE
+        handler.setOnLongClickListener {
+            drag()
+            false
+        }
+        handler.setOnClickListener {
+            onClickListener?.invoke(item)
         }
     }
 
@@ -60,9 +61,9 @@ class EditableItem constructor(
         Log.d("", "drag started")
         val item = ClipData.Item(item.id.toString())
         val dataToDrag = ClipData(
-                item.text,
-                arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
-                item
+            item.text,
+            arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
+            item
         )
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -76,7 +77,7 @@ class EditableItem constructor(
     }
 
     fun drop(x: Int, y: Int) {
-        setPosition(x,y)
+        setPosition(x, y)
         Log.d("ItemView", "item dropped at ($x; $y) ${layoutParams.width}")
         this.alpha = 1f
     }
