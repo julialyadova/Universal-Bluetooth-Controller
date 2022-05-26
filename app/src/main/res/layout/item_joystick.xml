@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="175dp"
+    android:layout_height="175dp"
+    android:background="@drawable/item_bg_light">
+
+    <io.github.controlwear.virtual.joystick.android.JoystickView
+        android:id="@+id/joystick"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        custom:JV_autoReCenterButton="true"
+        custom:JV_backgroundColor="@color/item_inner"
+        custom:JV_backgroundSizeRatio="70%"
+        custom:JV_borderColor="@color/item_inner_shadow"
+        custom:JV_borderWidth="2dp"
+        custom:JV_buttonColor="#FFFFFF"
+        custom:JV_buttonSizeRatio="35%"
+        custom:JV_fixedCenter="false"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

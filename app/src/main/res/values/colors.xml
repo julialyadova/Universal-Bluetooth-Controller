@@ -14,4 +14,6 @@
     <color name="blue">#6A8ABC</color>
     <color name="blue_darker">#506DB5</color>
     <color name="item_text">#2A454B</color>
+    <color name="item_inner">#516569</color>
+    <color name="item_inner_shadow">#2A454B</color>
 </resources>

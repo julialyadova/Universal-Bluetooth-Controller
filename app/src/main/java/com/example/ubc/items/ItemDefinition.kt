@@ -29,7 +29,10 @@ class ItemDefinition (
                 { ItemSlider() }, { item, context -> SliderView(item as ItemSlider, context)}),
 
             Item.Types.SCALE to ItemDefinition("Шкала", "Отображает значение на шкале",
-                {ItemScale()}, {item, context -> ScaleView(item as ItemScale, context)})
+                {ItemScale()}, {item, context -> ScaleView(item as ItemScale, context)}),
+
+            Item.Types.JOYSTICK to ItemDefinition("Джойстик", "передает на устройство X и Y",
+                {ItemJoystick()}, { item, context -> JoystickView(item as ItemJoystick, context)})
         )
     }
 }

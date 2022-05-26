@@ -21,6 +21,7 @@ abstract class Item () {
             val HISTORY = "history"
             val SLIDER = "slider"
             val SCALE = "scale"
+            var JOYSTICK = "joystick"
         }
     }
 }
