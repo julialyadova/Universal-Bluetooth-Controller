@@ -34,7 +34,7 @@ class ButtonView @JvmOverloads constructor(
         Graphics.addPressAnimationOnTouch(binding.itemButtonText, binding.itemButtonLayout)
 
         binding.itemButtonText.setOnClickListener {
-            send(item.command.toByteArray())
+            send(item.getData())
         }
     }
 

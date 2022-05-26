@@ -10,7 +10,7 @@ class SMFReaderTests {
     fun noArgs() {
         val message = SMFBuilder().putCommand("test").withNoArgs().build()
         var invoked = false
-        SMFReader().withMessage(message).whenCommand("test").doIfNoArgs {
+        SMFReader().read(message).whenCommand("test").doIfNoArgs {
             invoked = true
         }
         assertTrue(invoked)
@@ -20,7 +20,7 @@ class SMFReaderTests {
     fun intArg() {
         val message = SMFBuilder().putCommand("test").putInt(10).build()
         var value = 0
-        SMFReader().withMessage(message).whenCommand("test").doIfIntArg {
+        SMFReader().read(message).whenCommand("test").doIfIntArg {
             value = it
         }
         assertEquals(10, value)
@@ -30,7 +30,7 @@ class SMFReaderTests {
     fun stringArg() {
         val message = SMFBuilder().putCommand("test").putString("test").build()
         var str = ""
-        SMFReader().withMessage(message).whenCommand("test").doIfStringArg {
+        SMFReader().read(message).whenCommand("test").doIfStringArg {
             str = it
         }
         assertEquals("test", str)
@@ -41,7 +41,7 @@ class SMFReaderTests {
         val message = SMFBuilder().putCommand("test").putIntCoordinates(20, 49).build()
         var x = 0
         var y = 0
-        SMFReader().withMessage(message).whenCommand("test").doIfIntCoordinatesArgs { x0, y0 ->
+        SMFReader().read(message).whenCommand("test").doIfIntCoordinatesArgs { x0, y0 ->
             x = x0
             y = y0
         }
@@ -53,7 +53,7 @@ class SMFReaderTests {
     fun doNothingOnInvalidArgs() {
         val message = SMFBuilder().putCommand("test").putIntCoordinates(20, 49).build()
         var invoked = false
-        SMFReader().withMessage(message).whenCommand("test").doIfIntArg {
+        SMFReader().read(message).whenCommand("test").doIfIntArg {
             invoked = true
         }
         assertFalse(invoked)

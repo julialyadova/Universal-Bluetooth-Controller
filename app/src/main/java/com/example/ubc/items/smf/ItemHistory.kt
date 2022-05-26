@@ -4,6 +4,7 @@ import com.example.ubc.R
 import com.example.ubc.items.Item
 import com.example.ubc.items.ItemParam
 import com.example.ubc.items.KeyValuePair
+import com.example.ubc.messageformats.smf.SMFReader
 import java.util.*
 
 class ItemHistory : Item(){
@@ -12,8 +13,20 @@ class ItemHistory : Item(){
 
     val history = LinkedList<String>()
 
+    private val _reader = SMFReader()
+
     fun onDataReceived(data: ByteArray) {
-        history.add(String(data))
+        _reader.read(data)
+        val command = _reader.readCommand()
+        var args = ""
+        _reader.doIfIntArg { args = it.toString() }
+        _reader.doIfFloatArg { args = it.toString() }
+        _reader.doIfStringArg { args = it }
+        _reader.doIfIntCoordinatesArgs { x, y -> args = "($x,$y)" }
+        _reader.doIfFloatCoordinatesArgs { x, y -> args = "($x,$y)" }
+        _reader.doIfIntArg {  }
+
+        history.add("$command : $args ")
         if (history.size > maxRecords) {
             history.remove()
         }

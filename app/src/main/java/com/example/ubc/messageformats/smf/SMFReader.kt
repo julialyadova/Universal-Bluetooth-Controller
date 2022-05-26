@@ -4,7 +4,7 @@ import com.example.ubc.messageformats.BytesConverter
 
 class SMFReader {
     private var _message: ByteArray = byteArrayOf()
-    private var _valid: Boolean = false
+    private var _valid: Boolean = true
 
     private val _messageLength: Int
         get() = _message[SMF.BYTES_SIZE_INDEX].toInt()
@@ -17,8 +17,11 @@ class SMFReader {
             BytesConverter.NULL_CHAR
         )
 
-    fun withMessage(message: ByteArray) : SMFReader {
-        _message = message
+    fun read(message: ByteArray) : SMFReader {
+        if (message.size < SMF.MIN_MESSAGE_SIZE)
+            _message = ByteArray(SMF.MIN_MESSAGE_SIZE)
+        else
+            _message = message
         return this
     }
 
@@ -27,6 +30,18 @@ class SMFReader {
                 && _message.size ==_messageLength
                 && _messageCommand == command
         return this
+    }
+
+    fun readCommand() : String {
+        return _messageCommand
+    }
+
+    fun readArgsType() : Byte {
+        return _messageArgsType
+    }
+
+    fun readArgs() : ByteArray {
+        return _message.copyOfRange(SMF.BYTES_ARGS_INDEX, _message.size - 1)
     }
 
     fun doIfNoArgs(action: () -> Unit) {

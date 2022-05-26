@@ -21,9 +21,9 @@ class SwitchView @JvmOverloads constructor(
         binding.itemSwitch.isChecked = false
         binding.itemSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                send(item.command_on.toByteArray())
+                send(item.getOnData())
             } else {
-                send(item.command_off.toByteArray())
+                send(item.getOffData())
             }
         }
     }

@@ -49,7 +49,7 @@ class ControlPanelViewModel @Inject constructor(
     }
 
     fun send(data: ByteArray) {
-        Log.d("Control Panel ViewModel", "send: $data")
+        Log.d("Control Panel ViewModel", "send: ${String(data)} (${data.size})")
         _connectionService.send(data)
     }
 

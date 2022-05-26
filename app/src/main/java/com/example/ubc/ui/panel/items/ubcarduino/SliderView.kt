@@ -42,7 +42,7 @@ class SliderView @JvmOverloads constructor(
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        send(item.getCommandWithValue().toByteArray(Charsets.US_ASCII))
+        send(item.getData())
         binding.itemSliderLabel.visibility = View.VISIBLE
         binding.itemSliderValue.visibility = View.INVISIBLE
     }

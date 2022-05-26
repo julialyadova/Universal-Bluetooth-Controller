@@ -4,10 +4,15 @@ import com.example.ubc.R
 import com.example.ubc.items.Item
 import com.example.ubc.items.ItemParam
 import com.example.ubc.items.KeyValuePair
+import com.example.ubc.messageformats.smf.SMFBuilder
 
 class ItemButton : Item() {
     var command: String = "btn"
     var color: String = COLOR_DEFAULT
+
+    fun getData() : ByteArray {
+        return SMFBuilder().putCommand(command).withNoArgs().build()
+    }
 
     override fun getParams() : List<ItemParam> {
         val colors = listOf(COLOR_DEFAULT, COLOR_GREEN, COLOR_YELLOW, COLOR_RED)

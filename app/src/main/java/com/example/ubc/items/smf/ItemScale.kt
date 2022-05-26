@@ -4,6 +4,7 @@ import com.example.ubc.R
 import com.example.ubc.items.Item
 import com.example.ubc.items.ItemParam
 import com.example.ubc.items.KeyValuePair
+import com.example.ubc.messageformats.smf.SMFReader
 
 class ItemScale : Item() {
     override var label = "шкала"
@@ -13,10 +14,11 @@ class ItemScale : Item() {
     var value: Int = 0
         private set
 
-    fun processCommand(message: String) {
-        val params = message.split("$")
-        if (params.size == 2 && params[0] == command) {
-            value = params[1].toIntOrNull() ?: value
+    private val _reader = SMFReader()
+
+    fun receiveData(data: ByteArray) {
+        _reader.read(data).whenCommand(command).doIfIntArg {
+            value = it.coerceIn(min, max)
         }
     }
 

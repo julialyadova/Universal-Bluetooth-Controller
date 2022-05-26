@@ -4,10 +4,19 @@ import com.example.ubc.R
 import com.example.ubc.items.Item
 import com.example.ubc.items.ItemParam
 import com.example.ubc.items.KeyValuePair
+import com.example.ubc.messageformats.smf.SMFBuilder
 
 class ItemSwitch : Item() {
     var command_on: String = "on"
     var command_off: String = "off"
+
+    fun getOnData() : ByteArray{
+        return SMFBuilder().putCommand(command_on).withNoArgs().build()
+    }
+
+    fun getOffData() : ByteArray{
+        return SMFBuilder().putCommand(command_off).withNoArgs().build()
+    }
 
     override fun getParams() : List<ItemParam> = listOf(
         ItemParam.text("Отправить при ВКЛ", command_on) { value -> command_on = value},

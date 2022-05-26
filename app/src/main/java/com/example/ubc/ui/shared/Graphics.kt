@@ -34,6 +34,7 @@ class Graphics {
                     MotionEvent.ACTION_DOWN -> {
                         setVerticalOffset(animatedView, 6)
                         animatedView.alpha = 0.8f
+                        touchTarget.callOnClick()
                     }
                     MotionEvent.ACTION_UP -> {
                         setVerticalOffset(animatedView, 0)

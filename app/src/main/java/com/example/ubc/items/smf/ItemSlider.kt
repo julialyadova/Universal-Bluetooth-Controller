@@ -4,6 +4,7 @@ import com.example.ubc.R
 import com.example.ubc.items.Item
 import com.example.ubc.items.ItemParam
 import com.example.ubc.items.KeyValuePair
+import com.example.ubc.messageformats.smf.SMFBuilder
 
 class ItemSlider : Item() {
     override var label = "слайдер"
@@ -13,6 +14,10 @@ class ItemSlider : Item() {
     var step: Int = 1
     var default: Int = 128
     var value: Int = default
+
+    fun getData() : ByteArray {
+        return SMFBuilder().putCommand(command).putInt(value).build()
+    }
 
     fun setSliderValue(v: Int) {
         value = v.coerceIn(min, max)

@@ -23,7 +23,7 @@ class ScaleView @JvmOverloads constructor(
     }
 
     override fun onDataReceived(data: ByteArray) {
-        item.processCommand(String(data))
+        item.receiveData(data)
         binding.itemScaleBar.progress = item.value - item.min
         binding.itemScaleValue.text = item.value.toString()
     }

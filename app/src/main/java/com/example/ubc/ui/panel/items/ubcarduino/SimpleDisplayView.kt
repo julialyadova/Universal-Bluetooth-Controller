@@ -8,7 +8,7 @@ import com.example.ubc.items.smf.ItemDisplay
 import com.example.ubc.ui.panel.items.ItemView
 
 class SimpleDisplayView @JvmOverloads constructor(
-    item: ItemDisplay,
+    private val item: ItemDisplay,
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -21,6 +21,7 @@ class SimpleDisplayView @JvmOverloads constructor(
     }
 
     override fun onDataReceived(data: ByteArray) {
-        binding.display.text = String(data)
+        item.receiveData(data)
+        binding.display.text = item.displayedValue
     }
 }

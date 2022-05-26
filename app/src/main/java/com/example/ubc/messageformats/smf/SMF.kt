@@ -16,7 +16,7 @@ class SMF {
         const val ARGS_TYPE_INT: Byte = 1
         const val ARGS_TYPE_FLOAT: Byte = 2
         const val ARGS_TYPE_STRING: Byte = 3
-        const val ARGS_TYPE_INT_COORDINATES: Byte = 3
-        const val ARGS_TYPE_FLOAT_COORDINATES: Byte = 3
+        const val ARGS_TYPE_INT_COORDINATES: Byte = 4
+        const val ARGS_TYPE_FLOAT_COORDINATES: Byte = 5
     }
 }
