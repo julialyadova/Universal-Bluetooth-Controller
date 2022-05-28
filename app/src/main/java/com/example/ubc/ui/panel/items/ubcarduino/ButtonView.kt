@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import com.example.ubc.R
 import com.example.ubc.databinding.ItemButtonBinding
+import com.example.ubc.items.params.ColorParam
 import com.example.ubc.items.smf.ItemButton
 import com.example.ubc.ui.panel.items.ItemView
 import com.example.ubc.ui.shared.Graphics
@@ -22,14 +22,7 @@ class ButtonView @JvmOverloads constructor(
 
     init {
         binding.itemButtonText.text = item.label
-
-        val color = resources.getColor(when(item.color) {
-            ItemButton.COLOR_GREEN -> R.color.green
-            ItemButton.COLOR_RED -> R.color.red
-            ItemButton.COLOR_YELLOW -> R.color.yellow
-            else -> R.color.blue
-        })
-        Graphics.setBackgroundColor(binding.itemButtonLayout, color)
+        Graphics.setBackgroundColor(binding.itemButtonLayout, item.color)
 
         Graphics.addPressAnimationOnTouch(binding.itemButtonText, binding.itemButtonLayout)
 

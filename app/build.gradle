@@ -86,4 +86,7 @@ dependencies {
 
     //round progress bar
     implementation 'com.zekapp.library:progreswheelview:1.1.5'
+
+    //flexbox layout
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }

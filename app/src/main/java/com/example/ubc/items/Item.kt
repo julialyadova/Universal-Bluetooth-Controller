@@ -8,9 +8,26 @@ abstract class Item () {
     var x: Float = 0f
     var y: Float = 0f
 
-    abstract fun getParams() : List<ItemParam>
-    abstract fun getParamValues() : List<KeyValuePair>
-    abstract fun setParams(params: List<KeyValuePair>)
+    private val getters = mutableMapOf<String, () -> String>()
+    private val setters = mutableMapOf<String, (String) -> Unit>()
+
+
+    abstract fun getEditDialogParams() : List<ItemParam>
+
+    protected fun addStoredParam(name: String, get: () -> String, set: (String) -> Unit) {
+        getters[name] = get
+        setters[name] = set
+    }
+
+    fun getParamValues() : List<KeyValuePair> {
+        return getters.map { entry -> KeyValuePair(entry.key, entry.value()) }
+    }
+    fun setParams(params: List<KeyValuePair>) {
+        for (param in params) {
+            setters[param.key]?.invoke(param.value)
+        }
+    }
+
     abstract fun getLayoutRes() : Int
 
     class Types {

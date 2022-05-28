@@ -98,5 +98,7 @@
     <string name="dialog_item_edit_title">Редактировать элемент</string>
     <string name="item_history_option_copy">Скопировать в буфер обмена</string>
     <string name="item_history_option_clear">Очистить историю</string>
+    <string name="dialog_choose_icon_title">Выберите иконку</string>
+    <string name="dialog_choose_color_title">Выберите цвет</string>
 
 </resources>
