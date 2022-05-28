@@ -45,7 +45,7 @@ class SMFReader {
     }
 
     fun doIfNoArgs(action: () -> Unit) {
-        if (_valid && _messageArgsType == SMF.ARGS_TYPE_NO_ARGS)
+        //if (_valid && _messageArgsType == SMF.ARGS_TYPE_NO_ARGS)
             action.invoke()
     }
 

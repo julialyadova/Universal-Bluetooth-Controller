@@ -39,14 +39,6 @@
             app:exitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
-        android:id="@+id/createPanelDialog"
-        android:name="com.example.ubc.ui.main.dialogs.CreatePanelDialog"
-        android:label="CreatePanelDialog" >
-        <action
-            android:id="@+id/action_createPanelDialog_to_controlPanelFragment"
-            app:destination="@id/controlPanelFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/editorFragment"
         android:name="com.example.ubc.ui.editor.EditorFragment"
         android:label="fragment_editor"

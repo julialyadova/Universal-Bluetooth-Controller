@@ -8,6 +8,9 @@ import javax.inject.Singleton
 abstract class ConnectionService : BroadcastReceiver() {
     private var listeners: MutableList<ConnectionListener> = mutableListOf()
 
+    var connectionState: ConnectionState = ConnectionState.Disconnected
+    var lastConnectedDevice: Device? = null
+
     fun subscribe(listener: ConnectionListener){
         listeners.add(listener)
         Log.d("ConnectionService", "new subscriber added to instance $this. total ${listeners.size} active listeners")
@@ -20,6 +23,8 @@ abstract class ConnectionService : BroadcastReceiver() {
 
     protected fun notifyStatusChanged(state: ConnectionState, device: Device? = null) {
         Log.d("Connection Service", "status changed: $state")
+        connectionState = state
+        lastConnectedDevice = device
         for (listener in listeners) {
             listener.onConnectionStatusChanged(state, device ?: getConnectedDevice());
         }
@@ -27,6 +32,9 @@ abstract class ConnectionService : BroadcastReceiver() {
 
     protected fun notifyAdapterStateChanged(state: AdapterState) {
         Log.d("Connection Service", "adapter state changed: $state")
+        if (state == AdapterState.Disabled) {
+            notifyStatusChanged(ConnectionState.Disconnected)
+        }
         for (listener in listeners) {
             listener.onAdapterStateChanged(state);
         }

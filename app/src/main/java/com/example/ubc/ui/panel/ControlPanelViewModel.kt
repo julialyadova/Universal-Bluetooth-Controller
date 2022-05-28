@@ -26,6 +26,8 @@ class ControlPanelViewModel @Inject constructor(
     val received = MutableLiveData<ByteArray>()
 
     init {
+        deviceStatus.value = _connectionService.connectionState
+        device.value = _connectionService.lastConnectedDevice?.name
         _connectionService.subscribe(this)
     }
 

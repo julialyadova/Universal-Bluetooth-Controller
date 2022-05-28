@@ -6,7 +6,7 @@ import com.example.ubc.items.ItemParam
 import com.example.ubc.items.KeyValuePair
 import com.example.ubc.messageformats.smf.SMFReader
 
-class ItemScale : Item() {
+open class ItemScale : Item() {
     override var label = "шкала"
     var command: String = "scale"
     var min: Int = 0

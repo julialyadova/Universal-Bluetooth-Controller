@@ -64,6 +64,11 @@ class BluetoothSocketThread(
                     sleep(_shortScanRateMS)
                 }
 
+                if (!socket.isConnected) {
+                    listener.onConnectionInterrupted("соединение потеряно")
+                    disconnect()
+                }
+
                 if (messageLength > 0) {
                     Log.d("Bluetooth Data Thread", "message received: $messageLength")
                     listener.dataReceived(message.copyOf(messageLength))

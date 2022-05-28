@@ -30,7 +30,10 @@ class MainActivity : AppCompatActivity() {
             IntentFilter(BluetoothDevice.ACTION_FOUND),
             IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED),
             IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED),
-            IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
+            IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED),
+            IntentFilter(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED),
+            IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED),
+            IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED)
         ).forEach { filter ->
             registerReceiver(connectionService, filter)
         }

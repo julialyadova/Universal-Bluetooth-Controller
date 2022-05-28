@@ -15,13 +15,16 @@ abstract class Item () {
 
     class Types {
         companion object {
-            val BUTTON = "button"
-            val SWITCH = "switch"
-            val SIMPLE_DISPLAY = "simple_display"
-            val HISTORY = "history"
-            val SLIDER = "slider"
-            val SCALE = "scale"
-            var JOYSTICK = "joystick"
+            const val BUTTON = "button"
+            const val SWITCH = "switch"
+            const val SIMPLE_DISPLAY = "simple_display"
+            const val HISTORY = "history"
+            const val SLIDER = "slider"
+            const val SCALE = "scale"
+            const val ROUND_SCALE = "round_scale"
+            const val JOYSTICK = "joystick"
+            const val INDICATOR = "indicator"
+            const val TEXT_INPUT = "text_input"
         }
     }
 }

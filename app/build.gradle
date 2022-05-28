@@ -83,4 +83,7 @@ dependencies {
 
     //joystick
     implementation 'io.github.controlwear:virtualjoystick:1.10.1'
+
+    //round progress bar
+    implementation 'com.zekapp.library:progreswheelview:1.1.5'
 }

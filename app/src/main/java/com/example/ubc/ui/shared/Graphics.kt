@@ -21,23 +21,31 @@ class Graphics {
             }
         }
 
-        fun setVerticalOffset(view: View, y : Int) {
+        private fun setVerticalOffset(view: View, y : Int) {
             val param = view.layoutParams as ViewGroup.MarginLayoutParams
-            param.setMargins(0,y,0,-y)
+            param.setMargins(param.leftMargin, y, param.rightMargin, -y)
             view.layoutParams = param
         }
 
         @SuppressLint("ClickableViewAccessibility")
-        fun addPressAnimationOnTouch(touchTarget: View, animatedView: View = touchTarget) {
+        fun addPressAnimationOnTouch(touchTarget: View, animatedView: View = touchTarget, depth : Int = 6) {
+            val params = animatedView.layoutParams as ViewGroup.MarginLayoutParams
+            val top = params.topMargin
+            val bottom = params.bottomMargin
+            val left = params.leftMargin
+            val right = params.rightMargin
+
             touchTarget.setOnTouchListener { _, event ->
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        setVerticalOffset(animatedView, 6)
+                        params.setMargins(left, top + depth, right, bottom - depth)
+                        animatedView.layoutParams = params
                         animatedView.alpha = 0.8f
                         touchTarget.callOnClick()
                     }
                     MotionEvent.ACTION_UP -> {
-                        setVerticalOffset(animatedView, 0)
+                        params.setMargins(left, top, right, bottom)
+                        animatedView.layoutParams = params
                         animatedView.alpha = 1f
                     }
                 }

@@ -31,8 +31,17 @@ class ItemDefinition (
             Item.Types.SCALE to ItemDefinition("Шкала", "Отображает значение на шкале",
                 {ItemScale()}, {item, context -> ScaleView(item as ItemScale, context)}),
 
+            Item.Types.ROUND_SCALE to ItemDefinition("Круговая шкала", "Отображает значение на круговой на шкале",
+                {ItemRoundScale()}, { item, context -> RoundScaleView(item as ItemRoundScale, context)}),
+
             Item.Types.JOYSTICK to ItemDefinition("Джойстик", "передает на устройство X и Y",
-                {ItemJoystick()}, { item, context -> JoystickView(item as ItemJoystick, context)})
+                {ItemJoystick()}, { item, context -> JoystickView(item as ItemJoystick, context)}),
+
+            Item.Types.INDICATOR to ItemDefinition("Индикатор", "загорается и потухает по команде",
+                {ItemIndicator()}, { item, context -> IndicatorView(item as ItemIndicator, context)}),
+
+            Item.Types.TEXT_INPUT to ItemDefinition("Поле ввода текста", "отправиляет текст ASCII",
+                {ItemTextInput()}, { item, context -> TextInputView(item as ItemTextInput, context)})
         )
     }
 }

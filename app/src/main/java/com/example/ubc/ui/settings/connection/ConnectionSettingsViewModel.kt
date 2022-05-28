@@ -28,6 +28,8 @@ class ConnectionSettingsViewModel @Inject constructor(
         _connectionService.subscribe(this)
         adapterName.value = _connectionService.getAdapterName()
         adapterIsEnabled.value = _connectionService.adapterEnabled()
+        activeDevice.value = _connectionService.lastConnectedDevice
+        deviceStatus.value = _connectionService.connectionState
     }
 
     override fun onCleared() {
