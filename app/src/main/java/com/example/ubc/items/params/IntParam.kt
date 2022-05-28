@@ -5,7 +5,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.example.ubc.items.ItemParam
-import com.example.ubc.ui.shared.MinMaxInputFilter
 
 class IntParam (
     name: String,
@@ -20,12 +19,13 @@ class IntParam (
         _editText = EditText(context).apply {
             setText(value.toString())
             inputType = EditorInfo.TYPE_CLASS_NUMBER
-            filters = arrayOf(MinMaxInputFilter(min, max))
+            //filters = arrayOf(MinMaxInputFilter(min, max))
         }
         return _editText
     }
 
     override fun submit() {
-        setter(_editText.text.toString().toInt())
+        val newValue = _editText.text.toString().toIntOrNull() ?: 0
+        setter(newValue.coerceIn(min, max))
     }
 }

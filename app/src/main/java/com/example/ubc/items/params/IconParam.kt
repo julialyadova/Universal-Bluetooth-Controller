@@ -17,11 +17,6 @@ class IconParam (
 ) : ItemParam(name) {
     private var newValue = value
 
-    private val icons = mapOf(
-        "sync" to android.R.drawable.stat_notify_sync,
-        "warning" to android.R.drawable.stat_sys_warning
-    )
-
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun createView(context: Context): View {
         val inflater = LayoutInflater.from(context)
@@ -56,5 +51,13 @@ class IconParam (
 
     override fun submit() {
         setter(newValue)
+    }
+
+    companion object {
+        val icons = mapOf(
+            "default" to android.R.drawable.stat_notify_sync,
+            "sync" to android.R.drawable.stat_notify_sync,
+            "warning" to android.R.drawable.stat_sys_warning
+        )
     }
 }

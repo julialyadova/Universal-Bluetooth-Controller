@@ -33,6 +33,7 @@ abstract class Item () {
     class Types {
         companion object {
             const val BUTTON = "button"
+            const val ICON_BUTTON = "icon_button"
             const val SWITCH = "switch"
             const val SIMPLE_DISPLAY = "simple_display"
             const val HISTORY = "history"

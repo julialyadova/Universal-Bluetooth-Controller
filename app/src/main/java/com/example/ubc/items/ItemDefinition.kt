@@ -13,8 +13,11 @@ class ItemDefinition (
 ) {
     companion object {
         val definitions : Map<String, ItemDefinition> = mapOf(
-            Item.Types.BUTTON to ItemDefinition("Кнопка", "Кнопка с текстом",
+            Item.Types.BUTTON to ItemDefinition("Кнопка с текстом", "Кнопка с текстом",
                 {ItemButton()}, {item, context -> ButtonView(item as ItemButton, context) }),
+
+            Item.Types.ICON_BUTTON to ItemDefinition("Кнопка с иконкой", "Кнопка с иконкой",
+                {ItemIconButton()}, { item, context -> IconButtonView(item as ItemIconButton, context) }),
 
             Item.Types.SWITCH to ItemDefinition("Переключатель", "Обычный переключатель",
                 {ItemSwitch()}, {item, context -> SwitchView(item as ItemSwitch, context) }),

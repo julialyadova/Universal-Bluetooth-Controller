@@ -11,7 +11,10 @@ class MinMaxInputFilter(
 
     override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dStart: Int, dEnd: Int): CharSequence? {
         try {
-            val input = Integer.parseInt(dest.toString() + source.toString())
+            val input = Integer.parseInt(
+                dest.toString().substring(0,dStart)
+                + source.toString()
+                + dest.toString().substring(dEnd))
             if (input in min..max) {
                 return null
             }
