@@ -15,7 +15,7 @@ import com.example.ubc.R
 import com.example.ubc.connection.ConnectionState
 import com.example.ubc.connection.Device
 import com.example.ubc.databinding.FragmentConnectionSettingsBinding
-import com.example.ubc.databinding.ItemDeviceBinding
+import com.example.ubc.databinding.ListItemDeviceBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -139,7 +139,7 @@ class ConnectionSettingsFragment : Fragment() {
         _binding.pairedDevices.removeAllViews()
 
         for (device in devices) {
-            val itemBinding = ItemDeviceBinding.inflate(inflater)
+            val itemBinding = ListItemDeviceBinding.inflate(inflater)
             itemBinding.itemDeviceName.text = device.name ?: "Устройство без имени"
             itemBinding.itemDeviceMac.text = device.address
             itemBinding.itemDeviceInfo.text = device.info

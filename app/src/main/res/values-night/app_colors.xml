@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#1C202B</color>
+
+    <color name="panel_background">#31383D</color>
+    <color name="panel_header">#1C202B</color>
+
+    <color name="editor_background">#31383D</color>
+    <color name="editor_header">#1C202B</color>
+
+    <color name="menu_background">#1C202B</color>
+    <color name="menu_header">#161921</color>
+
+    <color name="loading">#557382</color>
+    <color name="scan">#43A047</color>
+
+    <color name="list_item_background">#2D3D47</color>
+</resources>

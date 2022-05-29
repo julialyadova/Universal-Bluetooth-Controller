@@ -141,13 +141,6 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
             BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
                 notifyAdapterStateChanged(AdapterState.FinishedScanning)
             }
-            /*BluetoothDevice.ACTION_ACL_CONNECTED -> {
-                val device = intent
-                    .getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                    ?.let { Device(it.name,it.address) }
-                notifyStatusChanged(ConnectionState.Connected, device)
-
-            }*/
             BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
                 notifyStatusChanged(ConnectionState.Disconnected)
                 _activeSocketThread?.disconnect()

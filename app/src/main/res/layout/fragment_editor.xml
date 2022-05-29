@@ -5,15 +5,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/editor_header"
     tools:context=".ui.editor.EditorFragment">
 
     <Button
         android:id="@+id/btn_editor_rename_panel"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/ic_edit"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/ic_rename"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,12 +23,14 @@
         android:layout_width="0dp"
         android:layout_height="46dp"
         android:layout_marginStart="10dp"
-        android:gravity="start|left|center_vertical"
-        android:textSize="24sp"
+        android:gravity="start|center_vertical"
+        app:autoSizeMaxTextSize="24sp"
+        app:autoSizeMinTextSize="14sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toStartOf="@+id/btn_editor_options"
         app:layout_constraintStart_toEndOf="@+id/btn_editor_rename_panel"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Панель управления" />
+        tools:text="Панель управления c длинным названием" />
 
     <Button
         android:id="@+id/btn_editor_options"
@@ -38,27 +41,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/grid"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/canvas"
-        app:layout_constraintTop_toTopOf="@id/canvas" />
-
     <FrameLayout
         android:id="@+id/canvas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="40dp"
-        android:background="#3B5279A5"
+        android:background="@color/panel_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title">
 
     </FrameLayout>
 
-    <Button
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:background="@drawable/shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/canvas" />
+
+    <ImageButton
         android:id="@+id/btn_editor_add_item"
         android:layout_width="52dp"
         android:layout_height="52dp"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
-    android:layout_width="150dp"
+    android:layout_width="125dp"
     android:layout_height="150dp"
     android:background="@drawable/item_bg_light">
 
@@ -11,7 +11,7 @@
         android:id="@+id/item_round_scale"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:rotation="185"
         app:barWidth="14dp"
         app:countText=" "
@@ -27,7 +27,6 @@
         android:id="@+id/item_round_scale_value"
         android:layout_width="70dp"
         android:layout_height="32dp"
-        android:layout_marginBottom="8dp"
         android:gravity="center"
         app:autoSizeMaxTextSize="28sp"
         app:autoSizeMinTextSize="8sp"
@@ -35,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/item_round_scale"
         app:layout_constraintEnd_toEndOf="@+id/item_round_scale"
         app:layout_constraintStart_toStartOf="@+id/item_round_scale"
-        app:layout_constraintTop_toBottomOf="@+id/item_round_scale_label"
+        app:layout_constraintTop_toTopOf="@+id/item_round_scale"
         tools:text="100" />
 
     <TextView
@@ -43,17 +42,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="2dp"
         android:layout_marginEnd="4dp"
+        android:layout_marginBottom="2dp"
         android:gravity="center"
         android:maxLines="1"
         android:tag="label"
+        android:textColor="@color/item_text"
         app:autoSizeMaxTextSize="14sp"
         app:autoSizeMinTextSize="8sp"
         app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:text=" label must be" />
 
     <View

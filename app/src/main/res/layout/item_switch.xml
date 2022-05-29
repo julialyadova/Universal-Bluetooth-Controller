@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="100dp"
-    android:layout_height="100dp"
+    android:layout_height="75dp"
     android:background="@drawable/item_bg_light">
 
     <Switch
         android:id="@+id/item_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:scaleX="1.8"
-        android:scaleY="1.8"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/item_inner_dark"
+        android:buttonTint="#D81B60"
+        android:checked="true"
+        android:scaleX="1.4"
+        android:scaleY="1.4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -21,12 +24,16 @@
     <TextView
         android:id="@+id/item_switch_label"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="4dp"
         android:tag="label"
         android:textAlignment="center"
+        android:textColor="@color/item_text"
+        app:autoSizeMaxTextSize="14sp"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,9 +43,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:tag="handler"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="invisible" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,6 +35,15 @@ class ControlPanelFragment : Fragment() {
             showOptions()
         }
 
+        _viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                _binding.panelCanvas.alpha = 0f
+                _binding.panelProgressBar.visibility = View.VISIBLE
+            } else {
+                _binding.panelCanvas.alpha = 1f
+                _binding.panelProgressBar.visibility = View.INVISIBLE
+            }
+        }
         _viewModel.panel.observe(viewLifecycleOwner) { panel ->
             _binding.textPanelTitle.text = panel.name
         }
@@ -48,6 +57,7 @@ class ControlPanelFragment : Fragment() {
         _viewModel.deviceStatus.observe(viewLifecycleOwner) { status ->
             displayDeviceStatus(status)
         }
+
         _sharedViewModel.panelId.observe(viewLifecycleOwner) { panelId ->
             _viewModel.load(panelId)
         }

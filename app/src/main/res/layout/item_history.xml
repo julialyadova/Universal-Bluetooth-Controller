@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:tag="label"
         android:text="История сообщений"
+        android:textColor="@color/item_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +45,9 @@
             android:id="@+id/item_history_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textColor="@color/item_inner_text"
             tools:text="1\n2\n3\n4\n5\n6\n7" />
     </ScrollView>
 

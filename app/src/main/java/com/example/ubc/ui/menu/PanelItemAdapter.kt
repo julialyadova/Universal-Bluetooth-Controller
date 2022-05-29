@@ -38,7 +38,7 @@ class PanelItemAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_panel, parent, false)
+            .inflate(R.layout.list_item_panel, parent, false)
 
         return ProductViewHolder(view, onItemClick, onItemLongClick)
     }

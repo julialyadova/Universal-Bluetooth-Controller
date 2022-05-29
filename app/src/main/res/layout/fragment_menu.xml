@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/menu_header"
     tools:context=".ui.menu.MenuFragment">
 
     <TextView
@@ -23,8 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="64dp"
-        android:background="@color/tint"
+        android:background="@color/menu_background"
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
         android:paddingRight="16dp"
@@ -33,7 +32,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menu_title"
-        tools:listitem="@layout/item_panel" />
+        tools:listitem="@layout/list_item_panel">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:background="@drawable/shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/panels_recycler_view" />
 
     <Button
         android:id="@+id/btn_menu_options_menu"
@@ -44,12 +53,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_menu_create_panel"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

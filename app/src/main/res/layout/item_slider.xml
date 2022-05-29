@@ -16,6 +16,10 @@
         android:layout_marginEnd="4dp"
         android:tag="label"
         android:textAlignment="center"
+        android:textColor="@color/item_text"
+        app:autoSizeMaxTextSize="14sp"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,18 +40,19 @@
 
     <SeekBar
         android:id="@+id/item_slider_bar"
-        android:layout_width="125dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:max="60"
-        android:progressTint="@color/item_text"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:thumbTint="#6797AF"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="12dp"
+        android:max="100"
+        android:maxHeight="6dp"
+        android:progressDrawable="@drawable/seekbar"
+        android:thumb="@drawable/seekbar_thumb"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:progress="50" />
+        tools:progress="25" />
 
     <View
         android:layout_width="0dp"

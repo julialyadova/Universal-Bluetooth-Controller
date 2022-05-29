@@ -10,7 +10,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="@dimen/corner_radius"
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +21,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/list_item_background">
 
             <TextView
                 android:id="@+id/item_device_name"
@@ -29,20 +30,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:text="Name"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Device" />
 
             <TextView
                 android:id="@+id/item_device_mac"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/item_device_name"
-                app:layout_constraintTop_toBottomOf="@id/item_device_name" />
+                app:layout_constraintTop_toBottomOf="@id/item_device_name"
+                tools:text="AA-BB-CC-DD-77-22" />
 
             <ImageView
                 android:id="@+id/item_device_active"
@@ -61,10 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:alpha="0.6"
-                android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="@+id/item_device_mac"
                 app:layout_constraintStart_toEndOf="@+id/item_device_mac"
-                app:layout_constraintTop_toTopOf="@+id/item_device_mac" />
+                app:layout_constraintTop_toTopOf="@+id/item_device_mac"
+                tools:text="info" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

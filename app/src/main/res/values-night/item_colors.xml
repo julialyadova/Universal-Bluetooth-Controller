@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="item_default">#557382</color>
+
+    <color name="item_secondary">#80A9BA</color>
+
+    <color name="item_inner">#3C5861</color>
+    <color name="item_inner_shadow">#2F4652</color>
+
+    <color name="item_shadow">#232D2E</color>
+    <color name="item_button_shadow">#1F2829</color>
+
+    <color name="item_text">#B5D4E0</color>
+    <color name="item_inner_text">#B7C9D0</color>
+
+    <color name="red">#BD4949</color>
+    <color name="green">#80A633</color>
+    <color name="blue">#4065DE</color>
+    <color name="yellow">#DEBC33</color>
+    <color name="yellow_shadow">#D1A02C</color>
+    <color name="orange">#CC732F</color>
+    <color name="grey">#BDBDBD</color>
+</resources>

@@ -25,7 +25,7 @@ class IconButtonView @JvmOverloads constructor(
         if (res != null)
             binding.itemIconButtonImg.setImageResource(res)
 
-        Graphics.addPressAnimationOnTouch(binding.itemIconButtonImg, binding.itemIconButtonLayout)
+        Graphics.addPressAnimationOnTouch(binding.itemIconButtonImg)
 
         binding.itemIconButtonImg.setOnClickListener {
             send(item.getData())

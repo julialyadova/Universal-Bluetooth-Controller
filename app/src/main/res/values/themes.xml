@@ -3,15 +3,18 @@
     <style name="Theme.UniversalBluetoothController" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:windowNoTitle">true</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">#3C83A6</item>
         <item name="colorPrimaryVariant">#303F9F</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/green</item>
         <item name="colorSecondaryVariant">@color/green</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/item_default</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <!-- switch -->
+        <item name="colorControlActivated">@color/yellow</item>
     </style>
 </resources>

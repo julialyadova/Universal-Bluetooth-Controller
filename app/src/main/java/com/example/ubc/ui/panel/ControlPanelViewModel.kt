@@ -24,6 +24,7 @@ class ControlPanelViewModel @Inject constructor(
     val device = MutableLiveData<String?>()
     val deviceStatus = MutableLiveData<ConnectionState>()
     val received = MutableLiveData<ByteArray>()
+    val isLoading = MutableLiveData<Boolean>()
 
     init {
         deviceStatus.value = _connectionService.getConnectionStatus()
@@ -36,6 +37,7 @@ class ControlPanelViewModel @Inject constructor(
     }
 
     fun load(id: Int) {
+        isLoading.value = true
         GlobalScope.launch(Dispatchers.IO) {
             val panelData = _controlPanelService.getPanelById(id)
             val itemsList = _controlPanelService.getItemsOfPanelWithId(id)
@@ -49,6 +51,8 @@ class ControlPanelViewModel @Inject constructor(
 
                 deviceStatus.value = _connectionService.getConnectionStatus()
                 device.value = _connectionService.getConnectedDevice()?.name
+
+                isLoading.value = false
             }
         }
     }

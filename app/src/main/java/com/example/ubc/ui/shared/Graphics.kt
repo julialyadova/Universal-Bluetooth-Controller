@@ -28,7 +28,7 @@ class Graphics {
         }
 
         @SuppressLint("ClickableViewAccessibility")
-        fun addPressAnimationOnTouch(touchTarget: View, animatedView: View = touchTarget, depth : Int = 6) {
+        fun addPressAnimationOnTouch(touchTarget: View, depth : Int = 6, animatedView: View = touchTarget) {
             val params = animatedView.layoutParams as ViewGroup.MarginLayoutParams
             val top = params.topMargin
             val bottom = params.bottomMargin
