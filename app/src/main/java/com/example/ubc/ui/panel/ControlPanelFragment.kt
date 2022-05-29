@@ -1,5 +1,6 @@
 package com.example.ubc.ui.panel
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
@@ -46,6 +47,10 @@ class ControlPanelFragment : Fragment() {
         }
         _viewModel.panel.observe(viewLifecycleOwner) { panel ->
             _binding.textPanelTitle.text = panel.name
+            if (panel.isHorizontal)
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            else
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         }
         _viewModel.items.observe(viewLifecycleOwner) {items ->
             displayItems(items)

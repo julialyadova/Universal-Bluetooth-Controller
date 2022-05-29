@@ -1,6 +1,7 @@
 package com.example.ubc.ui.settings.panel
 
 import android.app.AlertDialog
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ class PanelSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
         _binding = FragmentPanelSettingsBinding.inflate(layoutInflater)
         _binding.panelSettingsDeleteButton.setOnClickListener {
             showDeletePanelDialog()

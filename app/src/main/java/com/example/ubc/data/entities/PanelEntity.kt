@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class PanelEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    var name: String
+    var name: String,
+    var isHorizontal: Boolean = false
 )

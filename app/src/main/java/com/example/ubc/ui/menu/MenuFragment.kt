@@ -1,6 +1,7 @@
 package com.example.ubc.ui.menu
 
 import android.app.AlertDialog
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
@@ -27,6 +28,7 @@ class MenuFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
         _binding = FragmentMenuBinding.inflate(layoutInflater)
         return _binding.root
     }
@@ -80,7 +82,9 @@ class MenuFragment : Fragment() {
             .setView(binding.root)
             .setTitle(R.string.dialog_create_panel_title)
             .setPositiveButton(R.string.create) { _, _ ->
-                _viewModel.createPanel(binding.createPanelName.text.toString())
+                val name = binding.createPanelName.text.toString()
+                val horizontal = binding.dialogCreatePanelOrientationHorizontal.isChecked
+                _viewModel.createPanel(name, horizontal)
             }
             .setNegativeButton(R.string.cancel, null)
             .create().show()

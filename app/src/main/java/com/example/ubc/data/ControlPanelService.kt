@@ -28,8 +28,8 @@ class ControlPanelService @Inject constructor(
         return _panels.exists(id)
     }
 
-    suspend fun createPanel(name: String): Int {
-        return _panels.add(name)
+    suspend fun createPanel(name: String, isHorizontal: Boolean): Int {
+        return _panels.add(name, isHorizontal)
     }
 
     suspend fun deletePanel(id: Int) {
@@ -80,7 +80,7 @@ class ControlPanelService @Inject constructor(
     }
 
     private fun fromEntity(entity: PanelEntity) : Panel {
-        return Panel(entity.id, entity.name)
+        return Panel(entity.id, entity.name, entity.isHorizontal)
     }
 
     private fun fromEntity(entity: ItemEntity) : Item {

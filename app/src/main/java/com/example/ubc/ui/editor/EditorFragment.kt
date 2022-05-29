@@ -1,6 +1,7 @@
 package com.example.ubc.ui.editor
 
 import android.app.AlertDialog
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -54,6 +55,10 @@ class EditorFragment : Fragment() {
         }
         _viewModel.panel.observe(viewLifecycleOwner) {panel ->
             _binding.title.text = panel.name
+            if (panel.isHorizontal)
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            else
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         }
         _viewModel.notFound.observe(viewLifecycleOwner) {notFound ->
             if (notFound)
@@ -186,7 +191,7 @@ class EditorFragment : Fragment() {
         view.setOnDragListener { v, e ->
             when (e.action) {
                 DragEvent.ACTION_DRAG_STARTED -> {
-                    view.setBackgroundResource(R.drawable.ic_recycle_bin)
+                    view.setBackgroundResource(R.drawable.ic_delete)
                 }
                 DragEvent.ACTION_DROP -> {
                     val itemId = Integer.parseInt(e.clipData.getItemAt(0).text.toString())

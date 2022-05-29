@@ -22,10 +22,9 @@ class PanelsRepository @Inject constructor(
         return _panels.exists(id)
     }
 
-    suspend fun add(name: String) : Int {
-        val panel = PanelEntity(id = 0, name = name)
-        val id = _panels.add(panel).toInt()
-        return id
+    suspend fun add(name: String, isHorizontal: Boolean) : Int {
+        val panel = PanelEntity(0, name, isHorizontal)
+        return _panels.add(panel).toInt()
     }
 
     suspend fun update(panel: PanelEntity) {

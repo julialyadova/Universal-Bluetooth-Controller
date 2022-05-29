@@ -1,5 +1,6 @@
 package com.example.ubc.ui.settings.connection
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +30,7 @@ class ConnectionSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
         _binding = FragmentConnectionSettingsBinding.inflate(layoutInflater)
         return _binding.root
     }

@@ -37,9 +37,9 @@ class MenuViewModel @Inject constructor(
         }
     }
 
-    fun createPanel(name: String) {
+    fun createPanel(name: String, isHorizontal: Boolean) {
         GlobalScope.launch(Dispatchers.IO) {
-            val id = _controlPanelService.createPanel(name)
+            val id = _controlPanelService.createPanel(name, isHorizontal)
             withContext(Dispatchers.Main) {
                 newlyCreatedPanelId.value = id
             }

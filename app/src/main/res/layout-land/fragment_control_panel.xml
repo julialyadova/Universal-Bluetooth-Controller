@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/panel_header"
+    tools:context=".ui.panel.ControlPanelFragment">
+
+    <TextView
+        android:id="@+id/text_panel_title"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="220dp"
+        android:gravity="start|left|center_vertical"
+        app:autoSizeMaxTextSize="24sp"
+        app:autoSizeMinTextSize="14sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/btn_panel_options"
+        app:layout_constraintStart_toEndOf="@+id/btn_panel_menu"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_panel_menu"
+        android:layout_width="40dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/ic_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_panel_options"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_panel_connection_status"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:src="@android:drawable/presence_invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/text_panel_title"
+        app:layout_constraintStart_toEndOf="@+id/text_panel_title"
+        app:layout_constraintTop_toTopOf="@+id/text_panel_title"
+        app:srcCompat="@drawable/ic_status_connecting" />
+
+    <TextView
+        android:id="@+id/text_panel_device"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="center_vertical"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeMinTextSize="10sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="@+id/img_panel_connection_status"
+        app:layout_constraintEnd_toStartOf="@+id/btn_panel_options"
+        app:layout_constraintStart_toEndOf="@+id/img_panel_connection_status"
+        app:layout_constraintTop_toTopOf="@+id/img_panel_connection_status"
+        tools:text="соединение устанавливается..." />
+
+    <FrameLayout
+        android:id="@+id/panel_canvas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/panel_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_panel_title">
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:background="@drawable/shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/panel_canvas" />
+
+    <ProgressBar
+        android:id="@+id/panel_progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:indeterminateTint="@color/item_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

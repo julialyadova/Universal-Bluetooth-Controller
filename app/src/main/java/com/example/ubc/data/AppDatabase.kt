@@ -7,7 +7,7 @@ import com.example.ubc.data.dao.PanelDao
 import com.example.ubc.data.entities.ItemEntity
 import com.example.ubc.data.entities.PanelEntity
 
-@Database(entities = [PanelEntity::class, ItemEntity::class], version = 5)
+@Database(entities = [PanelEntity::class, ItemEntity::class], version = 6)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun panelDao(): PanelDao
     abstract fun itemDao(): ItemDao
