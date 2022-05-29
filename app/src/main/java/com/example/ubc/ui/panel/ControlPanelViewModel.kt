@@ -26,8 +26,8 @@ class ControlPanelViewModel @Inject constructor(
     val received = MutableLiveData<ByteArray>()
 
     init {
-        deviceStatus.value = _connectionService.connectionState
-        device.value = _connectionService.lastConnectedDevice?.name
+        deviceStatus.value = _connectionService.getConnectionStatus()
+        device.value = _connectionService.getConnectedDevice()?.name
         _connectionService.subscribe(this)
     }
 
@@ -46,6 +46,9 @@ class ControlPanelViewModel @Inject constructor(
                 items.value = itemsList
                 deviceStatus.value = connectionStatus
                 device.value = connectedDevice?.name
+
+                deviceStatus.value = _connectionService.getConnectionStatus()
+                device.value = _connectionService.getConnectedDevice()?.name
             }
         }
     }
@@ -69,10 +72,7 @@ class ControlPanelViewModel @Inject constructor(
 
     override fun onAdapterStateChanged(state: AdapterState) {
         if (state == AdapterState.Disabled) {
-            device.value = "! адаптер выключен"
             deviceStatus.value = ConnectionState.Disconnected
-        } else {
-            device.value = "соединение не установлено"
         }
     }
 

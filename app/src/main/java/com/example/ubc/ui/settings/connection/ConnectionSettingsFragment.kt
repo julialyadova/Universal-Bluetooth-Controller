@@ -119,7 +119,6 @@ class ConnectionSettingsFragment : Fragment() {
             }
             ConnectionState.Disconnected -> {
                 setActiveDeviceStatusImg(R.drawable.ic_status_disconnected)
-                makeToast(R.string.connection_status_disconnected)
             }
         }
     }

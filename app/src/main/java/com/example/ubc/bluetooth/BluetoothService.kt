@@ -20,7 +20,6 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
     private var _socket: BluetoothSocket? = null
     private var _activeSocketThread: BluetoothSocketThread? = null
     private val _availableDevices: MutableMap<String,Device> = mutableMapOf()
-    private val _activeDevice: Device? = null
 
     override fun getAdapterName(): String {
         return "Bluetooth"
@@ -72,10 +71,10 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
 
     override fun connect(device: Device) {
         lastConnectedDevice = device
-        //notifyStatusChanged(ConnectionState.Connecting, device)
+        notifyStatusChanged(ConnectionState.Connecting, device)
 
         if (!_adapter.isEnabled) {
-            //notifyStatusChanged(ConnectionState.Disconnected, device)
+            notifyStatusChanged(ConnectionState.Disconnected, device)
             return
         }
 
@@ -85,7 +84,7 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
 
         val bluetoothDevice = _adapter.getRemoteDevice(device.address)
         if (bluetoothDevice == null) {
-            //notifyStatusChanged(ConnectionState.Disconnected, device)
+            notifyStatusChanged(ConnectionState.Disconnected, device)
             return
         }
 
@@ -101,10 +100,9 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
     }
 
     override fun disconnect() {
-        //notifyStatusChanged(ConnectionState.Disconnecting, tryGetRemoteDevice())
+        notifyStatusChanged(ConnectionState.Disconnecting, tryGetRemoteDevice())
         _activeSocketThread?.disconnect()
-        _socket?.close()
-        //notifyStatusChanged(ConnectionState.Disconnected, tryGetRemoteDevice())
+        notifyStatusChanged(ConnectionState.Disconnected, tryGetRemoteDevice())
     }
 
     override fun send(bytes: ByteArray) {
@@ -143,13 +141,21 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
             BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
                 notifyAdapterStateChanged(AdapterState.FinishedScanning)
             }
-            BluetoothDevice.ACTION_ACL_CONNECTED -> {
+            /*BluetoothDevice.ACTION_ACL_CONNECTED -> {
                 val device = intent
                     .getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                     ?.let { Device(it.name,it.address) }
                 notifyStatusChanged(ConnectionState.Connected, device)
 
+            }*/
+            BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
+                notifyStatusChanged(ConnectionState.Disconnected)
+                _activeSocketThread?.disconnect()
             }
+            BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED -> {
+                Log.d("BluetoothService", "ACTION_CONNECTION_STATE_CHANGED")
+            }
+
         }
     }
 
@@ -158,11 +164,11 @@ class BluetoothService : ConnectionService(), BluetoothSocketListener {
     }
 
     override fun onConnectionInterrupted(error: String?) {
-        //notifyStatusChanged(ConnectionState.Disconnected, tryGetRemoteDevice())
+        notifyStatusChanged(ConnectionState.Disconnected, tryGetRemoteDevice())
     }
 
     override fun onConnectionSucceeded() {
-        //notifyStatusChanged(ConnectionState.Connected, tryGetRemoteDevice())
+        notifyStatusChanged(ConnectionState.Connected, tryGetRemoteDevice())
     }
 
     private fun tryGetRemoteDevice() : Device? {
