@@ -57,7 +57,10 @@ class ControlPanelFragment : Fragment() {
         _viewModel.deviceStatus.observe(viewLifecycleOwner) { status ->
             displayDeviceStatus(status)
         }
-
+        _viewModel.notFound.observe(viewLifecycleOwner) {notFound ->
+            if (notFound)
+                findNavController().popBackStack()
+        }
         _sharedViewModel.panelId.observe(viewLifecycleOwner) { panelId ->
             _viewModel.load(panelId)
         }
@@ -122,7 +125,7 @@ class ControlPanelFragment : Fragment() {
                 true
             }
             R.id.panel_options_panel_settings -> {
-                // to panel settings
+                findNavController().navigate(R.id.action_controlPanelFragment_to_panelSettingsFragment)
                 true
             }
             else -> false

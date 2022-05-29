@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_controlPanelFragment_to_connectionSettingsFragment"
             app:destination="@id/connectionSettingsFragment" />
+        <action
+            android:id="@+id/action_controlPanelFragment_to_panelSettingsFragment"
+            app:destination="@id/panelSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
@@ -46,6 +49,9 @@
         <action
             android:id="@+id/action_editorFragment_to_controlPanelFragment"
             app:destination="@id/controlPanelFragment" />
+        <action
+            android:id="@+id/action_editorFragment_to_panelSettingsFragment"
+            app:destination="@id/panelSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/connectionSettingsFragment"
@@ -54,5 +60,16 @@
         <action
             android:id="@+id/action_connectionSettingsFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/panelSettingsFragment"
+        android:name="com.example.ubc.ui.settings.panel.PanelSettingsFragment"
+        android:label="PanelSettingsFragment" >
+        <action
+            android:id="@+id/action_panelSettingsFragment_to_controlPanelFragment"
+            app:destination="@id/controlPanelFragment" />
+        <action
+            android:id="@+id/action_panelSettingsFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
     </fragment>
 </navigation>

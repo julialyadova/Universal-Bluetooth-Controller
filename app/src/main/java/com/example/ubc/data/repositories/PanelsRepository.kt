@@ -18,6 +18,10 @@ class PanelsRepository @Inject constructor(
         return _panels.getById(id)
     }
 
+    suspend fun exists(id: Int) : Boolean {
+        return _panels.exists(id)
+    }
+
     suspend fun add(name: String) : Int {
         val panel = PanelEntity(id = 0, name = name)
         val id = _panels.add(panel).toInt()
@@ -28,7 +32,9 @@ class PanelsRepository @Inject constructor(
         _panels.update(panel)
     }
 
-    suspend fun delete(panel: PanelEntity) {
-        _panels.delete(panel)
+    suspend fun delete(id: Int) {
+        getById(id)?.let {
+            _panels.delete(it)
+        }
     }
 }

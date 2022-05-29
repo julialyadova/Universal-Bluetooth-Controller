@@ -10,6 +10,6 @@ class PanelSharedViewModel @Inject constructor() : ViewModel() {
     val panelId = MutableLiveData<Int>()
 
     fun selectPanel(id: Int) {
-        panelId.postValue(id)
+        panelId.value = id
     }
 }

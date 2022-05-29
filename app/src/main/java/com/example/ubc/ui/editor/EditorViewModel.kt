@@ -21,10 +21,18 @@ class EditorViewModel @Inject constructor(
     val panel = MutableLiveData<Panel>()
     val items = MutableLiveData<List<Item>>()
     val itemDefinitions = ItemDefinition.definitions
+    val notFound = MutableLiveData(false)
 
     fun init(id: Int) {
         log("init($id)")
         GlobalScope.launch(Dispatchers.IO) {
+            if (!_controlPanelService.panelExists(id)) {
+                withContext(Dispatchers.Main) {
+                    notFound.value = true
+                }
+                return@launch
+            }
+
             val p = _controlPanelService.getPanelById(id)
             val i = _controlPanelService.getItemsOfPanelWithId(id)
             withContext(Dispatchers.Main) {

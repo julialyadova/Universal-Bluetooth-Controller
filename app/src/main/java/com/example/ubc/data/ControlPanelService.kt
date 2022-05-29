@@ -16,8 +16,24 @@ class ControlPanelService @Inject constructor(
 ) {
     private val _factory = ControlPanelFactory()
 
+    suspend fun getAllPanels(): List<Panel> {
+        return  _panels.getAll().map{Panel(it.id, it.name)}
+    }
+
     suspend fun getPanelById(id: Int) : Panel {
         return fromEntity(_panels.getById(id))
+    }
+
+    suspend fun panelExists(id: Int) : Boolean {
+        return _panels.exists(id)
+    }
+
+    suspend fun createPanel(name: String): Int {
+        return _panels.add(name)
+    }
+
+    suspend fun deletePanel(id: Int) {
+        _panels.delete(id)
     }
 
     suspend fun getItemsOfPanelWithId(id: Int) : List<Item> {
@@ -26,10 +42,12 @@ class ControlPanelService @Inject constructor(
 
     suspend fun renamePanel(id: Int, name: String) {
         val panel = _panels.getById(id)
-        panel.name = name
-        _panels.update(panel)
+        panel?.let {
+            panel.name = name
+            _panels.update(panel)
 
-        log("panel $id was renamed")
+            log("panel $id was renamed")
+        }
     }
 
     suspend fun addItemToPanel(type: String, panelId: Int) : Item {

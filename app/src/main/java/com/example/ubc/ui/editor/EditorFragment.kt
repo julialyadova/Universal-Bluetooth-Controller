@@ -52,9 +52,15 @@ class EditorFragment : Fragment() {
         _viewModel.items.observe(viewLifecycleOwner) { items ->
             _editor.setItems(items)
         }
-
         _viewModel.panel.observe(viewLifecycleOwner) {panel ->
             _binding.title.text = panel.name
+        }
+        _viewModel.notFound.observe(viewLifecycleOwner) {notFound ->
+            if (notFound)
+                findNavController().popBackStack()
+        }
+        _sharedViewModel.panelId.observe(viewLifecycleOwner) {panelId ->
+            _viewModel.init(panelId)
         }
         return _binding.root
     }
@@ -63,7 +69,6 @@ class EditorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _sharedViewModel.panelId.value?.let { _viewModel.init(it) }
     }
 
     private fun showAddItemDialog() {

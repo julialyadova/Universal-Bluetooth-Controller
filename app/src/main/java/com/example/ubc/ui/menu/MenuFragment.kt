@@ -10,9 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ubc.R
-import com.example.ubc.data.entities.PanelEntity
 import com.example.ubc.databinding.DialogPanelBinding
 import com.example.ubc.databinding.FragmentMenuBinding
+import com.example.ubc.items.Panel
 import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,12 +59,12 @@ class MenuFragment : Fragment() {
         })
     }
 
-    private fun onPanelSelected(panel: PanelEntity) {
+    private fun onPanelSelected(panel: Panel) {
         _sharedViewModel.selectPanel(panel.id)
         findNavController().navigate(R.id.action_menuFragment_to_controlPanelFragment)
     }
 
-    private fun showDeletePanelDialog(panel: PanelEntity) {
+    private fun showDeletePanelDialog(panel: Panel) {
         AlertDialog.Builder(activity)
             .setTitle("${getString(R.string.dialog_delete_panel_title)} \"${panel.name}\"?")
             .setPositiveButton(R.string.delete) { _, _ ->

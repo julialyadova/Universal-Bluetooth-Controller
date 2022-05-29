@@ -6,18 +6,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ubc.R
-import com.example.ubc.data.entities.PanelEntity
+import com.example.ubc.items.Panel
 
 class PanelItemAdapter(
-    private val onItemClick: (PanelEntity) -> Unit,
-    private val onItemLongClick: (PanelEntity) -> Unit
+    private val onItemClick: (Panel) -> Unit,
+    private val onItemLongClick: (Panel) -> Unit
 ) : RecyclerView.Adapter<PanelItemAdapter.ProductViewHolder>() {
 
-    private var _items = listOf<PanelEntity>()
+    private var _items = listOf<Panel>()
 
-    class ProductViewHolder(view: View, private val onClick: (PanelEntity) -> Unit, private val onLongClick: (PanelEntity) -> Unit)
+    class ProductViewHolder(view: View, private val onClick: (Panel) -> Unit, private val onLongClick: (Panel) -> Unit)
         : RecyclerView.ViewHolder(view) {
-        private var panel : PanelEntity? = null
+        private var panel : Panel? = null
 
         init {
             view.setOnClickListener {
@@ -30,7 +30,7 @@ class PanelItemAdapter(
 
         }
 
-        fun bind(panel: PanelEntity) {
+        fun bind(panel: Panel) {
             this.panel = panel
             itemView.findViewById<TextView>(R.id.item_panel_name).text = panel.name
         }
@@ -52,7 +52,7 @@ class PanelItemAdapter(
         return _items.size
     }
 
-    fun setItems(newItems : List<PanelEntity>) {
+    fun setItems(newItems : List<Panel>) {
         _items = newItems
         notifyDataSetChanged()
     }

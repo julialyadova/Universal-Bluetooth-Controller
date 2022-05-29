@@ -11,6 +11,9 @@ interface PanelDao {
     @Query("SELECT * FROM PanelEntity WHERE id = :id LIMIT 1")
     fun getById(id: Int) : PanelEntity
 
+    @Query("SELECT EXISTS (SELECT * FROM PanelEntity WHERE id = :id)")
+    fun exists(id: Int) : Boolean
+
     @Insert()
     fun add(panel: PanelEntity) : Long
 
