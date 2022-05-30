@@ -25,7 +25,7 @@ class IntParam (
     }
 
     override fun submit() {
-        val newValue = _editText.text.toString().toIntOrNull() ?: 0
+        val newValue = _editText.text.toString().toIntOrNull() ?: value
         setter(newValue.coerceIn(min, max))
     }
 }

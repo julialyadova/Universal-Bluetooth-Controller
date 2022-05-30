@@ -23,6 +23,13 @@ class StringParam (
     }
 
     override fun submit() {
-        setter(_editText.text.toString().take(maxLength))
+        val text = _editText.text
+                .toString()
+                .replace(Regex(ASCII_REGEX_FILTER), "")
+        setter(text)
+    }
+
+    companion object {
+        const val ASCII_REGEX_FILTER = "[^\\x00-\\x7F]"
     }
 }
