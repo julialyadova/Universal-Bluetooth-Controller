@@ -1,13 +1,15 @@
 package com.example.ubc.ui.settings.connection
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -60,7 +62,8 @@ class ConnectionSettingsFragment : Fragment() {
             _viewModel.scan()
         }
         _binding.btnConnectionScan.setOnClickListener {
-            _viewModel.scan()
+            if (checkLocationPermission())
+                _viewModel.scan()
         }
         _binding.btnConnectionCancelScanning.setOnClickListener {
             _viewModel.cancelScanning()
@@ -162,7 +165,36 @@ class ConnectionSettingsFragment : Fragment() {
         _binding.connectionActiveDeviceStatusImg.setImageResource(res)
     }
 
-    private fun makeToast(@StringRes res: Int) {
-        Toast.makeText(context, res, Toast.LENGTH_SHORT).show()
+    private fun checkLocationPermission() : Boolean {
+        val hasPermission = ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+
+        if (!hasPermission) {
+            AlertDialog.Builder(context)
+                    .setTitle(R.string.dialog_access_location_title)
+                    .setMessage(R.string.dialog_access_location_message)
+                    .setPositiveButton(R.string.dialog_access_location_accept) { _, _ ->
+                        requestLocationPermission()
+                    }
+                    .setNegativeButton(R.string.dialog_access_location_reject, null)
+                    .create()
+                    .show()
+        }
+
+        return hasPermission
+    }
+
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                PERMISSIONS_REQUEST_CODE_LOCATION
+        )
+    }
+
+    companion object {
+        private const val PERMISSIONS_REQUEST_CODE_LOCATION = 99
     }
 }

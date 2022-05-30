@@ -99,5 +99,9 @@
     <string name="dialog_choose_icon_title">Выберите иконку</string>
     <string name="dialog_choose_color_title">Выберите цвет</string>
     <string name="item_text_input_hint">текст для отправки</string>
+    <string name="dialog_access_location_title">Использование геолокации</string>
+    <string name="dialog_access_location_message">Чтобы выполнить поиск Bluetooth устройств поблизости, необходимо разрешение на использование геолокации</string>
+    <string name="dialog_access_location_accept">Разрешить</string>
+    <string name="dialog_access_location_reject">Отменить</string>
 
 </resources>
