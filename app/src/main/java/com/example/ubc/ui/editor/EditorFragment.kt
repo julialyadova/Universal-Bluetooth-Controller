@@ -1,6 +1,5 @@
 package com.example.ubc.ui.editor
 
-import android.app.AlertDialog
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +19,7 @@ import com.example.ubc.databinding.DialogEditItemBinding
 import com.example.ubc.databinding.DialogPanelBinding
 import com.example.ubc.databinding.FragmentEditorBinding
 import com.example.ubc.items.Item
+import com.example.ubc.ui.shared.AppDialogBuilder
 import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -56,9 +56,9 @@ class EditorFragment : Fragment() {
         _viewModel.panel.observe(viewLifecycleOwner) {panel ->
             _binding.title.text = panel.name
             if (panel.isHorizontal)
-                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             else
-                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
         _viewModel.notFound.observe(viewLifecycleOwner) {notFound ->
             if (notFound)
@@ -79,7 +79,7 @@ class EditorFragment : Fragment() {
     private fun showAddItemDialog() {
         val dialogBinding = DialogCreateItemBinding.inflate(requireActivity().layoutInflater)
 
-        val dialog = AlertDialog.Builder(activity)
+        val dialog = AppDialogBuilder(activity)
             .setView(dialogBinding.root)
             .setTitle(R.string.dialog_add_item_title)
             .setNeutralButton(R.string.cancel, null)
@@ -93,7 +93,7 @@ class EditorFragment : Fragment() {
                 dialog.cancel()
             }
             button.setOnLongClickListener {
-                AlertDialog.Builder(context)
+                AppDialogBuilder(context)
                     .setTitle(itemDefinition.value.name)
                     .setMessage(itemDefinition.value.description)
                     .setPositiveButton(R.string.submit, null)
@@ -120,7 +120,7 @@ class EditorFragment : Fragment() {
             binding.root.addView(param.createView(binding.root.context))
         }
 
-        AlertDialog.Builder(activity)
+        AppDialogBuilder(activity)
             .setView(binding.root)
             .setTitle(R.string.dialog_item_edit_title)
             .setMessage(Klaxon().toJsonString(item.getParamValues())) // todo: remove
@@ -166,7 +166,7 @@ class EditorFragment : Fragment() {
         val binding = DialogPanelBinding.inflate(requireActivity().layoutInflater)
         binding.createPanelName.setText(_viewModel.panel.value?.name)
 
-        AlertDialog.Builder(activity)
+        AppDialogBuilder(activity)
             .setView(binding.root)
             .setTitle(R.string.dialog_rename_panel_title)
             .setPositiveButton(R.string.dialog_rename_panel_action_rename) { _, _ ->
@@ -178,7 +178,7 @@ class EditorFragment : Fragment() {
     }
 
     private fun showHelp() {
-        AlertDialog.Builder(activity)
+        AppDialogBuilder(activity)
             .setMessage(R.string.dialog_editor_help_text)
             .setTitle(R.string.dialog_editor_help_title)
             .setPositiveButton(R.string.submit, null)
@@ -188,7 +188,7 @@ class EditorFragment : Fragment() {
 
     private fun setTrashBin(view: View) {
         val resource = view.background
-        view.setOnDragListener { v, e ->
+        view.setOnDragListener { _, e ->
             when (e.action) {
                 DragEvent.ACTION_DRAG_STARTED -> {
                     view.setBackgroundResource(R.drawable.ic_delete)

@@ -16,5 +16,11 @@
 
         <!-- switch -->
         <item name="colorControlActivated">@color/yellow</item>
+
+        <item name="android:background">#00000000</item>
+
+    </style>
+
+    <style name="AlertDialogTheme">
     </style>
 </resources>

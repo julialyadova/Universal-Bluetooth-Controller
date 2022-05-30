@@ -1,6 +1,5 @@
 package com.example.ubc.ui.settings.panel
 
-import android.app.AlertDialog
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
 import com.example.ubc.databinding.DialogPanelBinding
 import com.example.ubc.databinding.FragmentPanelSettingsBinding
+import com.example.ubc.ui.shared.AppDialogBuilder
 import com.example.ubc.ui.shared.PanelSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +27,7 @@ class PanelSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
         _binding = FragmentPanelSettingsBinding.inflate(layoutInflater)
         _binding.panelSettingsDeleteButton.setOnClickListener {
             showDeletePanelDialog()
@@ -59,7 +59,7 @@ class PanelSettingsFragment : Fragment() {
         val binding = DialogPanelBinding.inflate(requireActivity().layoutInflater)
         binding.createPanelName.setText(_viewModel.panel.value?.name)
 
-        AlertDialog.Builder(activity)
+        AppDialogBuilder(activity)
             .setView(binding.root)
             .setTitle(R.string.dialog_rename_panel_title)
             .setPositiveButton(R.string.dialog_rename_panel_action_rename) { _, _ ->
@@ -71,7 +71,7 @@ class PanelSettingsFragment : Fragment() {
     }
 
     private fun showDeletePanelDialog() {
-        AlertDialog.Builder(activity)
+        AppDialogBuilder(activity)
             .setTitle("${getString(R.string.dialog_delete_panel_title)} \"${_viewModel.panel.value?.name}\"?")
             .setPositiveButton(R.string.delete) { _, _ ->
                 _viewModel.delete()

@@ -1,7 +1,6 @@
 package com.example.ubc.ui.settings.connection
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -19,6 +18,7 @@ import com.example.ubc.connection.ConnectionState
 import com.example.ubc.connection.Device
 import com.example.ubc.databinding.FragmentConnectionSettingsBinding
 import com.example.ubc.databinding.ListItemDeviceBinding
+import com.example.ubc.ui.shared.AppDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -32,7 +32,7 @@ class ConnectionSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
         _binding = FragmentConnectionSettingsBinding.inflate(layoutInflater)
         return _binding.root
     }
@@ -172,7 +172,7 @@ class ConnectionSettingsFragment : Fragment() {
             ) == PackageManager.PERMISSION_GRANTED
 
         if (!hasPermission) {
-            AlertDialog.Builder(context)
+            AppDialogBuilder(context)
                     .setTitle(R.string.dialog_access_location_title)
                     .setMessage(R.string.dialog_access_location_message)
                     .setPositiveButton(R.string.dialog_access_location_accept) { _, _ ->
