@@ -13,8 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.allViews
 import com.example.ubc.R
 import com.example.ubc.items.Item
-import com.example.ubc.ui.panel.items.ItemView
-import com.example.ubc.ui.panel.items.ItemViewFactory
+import com.example.ubc.ui.items.ItemView
+import com.example.ubc.ui.items.ItemViewFactory
 import com.example.ubc.ui.shared.Graphics
 
 

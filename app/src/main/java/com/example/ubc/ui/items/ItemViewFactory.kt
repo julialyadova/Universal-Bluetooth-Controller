@@ -1,4 +1,4 @@
-package com.example.ubc.ui.panel.items
+package com.example.ubc.ui.items
 
 import android.content.Context
 import android.util.Log

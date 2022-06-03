@@ -1,4 +1,4 @@
-package com.example.ubc.ui.panel.items.ubcarduino
+package com.example.ubc.ui.items.ubcarduino
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.SeekBar
 import com.example.ubc.databinding.ItemSliderBinding
 import com.example.ubc.items.smf.ItemSlider
-import com.example.ubc.ui.panel.items.ItemView
+import com.example.ubc.ui.items.ItemView
 
 class SliderView @JvmOverloads constructor(
     private val item: ItemSlider,

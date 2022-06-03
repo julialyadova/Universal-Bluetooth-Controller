@@ -2,8 +2,8 @@ package com.example.ubc.items
 
 import android.content.Context
 import com.example.ubc.items.smf.*
-import com.example.ubc.ui.panel.items.ItemView
-import com.example.ubc.ui.panel.items.ubcarduino.*
+import com.example.ubc.ui.items.ItemView
+import com.example.ubc.ui.items.ubcarduino.*
 
 class ItemDefinition (
     val name: String,

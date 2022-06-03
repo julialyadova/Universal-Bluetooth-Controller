@@ -1,4 +1,4 @@
-package com.example.ubc.ui.panel.items.ubcarduino
+package com.example.ubc.ui.items.ubcarduino
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import com.example.ubc.databinding.ItemIconButtonBinding
 import com.example.ubc.items.params.IconParam
 import com.example.ubc.items.smf.ItemIconButton
-import com.example.ubc.ui.panel.items.ItemView
+import com.example.ubc.ui.items.ItemView
 import com.example.ubc.ui.shared.Graphics
 
 @SuppressLint("ClickableViewAccessibility")

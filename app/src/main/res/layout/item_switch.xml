@@ -5,14 +5,14 @@
     android:id="@+id/constraintLayout"
     android:layout_width="100dp"
     android:layout_height="75dp"
-    android:background="@drawable/item_bg_light">
+    android:background="@drawable/item_bg">
 
     <Switch
         android:id="@+id/item_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/item_inner_dark"
+        android:background="@drawable/item_inner_bg"
         android:buttonTint="#D81B60"
         android:checked="true"
         android:scaleX="1.4"

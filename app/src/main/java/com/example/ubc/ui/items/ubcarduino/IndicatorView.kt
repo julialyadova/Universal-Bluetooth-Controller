@@ -1,4 +1,4 @@
-package com.example.ubc.ui.panel.items.ubcarduino
+package com.example.ubc.ui.items.ubcarduino
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import com.example.ubc.R
 import com.example.ubc.databinding.ItemIndicatorBinding
 import com.example.ubc.items.smf.ItemIndicator
-import com.example.ubc.ui.panel.items.ItemView
+import com.example.ubc.ui.items.ItemView
 
 class IndicatorView @JvmOverloads constructor(
     private val item: ItemIndicator,

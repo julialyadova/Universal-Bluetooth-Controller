@@ -36,7 +36,7 @@ open class ItemScale : Item() {
         StringParam("Команда", command, 8) { command = it},
         IntParam("MIN", min, 0, 254) { min = it},
         IntParam("MAX", max, 1, 255) { max = it.coerceAtLeast(min + 1) },
-        BoolParam("MAX", showValue) { showValue = it }
+        BoolParam("Показывать значение", showValue) { showValue = it }
     )
 
     override fun getLayoutRes(): Int = R.layout.item_slider

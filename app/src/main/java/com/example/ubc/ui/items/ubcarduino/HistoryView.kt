@@ -1,4 +1,4 @@
-package com.example.ubc.ui.panel.items.ubcarduino
+package com.example.ubc.ui.items.ubcarduino
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import com.example.ubc.R
 import com.example.ubc.databinding.ItemHistoryBinding
 import com.example.ubc.items.smf.ItemHistory
-import com.example.ubc.ui.panel.items.ItemView
+import com.example.ubc.ui.items.ItemView
 
 class HistoryView @JvmOverloads constructor(
     private val item: ItemHistory,

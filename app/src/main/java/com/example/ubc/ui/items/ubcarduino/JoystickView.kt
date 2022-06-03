@@ -1,4 +1,4 @@
-package com.example.ubc.ui.panel.items.ubcarduino
+package com.example.ubc.ui.items.ubcarduino
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import com.example.ubc.databinding.ItemJoystickBinding
 import com.example.ubc.items.smf.ItemJoystick
-import com.example.ubc.ui.panel.items.ItemView
+import com.example.ubc.ui.items.ItemView
 
 class JoystickView @JvmOverloads constructor(
     private val item: ItemJoystick,

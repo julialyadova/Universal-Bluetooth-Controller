@@ -1,4 +1,4 @@
-package com.example.ubc.ui.panel.items.ubcarduino
+package com.example.ubc.ui.items.ubcarduino
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.example.ubc.databinding.ItemScaleBinding
 import com.example.ubc.items.smf.ItemScale
-import com.example.ubc.ui.panel.items.ItemView
+import com.example.ubc.ui.items.ItemView
 
 class ScaleView @JvmOverloads constructor(
     private val item: ItemScale,
@@ -22,6 +22,7 @@ class ScaleView @JvmOverloads constructor(
         val range = item.max - item.min
         binding.itemScaleBar.max = range
         binding.itemScaleValue.visibility = if (item.showValue) View.VISIBLE else View.GONE
+        binding.itemScaleValue.text = item.min.toString()
     }
 
     override fun onDataReceived(data: ByteArray) {

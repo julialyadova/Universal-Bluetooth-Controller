@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="75dp"
     android:layout_height="100dp"
-    android:background="@drawable/item_bg_light">
+    android:background="@drawable/item_bg">
 
     <ImageView
         android:id="@+id/item_indicator_img"
@@ -30,6 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_indicator_img"
         tools:text="it is very long indicator label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.ubc.ui.panel.items.ubcarduino
+package com.example.ubc.ui.items.ubcarduino
 
 import android.R.attr.maxLength
 import android.content.Context
@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.example.ubc.databinding.ItemTextInputBinding
 import com.example.ubc.items.smf.ItemTextInput
-import com.example.ubc.ui.panel.items.ItemView
+import com.example.ubc.ui.items.ItemView
 import com.example.ubc.ui.shared.Graphics
 
 

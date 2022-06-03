@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/button_height"
-        android:background="@drawable/item_bg_shadow"
+        android:background="@drawable/item_button_shadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,17 +21,17 @@
         android:layout_height="0dp"
         android:layout_marginEnd="1px"
         android:layout_marginBottom="@dimen/button_height"
-        android:background="@drawable/item_bg_body"
+        android:background="@drawable/item_button_bg"
         android:gravity="center_horizontal|center_vertical"
         android:tag="label"
         android:textColor="@color/item_button_text"
-        app:autoSizeMaxTextSize="14sp"
+        app:autoSizeMaxTextSize="24sp"
         app:autoSizeMinTextSize="10sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Кнопка" />
+        tools:text="Сделать красиво" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

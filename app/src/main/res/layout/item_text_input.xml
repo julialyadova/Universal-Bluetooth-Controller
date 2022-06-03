@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="300dp"
     android:layout_height="75dp"
-    android:background="@drawable/item_bg_light">
+    android:background="@drawable/item_bg">
 
     <TextView
         android:id="@+id/item_text_input_label"
@@ -32,7 +32,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
-        android:background="@drawable/item_inner_dark"
+        android:background="@drawable/item_inner_bg"
         android:inputType="textPersonName"
         android:maxLength="100"
         android:textColor="@color/item_inner_text"
@@ -49,7 +49,7 @@
         android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/item_bg_shadow" />
+        app:srcCompat="@drawable/item_button_shadow" />
 
     <ImageButton
         android:id="@+id/item_text_input_button"
@@ -57,7 +57,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="6dp"
-        android:background="@drawable/item_bg_body"
+        android:background="@drawable/item_button_bg"
         android:backgroundTint="@color/item_secondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
