@@ -7,13 +7,13 @@ import com.example.ubc.items.ItemDefinition
 
 class ItemViewFactory(val context: Context) {
 
-    fun create(item: Item): ItemView? {
+    fun create(item: Item): ItemView {
         log("create(${item.id} ${item.label})")
 
         val itemView = ItemDefinition.definitions[item.type]?.itemViewBinding?.invoke(item, context)
 
         if (itemView == null) {
-            Log.e("ItemViewFactory","Can't assign any ItemView class to item of class ${item::class}")
+            throw Exception("ItemViewFactory: Can't assign any ItemView class to item of class ${item::class}", )
         }
 
         return itemView

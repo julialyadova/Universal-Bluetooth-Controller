@@ -8,10 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.allViews
+import com.example.ubc.R
 import com.example.ubc.items.Item
+import com.example.ubc.ui.panel.items.ItemView
+import com.example.ubc.ui.panel.items.ItemViewFactory
+import com.example.ubc.ui.shared.Graphics
 
 
 class EditableItem constructor(
@@ -22,39 +26,41 @@ class EditableItem constructor(
 
     val view = this
     val itemId = item.id
-    private val shadowBuilder = ViewShadowBuilder(this)
-    private var onClickListener : ((item: Item) -> Unit)? = null
+    private lateinit var _shadowBuilder : DragShadowBuilder
+    private var _onClickListener : ((item: Item) -> Unit)? = null
+    private lateinit var _itemView : ItemView
+
+    fun setOnClickListener(l: ((item: Item) -> Unit)?) {
+        _onClickListener = l
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        LayoutInflater.from(context).inflate(recourse, this, true)
-        setSize()
-        bindItem()
+
+        addItemView()
+        addHandler()
+
+        Graphics.setSize(this, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         setPosition(item.x.toInt(), item.y.toInt())
-        val handler = findViewWithTag<View>("handler")
-        handler.visibility = View.VISIBLE
+        _shadowBuilder = ViewShadowBuilder(this)
+    }
+
+    private fun addItemView() {
+        _itemView = ItemViewFactory(context).create(item)
+        _itemView.allViews.forEach { it.isEnabled = false }
+        addView(_itemView)
+    }
+
+    private fun addHandler() {
+        val handler = LayoutInflater.from(context).inflate(R.layout.editor_handle, this, false)
+        handler.setOnClickListener {
+            _onClickListener?.invoke(item)
+        }
         handler.setOnLongClickListener {
             drag()
-            false
+            true
         }
-        handler.setOnClickListener {
-            onClickListener?.invoke(item)
-        }
-    }
-
-    fun setOnClickListener(l: ((item: Item) -> Unit)?) {
-        onClickListener = l
-    }
-
-    private fun bindItem() {
-        this.findViewWithTag<TextView>("label")?.text = item.label
-    }
-
-    private fun setSize() {
-        val params = this.layoutParams
-        params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        params.width = ViewGroup.LayoutParams.WRAP_CONTENT
-        this.layoutParams = params
+        addView(handler)
     }
 
     private fun drag() {
@@ -68,18 +74,18 @@ class EditableItem constructor(
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             @Suppress("DEPRECATION")
-            this.startDrag(dataToDrag, shadowBuilder, this, 0)//support pre-Nougat versions
+            this.startDrag(dataToDrag, _shadowBuilder, this, 0)//support pre-Nougat versions
         } else {
-            this.startDragAndDrop(dataToDrag, shadowBuilder, this, 0)
+            this.startDragAndDrop(dataToDrag, _shadowBuilder, this, 0)
         }
 
-        this.alpha = 0.1f
+        this.visibility = View.INVISIBLE
     }
 
     fun drop(x: Int, y: Int) {
         setPosition(x, y)
         Log.d("ItemView", "item dropped at ($x; $y) ${layoutParams.width}")
-        this.alpha = 1f
+        this.visibility = View.VISIBLE
     }
 
     private fun setPosition(x: Int, y: Int) {
@@ -90,6 +96,6 @@ class EditableItem constructor(
     }
 
     fun cancelDrag() {
-        this.alpha = 1f
+        this.visibility = View.VISIBLE
     }
 }

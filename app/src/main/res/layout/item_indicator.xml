@@ -21,7 +21,6 @@
         android:id="@+id/item_indicator_label"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="60dp"
         android:gravity="center_horizontal|center_vertical"
         android:tag="label"
         android:textColor="@color/item_text"
@@ -31,18 +30,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view"
         tools:text="it is very long indicator label" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:tag="handler"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

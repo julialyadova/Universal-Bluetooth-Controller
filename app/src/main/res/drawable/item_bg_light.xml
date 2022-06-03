@@ -4,12 +4,9 @@
     <shape>
       <solid android:color="@color/item_shadow" />
       <corners android:radius="@dimen/corner_radius" />
-      <padding
-          android:bottom="2dp"
-          android:right="1dp" />
     </shape>
 </item>
-<item android:id="@+id/item_bg_layout">
+<item android:id="@+id/item_bg_layout" android:bottom="2dp" android:right="1dp">
   <shape>
     <solid android:color="@color/item_default" />
     <corners android:radius="@dimen/corner_radius" />

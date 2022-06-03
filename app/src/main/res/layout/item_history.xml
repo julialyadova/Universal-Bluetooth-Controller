@@ -51,13 +51,4 @@
             tools:text="1\n2\n3\n4\n5\n6\n7" />
     </ScrollView>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:tag="handler"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="invisible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

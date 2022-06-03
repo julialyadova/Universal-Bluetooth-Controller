@@ -8,7 +8,9 @@
     <color name="item_inner_shadow">#2F4652</color>
 
     <color name="item_shadow">#232D2E</color>
+
     <color name="item_button_shadow">#1F2829</color>
+    <color name="item_button_text">#282F33</color>
 
     <color name="item_text">#B5D4E0</color>
     <color name="item_inner_text">#B7C9D0</color>

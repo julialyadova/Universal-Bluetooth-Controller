@@ -21,6 +21,13 @@ class Graphics {
             }
         }
 
+        fun setSize(view: View, width: Int, height: Int) {
+            val params = view.layoutParams
+            params.width = width
+            params.height = height
+            view.layoutParams = params
+        }
+
         private fun setVerticalOffset(view: View, y : Int) {
             val param = view.layoutParams as ViewGroup.MarginLayoutParams
             param.setMargins(param.leftMargin, y, param.rightMargin, -y)
