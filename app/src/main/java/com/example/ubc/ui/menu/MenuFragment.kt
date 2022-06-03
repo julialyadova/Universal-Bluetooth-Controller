@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ubc.R
-import com.example.ubc.databinding.DialogPanelBinding
+import com.example.ubc.databinding.DialogCreatePanelBinding
 import com.example.ubc.databinding.FragmentMenuBinding
 import com.example.ubc.items.Panel
 import com.example.ubc.ui.shared.AppDialogBuilder
@@ -77,12 +77,12 @@ class MenuFragment : Fragment() {
     }
 
     private fun showCreatePanelDialog() {
-        val binding = DialogPanelBinding.inflate(requireActivity().layoutInflater)
+        val binding = DialogCreatePanelBinding.inflate(requireActivity().layoutInflater)
         AppDialogBuilder(activity)
             .setView(binding.root)
             .setTitle(R.string.dialog_create_panel_title)
             .setPositiveButton(R.string.create) { _, _ ->
-                val name = binding.createPanelName.text.toString()
+                val name = binding.dialogCreatePanelInput.text.toString()
                 val horizontal = binding.dialogCreatePanelOrientationHorizontal.isChecked
                 _viewModel.createPanel(name, horizontal)
             }

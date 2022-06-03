@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.ubc.R
-import com.example.ubc.databinding.DialogPanelBinding
+import com.example.ubc.databinding.DialogRenamePanelBinding
 import com.example.ubc.databinding.FragmentPanelSettingsBinding
 import com.example.ubc.ui.shared.AppDialogBuilder
 import com.example.ubc.ui.shared.PanelSharedViewModel
@@ -56,14 +56,15 @@ class PanelSettingsFragment : Fragment() {
     }
 
     private fun showRenamePanelDialog() {
-        val binding = DialogPanelBinding.inflate(requireActivity().layoutInflater)
-        binding.createPanelName.setText(_viewModel.panel.value?.name)
+        val binding = DialogRenamePanelBinding.inflate(requireActivity().layoutInflater)
+        binding.dialogRenamePanelInput.setText(_viewModel.panel.value?.name)
+
 
         AppDialogBuilder(activity)
             .setView(binding.root)
             .setTitle(R.string.dialog_rename_panel_title)
             .setPositiveButton(R.string.dialog_rename_panel_action_rename) { _, _ ->
-                _viewModel.renamePanel(binding.createPanelName.text.toString())
+                _viewModel.renamePanel(binding.dialogRenamePanelInput.text.toString())
             }
             .setNegativeButton(R.string.cancel, null)
             .create()

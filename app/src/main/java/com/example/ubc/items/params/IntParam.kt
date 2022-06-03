@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.example.ubc.items.ItemParam
+import com.example.ubc.ui.shared.MinMaxInputFilter
 
 class IntParam (
     name: String,
@@ -16,10 +17,11 @@ class IntParam (
     private lateinit var _editText: EditText
 
     override fun createView(context: Context): View {
-        _editText = EditText(context).apply {
+        _editText = EditText(context)
+        _editText.apply {
             setText(value.toString())
             inputType = EditorInfo.TYPE_CLASS_NUMBER
-            //filters = arrayOf(MinMaxInputFilter(min, max))
+            filters = arrayOf(MinMaxInputFilter(min, max))
         }
         return _editText
     }
